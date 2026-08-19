@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlobeGo Design System & CSS Reference</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --pine-900: #0a2540;
+      --pine-800: #0d3862;
+      --pine-700: #1557b0;
+      --pine-600: #1a73e8;
+      --pine-500: #2b7de9;
+      --pine-400: #4285f4;
+      --pine-100: #e8f0fe;
+      --pine-50: #f4f8fe;
+
+      --amber-600: #d99e00;
+      --amber-500: #ffc72c;
+      --amber-400: #ffd766;
+      --amber-300: #ffe499;
+      --amber-100: #fff6d9;
+      --amber-50: #fffcf0;
+
+      --expedia-blue: #1a73e8;
+      --expedia-navy: #0a2540;
+      --expedia-dark: #071a2e;
+      --expedia-yellow: #ffc72c;
+      --rating-green: #107c41;
+      --rating-green-bg: #e8f5ed;
+
+      --cream: #f6f8fc;
+      --off-white: #eef3f9;
+      --white: #ffffff;
+      --ink-900: #0f172a;
+      --ink-800: #1e293b;
+      --ink-700: #334155;
+      --ink-500: #64748b;
+      --ink-300: #cbd5e1;
+      --ink-100: #e2e8f0;
+      --border-color: #e2e8f0;
+      --card-border: #e6edf5;
+
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+      --radius-pill: 999px;
+
+      --shadow-sm: 0 1px 3px rgba(10, 37, 64, 0.06), 0 1px 2px rgba(10, 37, 64, 0.04);
+      --shadow-md: 0 4px 14px rgba(10, 37, 64, 0.08), 0 2px 6px rgba(10, 37, 64, 0.04);
+      --shadow-lg: 0 12px 32px rgba(10, 37, 64, 0.12), 0 4px 12px rgba(10, 37, 64, 0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--cream);
+      color: var(--ink-900);
+      line-height: 1.6;
+      padding: 0;
+    }
+
+    .doc-header {
+      background: linear-gradient(135deg, #07192d 0%, #0a2540 60%, #1557b0 100%);
+      color: #ffffff;
+      padding: 48px 32px;
+      border-bottom: 3px solid var(--amber-500);
+    }
+    .doc-header-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .doc-badge {
+      display: inline-block;
+      background: rgba(255, 199, 44, 0.2);
+      border: 1px solid var(--amber-500);
+      color: var(--amber-400);
+      font-size: 0.78rem;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: var(--radius-pill);
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    .doc-header h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .doc-header p {
+      font-size: 1.05rem;
+      color: #cbd5e1;
+      max-width: 750px;
+    }
+
+    .doc-layout {
+      max-width: 1200px;
+      margin: 40px auto;
+      padding: 0 24px 64px;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 36px;
+    }
+
+    .doc-nav {
+      position: sticky;
+      top: 24px;
+      height: fit-content;
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      box-shadow: var(--shadow-sm);
+    }
+    .doc-nav h4 {
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--ink-500);
+      margin-bottom: 12px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-color);
+    }
+    .doc-nav ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .doc-nav a {
+      color: var(--ink-700);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 600;
+      padding: 6px 10px;
+      border-radius: 6px;
+      transition: all 150ms ease;
+    }
+    .doc-nav a:hover {
+      background: var(--pine-50);
+      color: var(--expedia-blue);
+    }
+
+    .doc-content section {
+      background: var(--white);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+    .doc-content h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--pine-900);
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 2px solid var(--pine-100);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .doc-content h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--ink-900);
+      margin: 24px 0 12px;
+    }
+    .doc-content p {
+      color: var(--ink-700);
+      margin-bottom: 16px;
+    }
+
+    /* Color Swatch Grid */
+    .swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+      margin: 16px 0 24px;
+    }
+    .swatch-card {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+    }
+    .swatch-color {
+      height: 64px;
+      width: 100%;
+    }
+    .swatch-info {
+      padding: 10px 12px;
+      background: var(--white);
+    }
+    .swatch-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--ink-900);
+    }
+    .swatch-hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--ink-500);
+    }
+
+    /* Code Snippets */
+    pre, code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    pre {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 16px;
+      border-radius: var(--radius-md);
+      overflow-x: auto;
+      font-size: 0.85rem;
+      margin: 12px 0 20px;
+    }
+    code:not(pre code) {
+      background: var(--off-white);
+      color: var(--pine-700);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+
+    /* Interactive Component Previews */
+    .preview-box {
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-md);
+      padding: 20px;
+      background: var(--cream);
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+      margin-bottom: 12px;
+    }
+
+    /* Buttons from Design System */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      font-size: 0.94rem;
+      font-weight: 700;
+      padding: 12px 22px;
+      border-radius: var(--radius-pill);
+      border: 1.5px solid transparent;
+      cursor: pointer;
+      transition: all 150ms ease;
+    }
+    .btn-primary {
+      background: var(--expedia-blue);
+      color: #ffffff;
+      border-color: var(--expedia-blue);
+      box-shadow: 0 3px 10px rgba(26, 115, 232, 0.3);
+    }
+    .btn-primary:hover {
+      background: #1557b0;
+      border-color: #1557b0;
+    }
+    .btn-secondary {
+      background: var(--white);
+      color: var(--pine-900);
+      border-color: var(--border-color);
+    }
+    .btn-secondary:hover {
+      background: var(--off-white);
+      border-color: var(--pine-600);
+      color: var(--pine-600);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: var(--ink-700);
+    }
+    .btn-ghost:hover {
+      background: var(--off-white);
+      color: var(--ink-900);
+    }
+    .btn-sm { padding: 8px 14px; font-size: 0.84rem; }
+    .btn-lg { padding: 14px 28px; font-size: 1.05rem; }
+
+    /* Badges */
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .badge.green {
+      background: var(--rating-green-bg);
+      color: var(--rating-green);
+    }
+    .badge.amber {
+      background: var(--amber-100);
+      color: var(--amber-600);
+    }
+
+    /* Table Styles */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 16px 0 24px;
+    }
+    th, td {
+      padding: 12px 14px;
+      text-align: left;
+      border-bottom: 1px solid var(--border-color);
+      font-size: 0.9rem;
+    }
+    th {
+      background: var(--off-white);
+      color: var(--ink-800);
+      font-weight: 700;
+    }
+
+    @media (max-width: 900px) {
+      .doc-layout { grid-template-columns: 1fr; }
+      .doc-nav { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="doc-header">
+    <div class="doc-header-inner">
+      <div class="doc-badge">Master Documentation</div>
+      <h1>GlobeGo Design System Reference</h1>
+      <p>A comprehensive visual and technical reference guide for developers and designers building the AI Travel Planner interface.</p>
+    </div>
+  </header>
+
+  <div class="doc-layout">
+    <aside class="doc-nav">
+      <h4>Contents</h4>
+      <ul>
+        <li><a href="#typography">Typography</a></li>
+        <li><a href="#colors">Color Tokens</a></li>
+        <li><a href="#spacing">Spacing Scale</a></li>
+        <li><a href="#radii-shadows">Radii & Shadows</a></li>
+        <li><a href="#buttons">Buttons & Controls</a></li>
+        <li><a href="#badges">Badges & Ratings</a></li>
+        <li><a href="#modules">Feature Modules</a></li>
+        <li><a href="#responsive">Breakpoints</a></li>
+        <li><a href="#guidelines">Rules & Conventions</a></li>
+      </ul>
+    </aside>
+
+    <main class="doc-content">
+      <!-- Section 1: Typography -->
+      <section id="typography">
+        <h2>1. Typography</h2>
+        <p>The system pairs <strong>Plus Jakarta Sans</strong> for clean, high-legibility UI text with <strong>Playfair Display</strong> for editorial destination punchlines.</p>
+        <table>
+          <thead>
+            <tr>
+              <th>Variable</th>
+              <th>Font Family</th>
+              <th>Weights</th>
+              <th>Usage</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>var(--font-heading)</code></td>
+              <td>Plus Jakarta Sans</td>
+              <td>600, 700, 800</td>
+              <td>Section titles, hero headlines, card titles</td>
+            </tr>
+            <tr>
+              <td><code>var(--font-body)</code></td>
+              <td>Plus Jakarta Sans</td>
+              <td>400, 500, 600, 700</td>
+              <td>Body paragraphs, buttons, form controls</td>
+            </tr>
+            <tr>
+              <td><code>var(--font-serif)</code></td>
+              <td>Playfair Display</td>
+              <td>600, 700 (Italic)</td>
+              <td>Editorial quotes, destination punchlines</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Section 2: Colors -->
+      <section id="colors">
+        <h2>2. Color Palette & Tokens</h2>
+        
+        <h3>Action Blues</h3>
+        <div class="swatch-grid">
+          <div class="swatch-card">
+            <div class="swatch-color" style="background: #0a2540;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">--pine-900</div>
+              <div class="swatch-hex">#0a2540</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background: #1557b0;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">--pine-700</div>
+              <div class="swatch-hex">#1557b0</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background: #1a73e8;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">--expedia-blue</div>
+              <div class="swatch-hex">#1a73e8</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background: #e8f0fe;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">--pine-100</div>
+              <div class="swatch-hex">#e8f0fe</div>
+            </div>
+          </div>
+        </div>
+
+        <h3>Sunshine Gold & Accents</h3>
+        <div class="swatch-grid">
+          <div class="swatch-card">
+            <div class="swatch-color" style="background: #ffc72c;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">--amber-500</div>
+              <div class="swatch-hex">#ffc72c</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background: #d99e00;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">--amber-600</div>
+              <div class="swatch-hex">#d99e00</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background: #107c41;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">--rating-green</div>
+              <div class="swatch-hex">#107c41</div>
+            </div>
+          </div>
+          <div class="swatch-card">
+            <div class="swatch-color" style="background: #e8f5ed;"></div>
+            <div class="swatch-info">
+              <div class="swatch-name">--rating-green-bg</div>
+              <div class="swatch-hex">#e8f5ed</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Spacing & Radii -->
+      <section id="spacing">
+        <h2>3. Spacing & Radii Scales</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Spacing Token</th>
+              <th>Pixel Size</th>
+              <th>Radius Token</th>
+              <th>Pixel Size</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>var(--space-1)</code></td><td>4px</td><td><code>var(--radius-sm)</code></td><td>8px</td></tr>
+            <tr><td><code>var(--space-2)</code></td><td>8px</td><td><code>var(--radius-md)</code></td><td>12px</td></tr>
+            <tr><td><code>var(--space-3)</code></td><td>12px</td><td><code>var(--radius-lg)</code></td><td>18px</td></tr>
+            <tr><td><code>var(--space-4)</code></td><td>16px</td><td><code>var(--radius-xl)</code></td><td>24px</td></tr>
+            <tr><td><code>var(--space-5)</code></td><td>24px</td><td><code>var(--radius-pill)</code></td><td>999px</td></tr>
+            <tr><td><code>var(--space-6)</code></td><td>32px</td><td>-</td><td>-</td></tr>
+            <tr><td><code>var(--space-7)</code></td><td>48px</td><td>-</td><td>-</td></tr>
+            <tr><td><code>var(--space-8)</code></td><td>64px</td><td>-</td><td>-</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Section 4: Buttons -->
+      <section id="buttons">
+        <h2>4. Buttons & Controls</h2>
+        <div class="preview-box">
+          <button class="btn btn-primary">Primary Action</button>
+          <button class="btn btn-secondary">Secondary Action</button>
+          <button class="btn btn-ghost">Ghost Action</button>
+          <button class="btn btn-primary btn-sm">Small</button>
+          <button class="btn btn-primary btn-lg">Large</button>
+        </div>
+        <pre><code>&lt;button class="btn btn-primary"&gt;Primary Action&lt;/button&gt;
+&lt;button class="btn btn-secondary"&gt;Secondary Action&lt;/button&gt;
+&lt;button class="btn btn-ghost"&gt;Ghost Action&lt;/button&gt;</code></pre>
+      </section>
+
+      <!-- Section 5: Badges -->
+      <section id="badges">
+        <h2>5. Badges & Ratings</h2>
+        <div class="preview-box">
+          <span class="badge green">9.4 Exceptional</span>
+          <span class="badge amber">Member Price 20% Off</span>
+        </div>
+        <pre><code>&lt;span class="badge green"&gt;9.4 Exceptional&lt;/span&gt;
+&lt;span class="badge amber"&gt;Member Price 20% Off&lt;/span&gt;</code></pre>
+      </section>
+
+      <!-- Section 6: Responsive -->
+      <section id="responsive">
+        <h2>6. Responsive Breakpoints</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Device Tier</th>
+              <th>Media Query</th>
+              <th>Behavior</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Desktop</strong></td>
+              <td><code>&gt; 1024px</code></td>
+              <td>Full 4-5 column grids, sticky AI planner 2-column sidebar</td>
+            </tr>
+            <tr>
+              <td><strong>Tablet</strong></td>
+              <td><code>@media (max-width: 1024px)</code></td>
+              <td>Nav links fold into mobile drawer; card grids switch to 2 columns</td>
+            </tr>
+            <tr>
+              <td><strong>Mobile</strong></td>
+              <td><code>@media (max-width: 768px)</code></td>
+              <td>Search inputs stack to 1 column; single column vertical card feeds</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- Section 7: Guidelines -->
+      <section id="guidelines">
+        <h2>7. Team Developer Rules</h2>
+        <ul>
+          <li style="margin-bottom: 8px;">✅ <strong>Always use CSS custom properties</strong> (e.g. <code>var(--expedia-blue)</code>) instead of hardcoding raw hex codes.</li>
+          <li style="margin-bottom: 8px;">✅ <strong>Ensure dark mode readiness</strong> by relying on surface variables (<code>--white</code>, <code>--cream</code>, <code>--ink-900</code>).</li>
+          <li style="margin-bottom: 8px;">✅ <strong>Maintain 1 primary CTA per visual hierarchy</strong> to avoid confusing user focus.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+</body>
+</html>

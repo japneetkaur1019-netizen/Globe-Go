@@ -1,0 +1,46 @@
+@import './styles/design-system.css';
+
+/* Layout wrapper */
+.app-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--cream);
+  color: var(--ink-900);
+}
+
+.app-content {
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: calc(100vh - 80px);
+}
+
+/* Ensure no unintentional overflow */
+html, body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Interactive elements polish */
+button, a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Global button focus visibility for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--amber-500);
+  outline-offset: 2px;
+}

@@ -1,0 +1,385 @@
+
+ /* =========================
+   GROUP PLANNER
+========================= */
+
+.group-page {
+  min-height: calc(100vh - 70px);
+  background: #f8fafc;
+  padding: 35px 0 60px;
+}
+
+.group-container {
+  width: min(1100px, 92%);
+  margin: auto;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.group-hero {
+  min-height: 350px;
+
+  border-radius: 24px;
+  overflow: hidden;
+
+  margin-bottom: 30px;
+
+  display: flex;
+  align-items: center;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(5, 15, 30, 0.95),
+      rgba(5, 15, 30, 0.65),
+      rgba(5, 15, 30, 0.25)
+    ),
+    url("https://images.unsplash.com/photo-1500534623283-312aade485b7");
+
+  background-size: cover;
+  background-position: center;
+
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.18);
+}
+
+.group-hero-content {
+  max-width: 620px;
+  padding: 55px;
+  color: white;
+}
+
+.group-hero-content .flight-label {
+  color: #a9c7ff;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.group-hero h1 {
+  color: white;
+
+  font-size: clamp(40px, 5vw, 60px);
+  line-height: 1.05;
+
+  margin: 12px 0 18px;
+
+  font-weight: 800;
+}
+
+.group-hero p:not(.flight-label) {
+  color: #dbe5f3;
+
+  font-size: 17px;
+  line-height: 1.6;
+
+  max-width: 550px;
+}
+
+
+/* =========================
+   CARDS
+========================= */
+
+.group-card {
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+
+/* =========================
+   SECTION HEADING
+========================= */
+
+.section-heading {
+  margin-bottom: 22px;
+}
+
+.section-heading h2 {
+  margin: 0 0 6px;
+  font-size: 22px;
+}
+
+.section-heading p {
+  margin: 0;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+
+/* =========================
+   TRIP FORM
+========================= */
+
+.group-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.form-group label {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 12px 14px;
+
+  border: 1px solid #dbe2ea;
+  border-radius: 9px;
+
+  outline: none;
+  font-size: 14px;
+
+  background: #fff;
+}
+
+.form-group input:focus {
+  border-color: var(--primary);
+}
+
+
+/* =========================
+   MEMBERS
+========================= */
+
+.member-input {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.member-input input {
+  flex: 1;
+
+  padding: 12px 14px;
+
+  border: 1px solid #dbe2ea;
+  border-radius: 9px;
+
+  outline: none;
+  font-size: 14px;
+}
+
+.member-input input:focus {
+  border-color: var(--primary);
+}
+
+.member-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.member-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 13px 15px;
+
+  background: #f8fafc;
+  border-radius: 9px;
+
+  border: 1px solid #e2e8f0;
+}
+
+.member-item span {
+  font-weight: 500;
+}
+
+.member-item button {
+  border: none;
+  background: transparent;
+
+  color: #ef4444;
+
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.no-members {
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+
+/* =========================
+   EXPENSE TRACKER
+========================= */
+
+.expense-input {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 10px;
+
+  margin-bottom: 20px;
+}
+
+.expense-input select,
+.expense-input input {
+  padding: 12px 14px;
+
+  border: 1px solid #dbe2ea;
+  border-radius: 9px;
+
+  outline: none;
+
+  background: white;
+  font-size: 14px;
+}
+
+.expense-input select:focus,
+.expense-input input:focus {
+  border-color: var(--primary);
+}
+
+.no-expenses {
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+
+/* Expense list */
+
+.expense-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.expense-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 13px 15px;
+
+  background: #f8fafc;
+
+  border: 1px solid #e2e8f0;
+  border-radius: 9px;
+}
+
+.expense-item span {
+  font-weight: 500;
+}
+
+.expense-item strong {
+  font-size: 15px;
+}
+
+
+/* Total */
+
+.expense-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 18px;
+  padding-top: 18px;
+
+  border-top: 1px solid #e2e8f0;
+}
+
+.expense-total span {
+  font-weight: 600;
+}
+
+.expense-total strong {
+  font-size: 22px;
+  color: var(--primary);
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 700px) {
+
+  .group-page {
+    padding-top: 20px;
+  }
+
+  .group-hero {
+    min-height: 330px;
+    border-radius: 18px;
+  }
+
+  .group-hero-content {
+    padding: 30px;
+  }
+
+  .group-hero h1 {
+    font-size: 40px;
+  }
+
+  .group-hero p:not(.flight-label) {
+    font-size: 15px;
+  }
+
+  .group-form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .member-input {
+    flex-direction: column;
+  }
+
+  .expense-input {
+    grid-template-columns: 1fr;
+  }
+
+  .group-card {
+    padding: 20px;
+  }
+}
+.settlement-section {
+  margin-top: 25px;
+  padding-top: 22px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.settlement-section h3 {
+  margin: 0 0 15px;
+  font-size: 18px;
+}
+
+.settlement-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.settlement-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 14px 16px;
+
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+}
+
+.settlement-item span {
+  font-size: 14px;
+}
+
+.settlement-amount {
+  font-size: 16px;
+}

@@ -1,0 +1,527 @@
+/* =========================
+   EXPLORE PAGE
+========================= */
+
+.explore-page {
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+/* =========================
+   EXPLORE HERO
+========================= */
+
+.explore-hero {
+  width: min(1100px, 92%);
+  min-height: 380px;
+
+  margin: 35px auto 30px;
+
+  border-radius: 24px;
+  overflow: hidden;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(3, 15, 30, 0.96) 0%,
+      rgba(3, 15, 30, 0.82) 40%,
+      rgba(3, 15, 30, 0.35) 100%
+    ),
+    url("https://images.unsplash.com/photo-1486911278844-a81c5267e227");
+
+  background-size: cover;
+  background-position: center;
+
+  display: flex;
+  align-items: center;
+
+  box-shadow:
+    0 20px 45px rgba(0, 0, 0, 0.18);
+}
+
+.explore-hero-content {
+  max-width: 650px;
+  padding: 55px;
+
+  color: white;
+}
+
+.explore-hero-content .flight-label {
+  color: #a9c7ff;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.explore-hero h1 {
+  font-size: clamp(40px, 5vw, 62px);
+  line-height: 1.05;
+
+  margin: 12px 0 18px;
+
+  color: white;
+  font-weight: 800;
+}
+
+.explore-hero p:not(.flight-label) {
+  color: #dbe5f3;
+
+  font-size: 17px;
+  line-height: 1.6;
+
+  max-width: 560px;
+}
+
+/* =========================
+   CONTAINER
+========================= */
+
+.explore-container {
+  width: min(1150px, 92%);
+  margin: auto;
+  padding: 5cap 0 70px;
+}
+
+
+/* =========================
+   SEARCH CONTROLS
+========================= */
+
+.explore-controls {
+  display: flex;
+  gap: 15px;
+  margin-top: -65px;
+  position: relative;
+  z-index: 5;
+}
+
+.destination-search {
+  flex: 1;
+
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  background: white;
+
+  padding: 16px 20px;
+
+  border-radius: 14px;
+
+  box-shadow:
+    0 12px 35px rgba(15, 23, 42, 0.12);
+}
+
+.destination-search span {
+  font-size: 20px;
+}
+
+.destination-search input {
+  width: 100%;
+  border: none;
+  outline: none;
+
+  font-size: 15px;
+
+  color: #0f172a;
+}
+
+.explore-controls select {
+  min-width: 190px;
+
+  background: white;
+
+  border: none;
+  outline: none;
+
+  border-radius: 14px;
+
+  padding: 0 18px;
+
+  font-size: 14px;
+
+  box-shadow:
+    0 12px 35px rgba(15, 23, 42, 0.12);
+}
+
+
+/* =========================
+   CATEGORY
+========================= */
+
+.category-section {
+  margin-top: 45px;
+}
+
+.category-section h3 {
+  margin-bottom: 15px;
+  font-size: 18px;
+}
+
+.category-pills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.category-pill {
+  border: 1px solid #dbe3ef;
+
+  background: white;
+
+  color: #475569;
+
+  padding: 9px 18px;
+
+  border-radius: 30px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+  transition: 0.2s ease;
+}
+
+.category-pill:hover {
+  border-color: #2563eb;
+  color: #2563eb;
+}
+
+.category-pill.active {
+  background: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+
+/* =========================
+   HEADING
+========================= */
+
+.explore-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+
+  margin: 45px 0 22px;
+}
+
+.explore-heading h2 {
+  margin: 5px 0 0;
+  font-size: 28px;
+}
+
+.explore-heading > span {
+  color: #64748b;
+  font-size: 14px;
+}
+
+
+/* =========================
+   DESTINATION GRID
+========================= */
+
+.destination-grid {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 24px;
+}
+
+
+/* =========================
+   DESTINATION CARD
+========================= */
+
+.destination-card {
+  background: white;
+
+  border-radius: 18px;
+
+  overflow: hidden;
+
+  border: 1px solid #e2e8f0;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+
+  box-shadow:
+    0 5px 20px rgba(15, 23, 42, 0.05);
+}
+
+.destination-card:hover {
+  transform: translateY(-6px);
+
+  box-shadow:
+    0 18px 40px rgba(15, 23, 42, 0.12);
+}
+
+.wishlist-button.saved {
+  color: #2563eb;
+  background: #eff6ff;
+}
+/* =========================
+   IMAGE
+========================= */
+
+.destination-image {
+  height: 220px;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+.destination-image img {
+  width: 100%;
+  height: 100%;
+
+  object-fit: cover;
+
+  transition: transform 0.4s ease;
+}
+
+.destination-card:hover
+.destination-image img {
+  transform: scale(1.06);
+}
+
+
+/* =========================
+   WISHLIST
+========================= */
+
+.wishlist-button {
+  position: absolute;
+
+  top: 14px;
+  right: 14px;
+
+  width: 42px;
+  height: 42px;
+
+  border: none;
+
+  border-radius: 50%;
+
+  background: rgba(255, 255, 255, 0.95);
+
+  font-size: 22px;
+
+  color: #334155;
+
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: 0.2s ease;
+}
+
+.wishlist-button:hover {
+  color: #2563eb;
+  transform: scale(1.08);
+}
+
+
+/* =========================
+   CATEGORY BADGE
+========================= */
+
+.destination-category {
+  position: absolute;
+
+  left: 14px;
+  bottom: 14px;
+
+  background: rgba(15, 23, 42, 0.78);
+
+  color: white;
+
+  padding: 6px 11px;
+
+  border-radius: 20px;
+
+  font-size: 12px;
+
+  backdrop-filter: blur(5px);
+}
+
+
+/* =========================
+   CARD INFORMATION
+========================= */
+
+.destination-info {
+  padding: 20px;
+}
+
+.destination-title {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.destination-title h3 {
+  margin: 0;
+
+  font-size: 21px;
+}
+
+.destination-title p {
+  margin: 5px 0 0;
+
+  color: #64748b;
+
+  font-size: 13px;
+}
+
+.rating {
+  background: #eff6ff;
+
+  color: #2563eb;
+
+  padding: 5px 9px;
+
+  height: fit-content;
+
+  border-radius: 7px;
+
+  font-size: 13px;
+
+  font-weight: 600;
+}
+
+
+/* =========================
+   CARD BOTTOM
+========================= */
+
+.destination-bottom {
+  margin-top: 22px;
+
+  padding-top: 16px;
+
+  border-top: 1px solid #e2e8f0;
+
+  display: flex;
+
+  align-items: end;
+
+  justify-content: space-between;
+}
+
+.destination-bottom div {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.destination-bottom span {
+  color: #94a3b8;
+
+  font-size: 11px;
+}
+
+.destination-bottom strong {
+  font-size: 17px;
+
+  color: #0f172a;
+}
+
+.view-button {
+  border: none;
+
+  background: transparent;
+
+  color: #2563eb;
+
+  font-weight: 600;
+
+  cursor: pointer;
+
+  font-size: 13px;
+}
+
+.view-button:hover {
+  text-decoration: underline;
+}
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.explore-empty {
+  text-align: center;
+
+  padding: 70px 20px;
+
+  background: white;
+
+  border-radius: 18px;
+}
+
+.explore-empty div {
+  font-size: 45px;
+}
+
+.explore-empty h2 {
+  margin: 15px 0 5px;
+}
+
+.explore-empty p {
+  color: #64748b;
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 900px) {
+
+  .destination-grid {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+}
+
+
+@media (max-width: 650px) {
+
+  .explore-hero {
+    min-height: 280px;
+  }
+
+  .explore-controls {
+    flex-direction: column;
+    margin-top: -45px;
+  }
+
+  .explore-controls select {
+    height: 52px;
+  }
+
+  .destination-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .explore-heading {
+    align-items: start;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+}

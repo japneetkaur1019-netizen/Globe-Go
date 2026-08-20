@@ -1,0 +1,295 @@
+.payment-page {
+  min-height: calc(100vh - 70px);
+  padding: 45px 0 70px;
+
+  background:
+    radial-gradient(
+      circle at top right,
+      #dbeafe,
+      transparent 30%
+    ),
+    #f8fafc;
+}
+
+.payment-container {
+  width: min(1050px, 92%);
+  margin: auto;
+}
+
+.payment-header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.payment-header h1 {
+  font-size: 40px;
+  margin: 8px 0;
+}
+
+.payment-header p:last-child {
+  color: var(--text-light);
+}
+
+.payment-layout {
+  display: grid;
+  grid-template-columns: 1.4fr 0.8fr;
+  gap: 22px;
+  align-items: start;
+}
+
+.payment-form,
+.payment-summary {
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: var(--shadow-sm);
+}
+
+.payment-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-bottom: 25px;
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid var(--border-light);
+}
+
+.payment-title h2,
+.payment-summary h2 {
+  margin: 0;
+  font-size: 20px;
+}
+
+.payment-title span {
+  background: #eff6ff;
+  color: var(--primary);
+
+  padding: 7px 12px;
+  border-radius: 20px;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+
+  margin-bottom: 18px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.form-group input {
+  width: 100%;
+  box-sizing: border-box;
+
+  padding: 13px 14px;
+
+  border: 1px solid var(--border);
+  border-radius: 9px;
+
+  outline: none;
+
+  font-size: 14px;
+
+  transition: 0.2s;
+}
+
+.form-group input:focus {
+  border-color: var(--primary);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(37, 99, 235, 0.1);
+}
+
+.payment-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.payment-btn {
+  width: 100%;
+  min-height: 50px;
+
+  margin-top: 8px;
+
+  font-size: 15px;
+}
+
+.payment-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.payment-error {
+  padding: 12px 14px;
+
+  margin-bottom: 15px;
+
+  background: #fef2f2;
+  color: #dc2626;
+
+  border: 1px solid #fecaca;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+}
+
+.demo-note {
+  text-align: center;
+
+  color: var(--text-light);
+
+  font-size: 11px;
+
+  margin-top: 15px;
+}
+
+
+/* Summary */
+
+.payment-flight {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin: 25px 0;
+
+  text-align: center;
+}
+
+.payment-flight div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.payment-flight strong {
+  font-size: 17px;
+}
+
+.payment-flight span:not(.payment-arrow) {
+  color: var(--text-light);
+  font-size: 12px;
+}
+
+.payment-arrow {
+  color: var(--primary);
+  font-size: 20px;
+}
+
+.summary-info {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.summary-info div {
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 13px;
+}
+
+.summary-info span {
+  color: var(--text-light);
+}
+
+.payment-divider {
+  height: 1px;
+
+  background: var(--border);
+
+  margin: 22px 0;
+}
+
+.payment-price {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.payment-price div {
+  display: flex;
+  justify-content: space-between;
+
+  font-size: 13px;
+}
+
+.payment-price span {
+  color: var(--text-light);
+}
+
+.payment-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 20px;
+  padding-top: 18px;
+
+  border-top: 1px solid var(--border);
+}
+
+.payment-total span {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.payment-total strong {
+  color: var(--primary);
+  font-size: 24px;
+}
+
+
+/* Empty */
+
+.payment-empty {
+  max-width: 550px;
+
+  margin: 80px auto;
+
+  padding: 55px 25px;
+
+  text-align: center;
+}
+
+.payment-empty p {
+  color: var(--text-light);
+  margin: 10px 0 20px;
+}
+
+
+/* Responsive */
+
+@media (max-width: 750px) {
+
+  .payment-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .payment-header h1 {
+    font-size: 32px;
+  }
+
+}
+
+@media (max-width: 500px) {
+
+  .payment-row {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+}

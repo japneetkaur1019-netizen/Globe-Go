@@ -1,527 +1,402 @@
-/* =========================
-   EXPLORE PAGE
-========================= */
+/* ==========================================================================
+   EXPLORE DESTINATIONS PAGE — GLOBEGO THEMED
+   ========================================================================== */
 
 .explore-page {
-  min-height: 100vh;
-  background: #f8fafc;
+  min-height: calc(100vh - 80px);
+  background-color: var(--cream);
+  color: var(--ink-900);
+  padding: 32px 0 72px;
 }
 
+.explore-container {
+  width: min(1180px, 92%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
 
-/* =========================
-   HERO
-========================= */
-
-/* =========================
-   EXPLORE HERO
-========================= */
-
+/* Explore Hero */
 .explore-hero {
-  width: min(1100px, 92%);
-  min-height: 380px;
-
-  margin: 35px auto 30px;
-
-  border-radius: 24px;
+  border-radius: var(--radius-xl);
   overflow: hidden;
-
-  background:
-    linear-gradient(
-      90deg,
-      rgba(3, 15, 30, 0.96) 0%,
-      rgba(3, 15, 30, 0.82) 40%,
-      rgba(3, 15, 30, 0.35) 100%
-    ),
-    url("https://images.unsplash.com/photo-1486911278844-a81c5267e227");
-
+  position: relative;
+  min-height: 280px;
+  background: linear-gradient(135deg, rgba(10, 37, 64, 0.92) 0%, rgba(13, 56, 98, 0.82) 45%, rgba(26, 115, 232, 0.6) 100%),
+              url('https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=1400&q=80');
   background-size: cover;
   background-position: center;
-
+  box-shadow: var(--shadow-lg);
   display: flex;
   align-items: center;
-
-  box-shadow:
-    0 20px 45px rgba(0, 0, 0, 0.18);
+  margin: 0 auto 10px;
+  width: 100%;
 }
 
 .explore-hero-content {
-  max-width: 650px;
-  padding: 55px;
-
-  color: white;
+  padding: 40px 48px;
+  color: #ffffff;
+  max-width: 740px;
 }
 
-.explore-hero-content .flight-label {
-  color: #a9c7ff;
+.explore-hero-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.76rem;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 0.06em;
+  margin-bottom: 14px;
+  color: #e8f0fe;
 }
 
-.explore-hero h1 {
-  font-size: clamp(40px, 5vw, 62px);
-  line-height: 1.05;
-
-  margin: 12px 0 18px;
-
-  color: white;
+.explore-hero-content h1 {
+  font-size: clamp(1.9rem, 4vw, 2.75rem);
   font-weight: 800;
+  line-height: 1.15;
+  margin: 0 0 12px;
+  color: #ffffff;
 }
 
-.explore-hero p:not(.flight-label) {
-  color: #dbe5f3;
-
-  font-size: 17px;
-  line-height: 1.6;
-
-  max-width: 560px;
+.explore-hero-content p {
+  font-size: 1.02rem;
+  color: #cbd5e1;
+  line-height: 1.5;
+  margin: 0;
 }
 
-/* =========================
-   CONTAINER
-========================= */
-
-.explore-container {
-  width: min(1150px, 92%);
-  margin: auto;
-  padding: 5cap 0 70px;
-}
-
-
-/* =========================
-   SEARCH CONTROLS
-========================= */
-
+/* Floating Controls */
 .explore-controls {
+  background: var(--white);
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 16px 24px;
+  box-shadow: var(--shadow-md);
   display: flex;
-  gap: 15px;
-  margin-top: -65px;
-  position: relative;
-  z-index: 5;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .destination-search {
-  flex: 1;
-
   display: flex;
   align-items: center;
-  gap: 12px;
-
-  background: white;
-
-  padding: 16px 20px;
-
-  border-radius: 14px;
-
-  box-shadow:
-    0 12px 35px rgba(15, 23, 42, 0.12);
-}
-
-.destination-search span {
-  font-size: 20px;
+  gap: 10px;
+  flex: 1;
+  min-width: 260px;
 }
 
 .destination-search input {
   width: 100%;
   border: none;
+  background: transparent;
+  font-size: 0.96rem;
+  font-weight: 600;
+  color: var(--ink-900);
   outline: none;
-
-  font-size: 15px;
-
-  color: #0f172a;
 }
 
-.explore-controls select {
-  min-width: 190px;
-
-  background: white;
-
+.clear-search-link {
+  background: none;
   border: none;
+  color: var(--expedia-blue);
+  font-size: 0.8rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--ink-500);
+}
+
+.sort-controls select {
+  background: var(--cream);
+  border: 1px solid var(--card-border);
+  color: var(--ink-900);
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.86rem;
+  font-weight: 600;
   outline: none;
-
-  border-radius: 14px;
-
-  padding: 0 18px;
-
-  font-size: 14px;
-
-  box-shadow:
-    0 12px 35px rgba(15, 23, 42, 0.12);
+  cursor: pointer;
 }
 
-
-/* =========================
-   CATEGORY
-========================= */
-
+/* Category Filter Bar */
 .category-section {
-  margin-top: 45px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-.category-section h3 {
-  margin-bottom: 15px;
-  font-size: 18px;
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.category-header h3 {
+  font-size: 1.05rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--ink-900);
+}
+
+.category-count {
+  font-size: 0.82rem;
+  color: var(--ink-500);
 }
 
 .category-pills {
   display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 4px;
 }
 
 .category-pill {
-  border: 1px solid #dbe3ef;
-
-  background: white;
-
-  color: #475569;
-
-  padding: 9px 18px;
-
-  border-radius: 30px;
-
+  background: var(--white);
+  border: 1.5px solid var(--card-border);
+  color: var(--ink-700);
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 0.86rem;
+  font-weight: 700;
   cursor: pointer;
-
-  font-size: 14px;
-
-  transition: 0.2s ease;
+  transition: var(--transition-fast);
+  white-space: nowrap;
 }
 
 .category-pill:hover {
-  border-color: #2563eb;
-  color: #2563eb;
+  border-color: var(--expedia-blue);
+  color: var(--expedia-blue);
 }
 
 .category-pill.active {
-  background: #2563eb;
-  color: white;
-  border-color: #2563eb;
+  background: var(--expedia-blue);
+  border-color: var(--expedia-blue);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.25);
 }
 
-
-/* =========================
-   HEADING
-========================= */
-
-.explore-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: end;
-
-  margin: 45px 0 22px;
-}
-
-.explore-heading h2 {
-  margin: 5px 0 0;
-  font-size: 28px;
-}
-
-.explore-heading > span {
-  color: #64748b;
-  font-size: 14px;
-}
-
-
-/* =========================
-   DESTINATION GRID
-========================= */
-
+/* Destination Grid */
 .destination-grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(3, 1fr);
-
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+  gap: 20px;
 }
 
-
-/* =========================
-   DESTINATION CARD
-========================= */
-
 .destination-card {
-  background: white;
-
-  border-radius: 18px;
-
+  background: var(--white);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
   overflow: hidden;
-
-  border: 1px solid #e2e8f0;
-
-  transition:
-    transform 0.25s ease,
-    box-shadow 0.25s ease;
-
-  box-shadow:
-    0 5px 20px rgba(15, 23, 42, 0.05);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition-fast);
+  display: flex;
+  flex-direction: column;
 }
 
 .destination-card:hover {
-  transform: translateY(-6px);
-
-  box-shadow:
-    0 18px 40px rgba(15, 23, 42, 0.12);
+  border-color: var(--expedia-blue);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
 }
-
-.wishlist-button.saved {
-  color: #2563eb;
-  background: #eff6ff;
-}
-/* =========================
-   IMAGE
-========================= */
 
 .destination-image {
-  height: 220px;
-
   position: relative;
-
+  height: 180px;
   overflow: hidden;
 }
 
 .destination-image img {
   width: 100%;
   height: 100%;
-
   object-fit: cover;
-
   transition: transform 0.4s ease;
 }
 
-.destination-card:hover
-.destination-image img {
-  transform: scale(1.06);
+.destination-card:hover .destination-image img {
+  transform: scale(1.05);
 }
-
-
-/* =========================
-   WISHLIST
-========================= */
 
 .wishlist-button {
   position: absolute;
-
-  top: 14px;
-  right: 14px;
-
-  width: 42px;
-  height: 42px;
-
-  border: none;
-
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
-
-  background: rgba(255, 255, 255, 0.95);
-
-  font-size: 22px;
-
-  color: #334155;
-
-  cursor: pointer;
-
+  background: rgba(10, 37, 64, 0.4);
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   display: flex;
   align-items: center;
   justify-content: center;
-
-  transition: 0.2s ease;
+  cursor: pointer;
+  transition: var(--transition-fast);
 }
 
 .wishlist-button:hover {
-  color: #2563eb;
-  transform: scale(1.08);
+  background: rgba(10, 37, 64, 0.7);
+  transform: scale(1.1);
 }
 
-
-/* =========================
-   CATEGORY BADGE
-========================= */
+.wishlist-button.saved {
+  background: var(--white);
+  border-color: var(--white);
+}
 
 .destination-category {
   position: absolute;
-
-  left: 14px;
-  bottom: 14px;
-
-  background: rgba(15, 23, 42, 0.78);
-
-  color: white;
-
-  padding: 6px 11px;
-
-  border-radius: 20px;
-
-  font-size: 12px;
-
-  backdrop-filter: blur(5px);
+  bottom: 12px;
+  left: 12px;
+  background: rgba(10, 37, 64, 0.65);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.04em;
 }
 
-
-/* =========================
-   CARD INFORMATION
-========================= */
-
 .destination-info {
-  padding: 20px;
+  padding: 16px 18px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
 }
 
 .destination-title {
   display: flex;
   justify-content: space-between;
-  gap: 10px;
+  align-items: flex-start;
+  gap: 8px;
 }
 
 .destination-title h3 {
+  font-size: 1.12rem;
+  font-weight: 800;
+  margin: 0 0 2px;
+  color: var(--ink-900);
+}
+
+.destination-country {
+  font-size: 0.8rem;
+  color: var(--ink-500);
+  display: flex;
+  align-items: center;
+  gap: 4px;
   margin: 0;
-
-  font-size: 21px;
 }
 
-.destination-title p {
-  margin: 5px 0 0;
-
-  color: #64748b;
-
-  font-size: 13px;
+.rating-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--amber-100);
+  color: var(--amber-600);
+  font-size: 0.78rem;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: var(--radius-sm);
 }
-
-.rating {
-  background: #eff6ff;
-
-  color: #2563eb;
-
-  padding: 5px 9px;
-
-  height: fit-content;
-
-  border-radius: 7px;
-
-  font-size: 13px;
-
-  font-weight: 600;
-}
-
-
-/* =========================
-   CARD BOTTOM
-========================= */
 
 .destination-bottom {
-  margin-top: 22px;
-
-  padding-top: 16px;
-
-  border-top: 1px solid #e2e8f0;
-
   display: flex;
-
-  align-items: end;
-
   justify-content: space-between;
+  align-items: flex-end;
+  border-top: 1px solid var(--cream);
+  padding-top: 12px;
+  margin-top: auto;
 }
 
-.destination-bottom div {
+.price-tag-label {
+  display: block;
+  font-size: 0.72rem;
+  color: var(--ink-500);
+}
+
+.price-box strong {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--ink-900);
+}
+
+.destination-actions {
   display: flex;
-
-  flex-direction: column;
-
-  gap: 3px;
+  gap: 6px;
 }
 
-.destination-bottom span {
-  color: #94a3b8;
-
-  font-size: 11px;
-}
-
-.destination-bottom strong {
-  font-size: 17px;
-
-  color: #0f172a;
-}
-
-.view-button {
-  border: none;
-
-  background: transparent;
-
-  color: #2563eb;
-
-  font-weight: 600;
-
+.btn-card {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  font-weight: 700;
   cursor: pointer;
-
-  font-size: 13px;
+  transition: var(--transition-fast);
 }
 
-.view-button:hover {
-  text-decoration: underline;
+.btn-plan-ai {
+  background: var(--pine-100);
+  color: var(--pine-700);
+  border: 1px solid var(--pine-500);
 }
 
+.btn-plan-ai:hover {
+  background: var(--pine-500);
+  color: #ffffff;
+}
 
-/* =========================
-   EMPTY STATE
-========================= */
+.btn-flights {
+  background: var(--expedia-blue);
+  color: #ffffff;
+  border: none;
+}
 
+.btn-flights:hover {
+  background: var(--pine-700);
+}
+
+/* Empty State */
 .explore-empty {
+  background: var(--white);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 48px 24px;
   text-align: center;
-
-  padding: 70px 20px;
-
-  background: white;
-
-  border-radius: 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
-.explore-empty div {
-  font-size: 45px;
+.empty-icon-wrap {
+  color: var(--expedia-blue);
+  margin-bottom: 4px;
 }
 
 .explore-empty h2 {
-  margin: 15px 0 5px;
+  font-size: 1.35rem;
+  font-weight: 800;
+  margin: 0;
 }
 
 .explore-empty p {
-  color: #64748b;
-}
-
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 900px) {
-
-  .destination-grid {
-    grid-template-columns:
-      repeat(2, 1fr);
-  }
-
-}
-
-
-@media (max-width: 650px) {
-
-  .explore-hero {
-    min-height: 280px;
-  }
-
-  .explore-controls {
-    flex-direction: column;
-    margin-top: -45px;
-  }
-
-  .explore-controls select {
-    height: 52px;
-  }
-
-  .destination-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .explore-heading {
-    align-items: start;
-    flex-direction: column;
-    gap: 8px;
-  }
-
+  color: var(--ink-500);
+  margin: 0;
 }

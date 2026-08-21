@@ -1,496 +1,470 @@
+/* ==========================================================================
+   BOOKING CONFIRMATION & BOARDING PASS — GLOBEGO THEMED
+   ========================================================================== */
+
 .confirmation-page {
-  min-height: calc(100vh - 70px);
-
-  padding: 45px 0 70px;
-
-  background:
-    radial-gradient(
-      circle at top center,
-      #dbeafe,
-      transparent 35%
-    ),
-    #f8fafc;
+  min-height: calc(100vh - 80px);
+  background-color: var(--cream);
+  color: var(--ink-900);
+  padding: 36px 0 80px;
 }
 
 .confirmation-container {
-  width: min(900px, 92%);
-
-  margin: auto;
+  width: min(880px, 92%);
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
 }
-
-
-/* SUCCESS */
 
 .confirmation-success {
   text-align: center;
-
-  margin-bottom: 30px;
-}
-
-.success-icon {
-  width: 70px;
-  height: 70px;
-
   display: flex;
-
-  align-items: center;
-  justify-content: center;
-
-  margin: 0 auto 15px;
-
-  border-radius: 50%;
-
-  background: #dcfce7;
-
-  color: #16a34a;
-
-  font-size: 36px;
-
-  font-weight: 700;
-}
-
-.confirmation-success h1 {
-  font-size: 38px;
-
-  margin: 8px 0;
-}
-
-.confirmation-success > p:last-child {
-  color: var(--text-light);
-}
-
-
-/* BOOKING REFERENCE */
-
-.booking-reference {
-  text-align: center;
-
-  padding: 25px;
-
-  margin-bottom: 20px;
-
-  background: white;
-
-  border: 1px solid #bfdbfe;
-
-  box-shadow: var(--shadow-sm);
-}
-
-.booking-reference span {
-  display: block;
-
-  color: var(--text-light);
-
-  font-size: 12px;
-
-  text-transform: uppercase;
-
-  letter-spacing: 1px;
-}
-
-.booking-reference strong {
-  display: block;
-
-  margin: 7px 0;
-
-  color: var(--primary);
-
-  font-size: 30px;
-
-  letter-spacing: 3px;
-}
-
-.booking-reference small {
-  color: var(--text-light);
-}
-
-
-/* CARDS */
-
-.confirmation-card {
-  background: white;
-
-  border: 1px solid var(--border);
-
-  border-radius: 18px;
-
-  padding: 25px;
-
-  margin-bottom: 18px;
-
-  box-shadow: var(--shadow-sm);
-}
-
-
-/* CARD HEADER */
-
-.confirmation-title {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 15px;
-
-  margin-bottom: 22px;
-
-  padding-bottom: 15px;
-
-  border-bottom: 1px solid var(--border-light);
-}
-
-.confirmation-title h2 {
-  margin: 0;
-
-  font-size: 18px;
-}
-
-.confirmation-title > span {
-  font-size: 12px;
-
-  color: var(--text-light);
-}
-
-
-/* BADGES */
-
-.confirmed-badge,
-.paid-badge {
-  padding: 6px 10px;
-
-  border-radius: 20px;
-
-  font-size: 11px !important;
-
-  font-weight: 700;
-}
-
-.confirmed-badge {
-  background: #dcfce7;
-
-  color: #15803d !important;
-}
-
-.paid-badge {
-  background: #dbeafe;
-
-  color: #1d4ed8 !important;
-}
-
-
-/* FLIGHT */
-
-.confirmation-flight {
-  display: grid;
-
-  grid-template-columns:
-    1fr
-    1.4fr
-    1fr;
-
-  align-items: center;
-
-  gap: 20px;
-
-  text-align: center;
-
-  padding: 10px 0 25px;
-}
-
-.confirmation-location {
-  display: flex;
-
   flex-direction: column;
-
-  gap: 5px;
+  align-items: center;
+  gap: 8px;
 }
 
-.confirmation-location strong {
-  font-size: 28px;
-}
-
-.confirmation-location span {
-  color: var(--text-light);
-
-  font-size: 12px;
-}
-
-.confirmation-route {
-  color: var(--text-light);
-
-  font-size: 12px;
-}
-
-.confirmation-route div {
-  color: var(--primary);
-
-  margin: 7px 0;
-}
-
-.confirmation-route small {
-  font-size: 11px;
-}
-
-
-/* META */
-
-.confirmation-meta {
-  display: grid;
-
-  grid-template-columns:
-    repeat(4, 1fr);
-
-  gap: 10px;
-}
-
-.confirmation-meta div {
-  padding: 12px;
-
-  border-radius: 10px;
-
-  background: #f8fafc;
-}
-
-.confirmation-meta span {
-  display: block;
-
-  color: var(--text-light);
-
-  font-size: 11px;
-
+.success-icon-badge {
+  color: var(--rating-green);
   margin-bottom: 4px;
 }
 
-.confirmation-meta strong {
-  font-size: 13px;
+.confirmation-success h1 {
+  font-size: clamp(1.8rem, 3.5vw, 2.3rem);
+  font-weight: 800;
+  margin: 0;
+  color: var(--ink-900);
 }
 
+.success-subtext {
+  font-size: 0.95rem;
+  color: var(--ink-500);
+  max-width: 500px;
+  margin: 0;
+}
 
-/* PASSENGERS */
-
-.confirmed-passengers {
+/* Reference Banner */
+.booking-reference-card {
+  background: var(--white);
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 16px 24px;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: var(--shadow-sm);
+  flex-wrap: wrap;
+  gap: 12px;
+}
 
+.ref-left {
+  display: flex;
   flex-direction: column;
+}
 
+.ref-label {
+  font-size: 0.76rem;
+  color: var(--ink-500);
+  font-weight: 700;
+}
+
+.ref-code {
+  font-size: 1.35rem;
+  font-family: monospace;
+  font-weight: 800;
+  color: var(--expedia-blue);
+  letter-spacing: 0.08em;
+}
+
+.ref-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--rating-green-bg);
+  color: var(--rating-green);
+  font-size: 0.82rem;
+  font-weight: 800;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+}
+
+/* Boarding Pass Ticket */
+.boarding-pass-card {
+  background: var(--white);
+  border: 1.5px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  position: relative;
+}
+
+.boarding-pass-header {
+  background: linear-gradient(135deg, var(--pine-900) 0%, var(--pine-700) 100%);
+  color: #ffffff;
+  padding: 20px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.airline-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.airline-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1rem;
+}
+
+.airline-info h3 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0;
+  color: #ffffff;
+}
+
+.flight-num-badge {
+  font-size: 0.78rem;
+  color: #cbd5e1;
+}
+
+.ticket-class-badge {
+  background: var(--amber-500);
+  color: var(--pine-900);
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+}
+
+/* Route Grid */
+.boarding-route-grid {
+  padding: 28px 32px;
+  display: grid;
+  grid-template-columns: 140px 1fr 140px;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 1.5px dashed var(--card-border);
+}
+
+.node-city {
+  display: block;
+  font-size: 0.95rem;
+  color: var(--ink-700);
+  font-weight: 600;
+}
+
+.node-code {
+  display: block;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--ink-900);
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+}
+
+.node-time {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.84rem;
+  color: var(--ink-500);
+  margin-top: 4px;
+}
+
+.route-connector {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.duration-pill {
+  font-size: 0.76rem;
+  background: var(--cream);
+  color: var(--ink-700);
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+  font-weight: 700;
+}
+
+.flight-line {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 180px;
+  color: var(--expedia-blue);
+}
+
+.flight-line .line {
+  flex: 1;
+  height: 2px;
+  background: var(--card-border);
+}
+
+.flight-line .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--expedia-blue);
+}
+
+.flight-line .plane-icon {
+  margin: 0 6px;
+}
+
+.stops-label {
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--rating-green);
+}
+
+/* Meta Grid */
+.boarding-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  padding: 18px 32px;
+  background: var(--cream);
+}
+
+.meta-box {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-label {
+  font-size: 0.75rem;
+  color: var(--ink-500);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.meta-val {
+  font-size: 0.88rem;
+  color: var(--ink-900);
+}
+
+/* Passengers section */
+.boarding-passengers-section {
+  padding: 24px 32px;
+  border-bottom: 1.5px dashed var(--card-border);
+}
+
+.boarding-passengers-section h4 {
+  font-size: 0.94rem;
+  font-weight: 800;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.passengers-ticket-list {
+  display: flex;
+  flex-direction: column;
   gap: 10px;
 }
 
-.confirmed-passenger {
-  display: grid;
-
-  grid-template-columns:
-    40px
-    1fr
-    auto;
-
+.passenger-ticket-row {
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-
-  gap: 12px;
-
-  padding: 13px;
-
-  border-radius: 12px;
-
-  background: #fafcff;
-
-  border: 1px solid var(--border-light);
+  background: var(--cream);
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
 }
 
-.confirmed-number {
-  width: 32px;
-
-  height: 32px;
-
+.passenger-name-wrap {
   display: flex;
+  align-items: center;
+  gap: 12px;
+}
 
+.passenger-idx {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--pine-100);
+  color: var(--pine-700);
+  font-size: 0.78rem;
+  font-weight: 800;
+  display: flex;
   align-items: center;
   justify-content: center;
-
-  border-radius: 50%;
-
-  background: var(--primary-light);
-
-  color: var(--primary);
-
-  font-size: 12px;
-
-  font-weight: 700;
 }
 
-.confirmed-passenger div:nth-child(2) {
+.passenger-name-wrap strong {
+  display: block;
+  font-size: 0.92rem;
+  color: var(--ink-900);
+}
+
+.passenger-tag {
+  font-size: 0.72rem;
+  color: var(--ink-500);
+}
+
+.passenger-seat-badge {
+  text-align: right;
+}
+
+.seat-label {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--ink-500);
+}
+
+.seat-code {
+  font-size: 0.98rem;
+  font-weight: 800;
+  color: var(--expedia-blue);
+}
+
+/* Stub / Barcode */
+.boarding-stub-footer {
+  padding: 18px 32px;
   display: flex;
-
-  flex-direction: column;
-
-  gap: 3px;
-}
-
-.confirmed-passenger div:nth-child(2) span {
-  color: var(--text-light);
-
-  font-size: 11px;
-
-  text-transform: capitalize;
-}
-
-.confirmed-seat {
-  padding: 7px 12px;
-
-  border-radius: 8px;
-
-  background: #eff6ff;
-
-  color: var(--primary);
-
-  font-size: 12px;
-
-  font-weight: 700;
-}
-
-
-/* PRICE */
-
-.confirmation-price {
-  display: flex;
-
-  flex-direction: column;
-
+  justify-content: space-between;
+  align-items: center;
+  background: var(--white);
+  flex-wrap: wrap;
   gap: 12px;
 }
 
-.confirmation-price div {
-  display: flex;
-
-  justify-content: space-between;
-
-  font-size: 14px;
+.stub-info span {
+  display: block;
+  font-size: 0.74rem;
+  color: var(--ink-500);
 }
 
-.confirmation-price span {
-  color: var(--text-light);
-}
-
-.confirmation-total {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  margin-top: 20px;
-
-  padding-top: 18px;
-
-  border-top: 1px solid var(--border);
-}
-
-.confirmation-total span {
-  font-size: 17px;
-
+.stub-info code {
+  font-size: 0.8rem;
   font-weight: 700;
+  color: var(--ink-900);
 }
 
-.confirmation-total strong {
-  font-size: 26px;
-
-  color: var(--primary);
+.barcode-mock {
+  width: 140px;
+  height: 32px;
+  background: repeating-linear-gradient(
+    90deg,
+    #0f172a 0px,
+    #0f172a 2px,
+    transparent 2px,
+    transparent 5px,
+    #0f172a 5px,
+    #0f172a 8px,
+    transparent 8px,
+    transparent 10px
+  );
+  border-radius: 3px;
 }
 
+/* Fare Receipt */
+.fare-receipt-card {
+  background: var(--white);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-lg);
+  padding: 24px 28px;
+  box-shadow: var(--shadow-sm);
+}
 
-/* ACTIONS */
+.fare-receipt-card h3 {
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
+.receipt-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.receipt-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.86rem;
+  color: var(--ink-700);
+}
+
+.receipt-divider {
+  height: 1px;
+  background: var(--cream);
+  margin: 4px 0;
+}
+
+.receipt-row.total-row {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: var(--ink-900);
+}
+
+.total-amount {
+  font-size: 1.3rem;
+  color: var(--expedia-blue);
+}
+
+/* Actions */
 .confirmation-actions {
   display: flex;
-
   justify-content: center;
-
-  gap: 15px;
-
-  margin-top: 25px;
+  gap: 14px;
+  flex-wrap: wrap;
 }
 
-.confirmation-actions button {
-  min-height: 48px;
+.btn-secondary-save {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--pine-100);
+  color: var(--pine-700);
+  border: 1px solid var(--pine-500);
+  padding: 11px 22px;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: var(--transition-fast);
+}
 
-  padding: 0 25px;
+.btn-secondary-save:hover {
+  background: var(--pine-500);
+  color: #ffffff;
 }
 
 .confirmation-note {
   text-align: center;
-
-  margin-top: 18px;
-
-  color: var(--text-light);
-
-  font-size: 11px;
+  font-size: 0.82rem;
+  color: var(--ink-500);
+  margin: 0;
 }
 
-
-/* EMPTY */
-
-.confirmation-empty {
-  max-width: 550px;
-
-  margin: 80px auto;
-
-  padding: 55px 25px;
-
-  text-align: center;
-}
-
-.confirmation-empty p {
-  color: var(--text-light);
-
-  margin: 10px 0 20px;
-}
-
-
-/* RESPONSIVE */
-
-@media (max-width: 700px) {
-
-  .confirmation-success h1 {
-    font-size: 30px;
-  }
-
-  .confirmation-flight {
+@media (max-width: 768px) {
+  .boarding-route-grid {
     grid-template-columns: 1fr;
-
+    gap: 20px;
+    text-align: center;
+  }
+  .boarding-meta-grid {
+    grid-template-columns: 1fr;
     gap: 12px;
   }
-
-  .confirmation-meta {
-    grid-template-columns:
-      1fr 1fr;
-  }
-
-  .confirmation-actions {
-    flex-direction: column;
-  }
-
-  .confirmation-actions button {
-    width: 100%;
-  }
-
-}
-
-@media (max-width: 450px) {
-
-  .confirmation-meta {
-    grid-template-columns: 1fr;
-  }
-
-  .confirmed-passenger {
-    grid-template-columns:
-      35px
-      1fr;
-  }
-
-  .confirmed-seat {
-    grid-column: 2;
-    width: fit-content;
-  }
-
 }

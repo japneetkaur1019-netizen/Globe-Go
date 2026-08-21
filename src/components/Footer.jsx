@@ -16,9 +16,10 @@ const FOOTER_COLUMNS = [
     title: 'Explore & Plan',
     links: [
       { label: 'AI Trip Planner', to: '/ai-planner' },
-      { label: 'Weekend Hotel Deals', to: '/' },
-      { label: 'Vacation Rentals', to: '/' },
-      { label: 'Flight + Hotel Packages', to: '/ai-planner' },
+      { label: 'Flight Search & Booking', to: '/flights' },
+      { label: 'Explore Destinations', to: '/explore' },
+      { label: 'Group Trip & Splitter', to: '/group' },
+      { label: 'Travel Wishlist', to: '/wishlist' },
       { label: 'Travel Preferences Engine', to: '/preferences' },
     ],
   },

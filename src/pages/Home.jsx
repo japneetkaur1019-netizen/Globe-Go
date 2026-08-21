@@ -222,11 +222,21 @@ export default function Home() {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     const query = whereTo.trim() || 'Japan';
-    navigate('/ai-planner', {
-      state: {
-        initialQuery: `Plan a 5-day trip to ${query} under ₹80,000`,
-      },
-    });
+    if (activeSearchTab === 'flights' || addFlight) {
+      navigate('/flights', {
+        state: {
+          prefillDestination: query,
+        },
+      });
+    } else if (activeSearchTab === 'activities') {
+      navigate('/explore');
+    } else {
+      navigate('/ai-planner', {
+        state: {
+          initialQuery: `Plan a 5-day trip to ${query} under ₹80,000`,
+        },
+      });
+    }
   };
 
   return (

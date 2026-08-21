@@ -84,6 +84,18 @@
 
   --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
   --transition-med: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ---- Design Token Aliases ---- */
+  --primary: var(--pine-600);
+  --primary-dark: var(--pine-700);
+  --primary-light: var(--pine-100);
+  --background: var(--cream);
+  --surface: var(--white);
+  --text: var(--ink-900);
+  --text-light: var(--ink-500);
+  --border: var(--card-border);
+  --radius: var(--radius-md);
+  --shadow: var(--shadow-md);
 }
 
 [data-theme="dark"] {
@@ -99,6 +111,15 @@
   --border-color: #1e293b;
   --card-border: #1e3352;
   --expedia-dark: #040910;
+
+  --primary: var(--pine-500);
+  --primary-dark: var(--pine-600);
+  --primary-light: rgba(43, 125, 233, 0.15);
+  --background: var(--cream);
+  --surface: var(--white);
+  --text: var(--ink-900);
+  --text-light: var(--ink-500);
+  --border: var(--card-border);
 }
 
 * {

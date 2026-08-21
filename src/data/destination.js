@@ -199,7 +199,7 @@ const destinations = [
     image:
       "https://images.unsplash.com/photo-1539037116277-4db20889f2d4"
   }
-  
 ];
 
+export { destinations };
 export default destinations;

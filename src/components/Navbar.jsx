@@ -1,21 +1,44 @@
 import { useState } from 'react';
 import { NavLink, Link } from 'react-router-dom';
-import { Compass, Globe, HelpCircle, Briefcase, Sun, Moon, Menu, X, ChevronDown, User } from 'lucide-react';
+import {
+  Compass,
+  Globe,
+  HelpCircle,
+  Briefcase,
+  Sun,
+  Moon,
+  Menu,
+  X,
+  ChevronDown,
+  User,
+  Heart,
+  Plane,
+  Users,
+  MapPin,
+  Sparkles
+} from 'lucide-react';
 import NotificationCenter from './NotificationCenter.jsx';
 import { useApp } from '../context/AppContext.jsx';
+import { useWishlist } from '../context/WishlistContext.jsx';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home', end: true },
   { to: '/ai-planner', label: 'AI Planner' },
+  { to: '/flights', label: 'Flights' },
+  { to: '/explore', label: 'Explore' },
+  { to: '/wishlist', label: 'Wishlist', showWishlistBadge: true },
+  { to: '/group', label: 'Group Trip' },
   { to: '/dashboard', label: 'Dashboard' },
-  { to: '/preferences', label: 'Preferences' },
-  { to: '/stats', label: 'Stats & Rewards' },
+  { to: '/stats', label: 'Rewards' },
 ];
 
 export default function Navbar() {
   const { theme, setTheme, preferences, updatePreferences } = useApp();
+  const { wishlist } = useWishlist();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [shopDropdown, setShopDropdown] = useState(false);
+
+  const wishlistCount = Array.isArray(wishlist) ? wishlist.length : 0;
 
   const toggleCurrency = () => {
     const next = preferences.currency === 'INR' ? 'USD' : preferences.currency === 'USD' ? 'EUR' : 'INR';
@@ -25,8 +48,17 @@ export default function Navbar() {
   return (
     <>
       <div className="top-bar-notice">
-        <span>Welcome to GlobeGo. Powered by Expedia-grade intelligent travel algorithms.</span>
-        <Link to="/ai-planner">Plan an AI Trip →</Link>
+        <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <span>Intelligent AI Travel Portal &amp; Flight Booking Engine with Member Price Guarantee.</span>
+          <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+            <Link to="/flights" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+              <Plane size={13} /> Book Flights
+            </Link>
+            <Link to="/ai-planner" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+              <Sparkles size={13} /> AI Itinerary →
+            </Link>
+          </div>
+        </div>
       </div>
 
       <header className="app-navbar">
@@ -45,15 +77,29 @@ export default function Navbar() {
               className="navbar-pill-link"
               onClick={() => setShopDropdown(!shopDropdown)}
             >
-              <span>Shop travel</span>
+              <span>Explore services</span>
               <ChevronDown size={14} />
             </button>
             {shopDropdown && (
               <div className="shop-dropdown-menu">
-                <Link to="/ai-planner" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>Hotels &amp; Stays</Link>
-                <Link to="/ai-planner" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>Flights &amp; Combos</Link>
-                <Link to="/ai-planner" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>Vacation Packages</Link>
-                <Link to="/preferences" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>Travel Styles</Link>
+                <Link to="/flights" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
+                  <Plane size={15} /> Flight Search &amp; Seat Selection
+                </Link>
+                <Link to="/explore" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
+                  <MapPin size={15} /> Explore Global Destinations
+                </Link>
+                <Link to="/ai-planner" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
+                  <Sparkles size={15} /> AI Smart Itinerary Planner
+                </Link>
+                <Link to="/group" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
+                  <Users size={15} /> Group Trip &amp; Splitter
+                </Link>
+                <Link to="/wishlist" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
+                  <Heart size={15} /> Saved Travel Wishlist {wishlistCount > 0 && `(${wishlistCount})`}
+                </Link>
+                <Link to="/preferences" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
+                  <Globe size={15} /> Travel Persona &amp; Styles
+                </Link>
               </div>
             )}
           </div>
@@ -70,6 +116,9 @@ export default function Navbar() {
                   className={({ isActive }) => `nav-tab-link${isActive ? ' active' : ''}`}
                 >
                   {item.label}
+                  {item.showWishlistBadge && wishlistCount > 0 && (
+                    <span className="nav-badge-count">{wishlistCount}</span>
+                  )}
                 </NavLink>
               </li>
             ))}
@@ -78,6 +127,15 @@ export default function Navbar() {
 
         {/* Right Actions */}
         <div className="navbar-right-actions">
+          <Link
+            to="/wishlist"
+            className="navbar-pill-link wishlist-nav-btn"
+            title={`Wishlist (${wishlistCount} items)`}
+          >
+            <Heart size={16} fill={wishlistCount > 0 ? "#ff385c" : "none"} color={wishlistCount > 0 ? "#ff385c" : "currentColor"} />
+            {wishlistCount > 0 && <span className="wishlist-dot-count">{wishlistCount}</span>}
+          </Link>
+
           <button
             type="button"
             className="navbar-pill-link currency-btn"
@@ -91,11 +149,6 @@ export default function Navbar() {
           <Link to="/dashboard" className="navbar-pill-link trips-btn">
             <Briefcase size={15} />
             <span>Trips</span>
-          </Link>
-
-          <Link to="/ai-planner" className="navbar-pill-link support-btn">
-            <HelpCircle size={15} />
-            <span>Support</span>
           </Link>
 
           <NotificationCenter />
@@ -136,7 +189,10 @@ export default function Navbar() {
                 onClick={() => setMobileOpen(false)}
                 className={({ isActive }) => `mobile-nav-link${isActive ? ' active' : ''}`}
               >
-                {item.label}
+                <span>{item.label}</span>
+                {item.showWishlistBadge && wishlistCount > 0 && (
+                  <span className="nav-badge-count">{wishlistCount}</span>
+                )}
               </NavLink>
             ))}
           </div>

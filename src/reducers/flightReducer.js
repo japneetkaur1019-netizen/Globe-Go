@@ -60,6 +60,12 @@ function flightReducer(state, action) {
         }
       };
 
+    case "SET_SEATS":
+      return {
+        ...state,
+        seats: action.payload || {}
+      };
+
     case "SET_PAYMENT":
       return {
         ...state,

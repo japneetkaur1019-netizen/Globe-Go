@@ -1,340 +1,408 @@
-/* ==========================================================================
-   SEAT SELECTION PAGE — GLOBEGO THEMED
-   ========================================================================== */
+:root {
+  --primary: #1a73e8;
+  --primary-hover: #1557b0;
+  --primary-light: #e8f0fe;
+  --dark-navy: #0a2540;
+  --text-dark: #0f172a;
+  --text-light: #334155;
+  --text-muted: #64748b;
+  --bg-page: #f6f8fc;
+  --card-bg: #ffffff;
+  --border-color: #e2e8f0;
+  --border-light: #eef3f9;
+  --shadow-card: 0 4px 14px rgba(10, 37, 64, 0.08), 0 2px 6px rgba(10, 37, 64, 0.04);
+  --shadow-hover: 0 12px 32px rgba(10, 37, 64, 0.12), 0 4px 12px rgba(10, 37, 64, 0.06);
+  --radius-lg: 18px;
+  --radius-md: 12px;
+  --radius-pill: 999px;
+  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* =========================================
+   SEAT SELECTION PAGE
+   ========================================= */
 
 .seat-page {
-  min-height: calc(100vh - 80px);
-  background-color: var(--cream);
-  color: var(--ink-900);
-  padding: 32px 0 72px;
+  min-height: calc(100vh - 70px);
+  background-color: var(--bg-page);
+  padding: 40px 0 70px;
+  font-family: var(--font-family);
+  color: var(--text-dark);
 }
 
 .seat-container {
-  width: min(1140px, 92%);
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  width: min(1050px, 92%);
+  margin: auto;
 }
 
-.seat-header-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: 16px;
+/* =========================================
+   HEADER
+   ========================================= */
+
+.seat-header {
+  text-align: center;
+  margin-bottom: 30px;
+  background: linear-gradient(135deg, #0a2540 0%, #1a73e8 100%);
+  color: #ffffff;
+  padding: 40px 24px;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
 }
 
-.seat-header-row h1 {
-  font-size: clamp(1.6rem, 3vw, 2.1rem);
+.seat-header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(28px, 4vw, 40px);
   font-weight: 800;
-  margin: 0 0 6px;
-  color: var(--ink-900);
+  letter-spacing: -0.5px;
+  color: #ffffff;
 }
 
-.seat-subtext {
-  font-size: 0.92rem;
-  color: var(--ink-500);
+.seat-header p {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 15px;
   margin: 0;
 }
 
-.auto-assign-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  font-size: 0.84rem;
-}
+/* =========================================
+   PASSENGER TABS
+   ========================================= */
 
-/* Passenger Seat Switcher Tabs */
-.passenger-seat-tabs-bar {
+.passenger-tabs {
   display: flex;
   gap: 12px;
+  margin-bottom: 25px;
   overflow-x: auto;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
 }
 
-.passenger-seat-tab {
-  background: var(--white);
-  border: 1.5px solid var(--card-border);
+.passenger-tab {
+  min-width: 150px;
+  padding: 10px 18px;
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-pill);
-  padding: 8px 18px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  transition: var(--transition-fast);
-  box-shadow: var(--shadow-sm);
-  white-space: nowrap;
-}
-
-.passenger-seat-tab.active {
-  border-color: var(--expedia-blue);
-  background: var(--pine-50);
-}
-
-.tab-user-info {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.86rem;
+  background: var(--card-bg);
+  color: var(--text-light);
+  font-size: 13px;
   font-weight: 700;
-  color: var(--ink-900);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: var(--shadow-card);
 }
 
-.tab-seat-code {
-  font-size: 0.74rem;
-  background: var(--cream);
-  color: var(--ink-500);
+.passenger-tab:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  transform: translateY(-1px);
+}
+
+.passenger-tab.active {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(26, 115, 232, 0.3);
+}
+
+.passenger-tab span {
   padding: 2px 8px;
   border-radius: var(--radius-pill);
-  font-weight: 700;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 11px;
+  font-weight: 800;
 }
 
-.tab-seat-code.assigned {
-  background: var(--rating-green-bg);
-  color: var(--rating-green);
+.passenger-tab:not(.active) span {
+  background: var(--primary-light);
+  color: var(--primary);
 }
 
-/* Main Grid */
-.seat-main-grid {
+/* =========================================
+   MAIN SEAT AREA
+   ========================================= */
+
+.seat-layout {
   display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 24px;
-  align-items: flex-start;
+  grid-template-columns: 200px 1fr;
+  gap: 25px;
+  align-items: start;
 }
 
-/* Aircraft Cabin */
-.aircraft-cabin-pane {
-  background: var(--white);
-  border: 1px solid var(--card-border);
-  border-radius: var(--radius-xl);
-  padding: 32px 24px;
-  box-shadow: var(--shadow-sm);
+/* =========================================
+   LEGEND
+   ========================================= */
+
+.seat-legend {
   display: flex;
   flex-direction: column;
-  align-items: center;
-}
-
-.aircraft-nose {
-  width: 180px;
-  height: 50px;
-  border: 2px solid var(--card-border);
-  border-bottom: none;
-  border-top-left-radius: 90px;
-  border-top-right-radius: 90px;
-  background: var(--cream);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 24px;
-}
-
-.nose-label {
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  color: var(--ink-500);
-}
-
-.cabin-seating-grid {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  width: 100%;
-  max-width: 440px;
-}
-
-.cabin-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-}
-
-.cabin-row.extra-legroom {
-  margin-top: 10px;
-  position: relative;
-}
-
-.seat-triplet {
-  display: flex;
-  gap: 8px;
-}
-
-.cabin-aisle {
-  width: 36px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.row-num {
-  font-size: 0.78rem;
-  font-weight: 800;
-  color: var(--ink-500);
-}
-
-/* Seat Buttons */
-.aircraft-seat {
-  width: 36px;
-  height: 40px;
-  border-radius: 6px;
-  border: 1.5px solid var(--card-border);
-  background: var(--white);
-  color: var(--ink-900);
-  font-size: 0.8rem;
-  font-weight: 700;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: var(--transition-fast);
-  outline: none;
-}
-
-.aircraft-seat.available:hover {
-  border-color: var(--expedia-blue);
-  background: var(--pine-100);
-  transform: translateY(-2px);
-}
-
-.aircraft-seat.selected-current {
-  background: var(--expedia-blue);
-  border-color: var(--expedia-blue);
-  color: #ffffff;
-  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.25);
-}
-
-.aircraft-seat.selected-other {
-  background: var(--rating-green);
-  border-color: var(--rating-green);
-  color: #ffffff;
-}
-
-.aircraft-seat.occupied {
-  background: var(--cream);
-  border-color: var(--cream);
-  color: var(--ink-300);
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.aircraft-tail {
-  width: 220px;
-  padding: 10px 0;
-  border-top: 2px dashed var(--card-border);
-  margin-top: 24px;
-  text-align: center;
-  font-size: 0.72rem;
-  font-weight: 800;
-  color: var(--ink-500);
-  letter-spacing: 0.06em;
-}
-
-/* Sidebar */
-.seat-sidebar-pane {
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.seat-legend-card,
-.selected-seats-summary-card {
-  background: var(--white);
-  border: 1px solid var(--card-border);
+  gap: 16px;
+  padding: 22px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
   border-radius: var(--radius-lg);
-  padding: 20px 24px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: var(--shadow-card);
+  position: sticky;
+  top: 90px;
 }
 
-.seat-legend-card h3,
-.selected-seats-summary-card h3 {
-  font-size: 0.98rem;
-  font-weight: 800;
-  margin: 0 0 14px;
-}
-
-.legend-items-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.legend-row {
+.seat-legend > div {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 0.82rem;
-  color: var(--ink-700);
+  gap: 12px;
+  color: var(--text-dark);
+  font-size: 13px;
+  font-weight: 600;
 }
 
 .legend-box {
-  width: 20px;
-  height: 20px;
-  border-radius: 4px;
-  border: 1.5px solid var(--card-border);
+  width: 24px;
+  height: 24px;
+  display: inline-block;
+  border-radius: 6px;
+  border: 1px solid;
 }
 
-.legend-box.available-box {
-  background: var(--white);
+.available-box {
+  background: #ffffff;
+  border-color: var(--primary);
 }
 
-.legend-box.selected-current-box {
-  background: var(--expedia-blue);
-  border-color: var(--expedia-blue);
+.selected-box {
+  background: var(--primary);
+  border-color: var(--primary);
 }
 
-.legend-box.selected-other-box {
-  background: var(--rating-green);
-  border-color: var(--rating-green);
+.occupied-box {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
 }
 
-.legend-box.occupied-box {
-  background: var(--cream);
+/* =========================================
+   AIRPLANE
+   ========================================= */
+
+.airplane {
+  width: 100%;
+  max-width: 520px;
+  margin: auto;
+  padding: 35px 30px 40px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: 45% 45% var(--radius-lg) var(--radius-lg) / 35px 35px var(--radius-lg) var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  position: relative;
 }
 
-.assigned-passengers-list {
+/* =========================================
+   COCKPIT
+   ========================================= */
+
+.cockpit {
+  height: 60px;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 16px;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 25px;
+  border-bottom: 2px dashed var(--border-color);
+  color: var(--primary);
+  font-size: 26px;
 }
 
-.assigned-p-row {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.86rem;
-  color: var(--ink-700);
-}
+/* =========================================
+   CABIN
+   ========================================= */
 
-.seat-tag-assigned {
-  color: var(--expedia-blue);
-  font-weight: 800;
-}
-
-.seat-pricing-total {
-  border-top: 1px solid var(--cream);
-  padding-top: 12px;
-  margin-bottom: 16px;
-}
-
-.pricing-line {
-  display: flex;
-  justify-content: space-between;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: var(--ink-900);
-}
-
-.seat-action-buttons {
+.cabin {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-@media (max-width: 900px) {
-  .seat-main-grid {
+.seat-row {
+  display: grid;
+  grid-template-columns: 25px repeat(3, 1fr) 20px repeat(3, 1fr);
+  gap: 8px;
+  align-items: center;
+}
+
+.row-number {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+/* =========================================
+   SEAT
+   ========================================= */
+
+.seat-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.seat {
+  width: 40px;
+  height: 36px;
+  border-radius: 8px 8px 10px 10px;
+  border: 1px solid var(--primary);
+  background: #ffffff;
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  outline: none;
+}
+
+.seat:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: var(--primary-light);
+  box-shadow: 0 4px 10px rgba(26, 115, 232, 0.2);
+}
+
+.seat.selected {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+  box-shadow: 0 4px 12px rgba(26, 115, 232, 0.35);
+}
+
+.seat.occupied {
+  background: #e2e8f0;
+  border-color: #cbd5e1;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   AISLE
+   ========================================= */
+
+.aisle {
+  width: 100%;
+  height: 1px;
+  display: block;
+}
+
+/* =========================================
+   ACTIONS
+   ========================================= */
+
+.seat-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 14px;
+  margin-top: 30px;
+  padding: 22px 28px;
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.seat-actions button {
+  min-height: 46px;
+  padding: 0 24px;
+  border-radius: var(--radius-pill);
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.seat-actions .btn-secondary {
+  border: 1px solid var(--border-color);
+  background: #ffffff;
+  color: var(--text-dark);
+}
+
+.seat-actions .btn-secondary:hover {
+  background: var(--border-light);
+}
+
+.seat-actions .btn-primary {
+  border: none;
+  background: var(--primary);
+  color: #ffffff;
+}
+
+.seat-actions .btn-primary:hover {
+  background: var(--primary-hover);
+}
+
+/* =========================================
+   EMPTY STATE
+   ========================================= */
+
+.seat-empty {
+  max-width: 550px;
+  margin: 60px auto;
+  padding: 50px 25px;
+  text-align: center;
+  background: var(--card-bg);
+  border: 1px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.seat-empty h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text-dark);
+  margin: 0 0 8px;
+}
+
+.seat-empty p {
+  color: var(--text-light);
+  margin-bottom: 22px;
+  font-size: 14px;
+}
+
+/* =========================================
+   RESPONSIVE
+   ========================================= */
+
+@media (max-width: 850px) {
+  .seat-layout {
     grid-template-columns: 1fr;
+  }
+
+  .seat-legend {
+    position: static;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 550px) {
+  .seat-container {
+    width: 95%;
+  }
+
+  .airplane {
+    padding: 25px 12px 30px;
+  }
+
+  .seat {
+    width: 32px;
+    height: 30px;
+    font-size: 10px;
+  }
+
+  .seat-row {
+    gap: 4px;
+  }
+
+  .seat-actions {
+    flex-direction: column;
+    padding: 18px;
+  }
+
+  .seat-actions button {
+    width: 100%;
   }
 }

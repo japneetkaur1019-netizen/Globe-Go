@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { NavLink, Link } from 'react-router-dom';
 import {
   Compass,
@@ -14,11 +14,14 @@ import {
   Plane,
   Users,
   MapPin,
-  Sparkles
+  Sparkles,
+  LogOut,
+  Award
 } from 'lucide-react';
 import NotificationCenter from './NotificationCenter.jsx';
 import { useApp } from '../context/AppContext.jsx';
 import { useWishlist } from '../context/WishlistContext.jsx';
+import { useAuth } from '../context/AuthContext.jsx';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home', end: true },
@@ -34,14 +37,34 @@ const NAV_ITEMS = [
 export default function Navbar() {
   const { theme, setTheme, preferences, updatePreferences } = useApp();
   const { wishlist } = useWishlist();
+  const { user, isAuthenticated, logout, openLoginModal } = useAuth();
+
   const [mobileOpen, setMobileOpen] = useState(false);
   const [shopDropdown, setShopDropdown] = useState(false);
+  const [userDropdown, setUserDropdown] = useState(false);
 
+  const userDropdownRef = useRef(null);
   const wishlistCount = Array.isArray(wishlist) ? wishlist.length : 0;
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (userDropdownRef.current && !userDropdownRef.current.contains(e.target)) {
+        setUserDropdown(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   const toggleCurrency = () => {
     const next = preferences.currency === 'INR' ? 'USD' : preferences.currency === 'USD' ? 'EUR' : 'INR';
     updatePreferences({ currency: next });
+  };
+
+  const handleLogout = () => {
+    setUserDropdown(false);
+    logout();
   };
 
   return (
@@ -162,10 +185,89 @@ export default function Navbar() {
             {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
           </button>
 
-          <Link to="/dashboard" className="signin-pill-btn">
-            <User size={14} />
-            <span>Sign in</span>
-          </Link>
+          {/* User Profile / Sign In */}
+          {isAuthenticated && user ? (
+            <div className="navbar-user-wrap" ref={userDropdownRef}>
+              <button
+                type="button"
+                className="navbar-user-btn"
+                onClick={() => setUserDropdown(!userDropdown)}
+                title={`Account: ${user.name}`}
+              >
+                <img src={user.avatar} alt={user.name} className="navbar-user-avatar" />
+                <span className="navbar-user-name">{user.name.split(' ')[0]}</span>
+                <ChevronDown size={13} />
+              </button>
+
+              {userDropdown && (
+                <div className="navbar-user-dropdown">
+                  <div className="user-dropdown-header">
+                    <strong>{user.name}</strong>
+                    <span>{user.email}</span>
+                    <div className="user-dropdown-tier-badge">
+                      <Award size={12} /> {user.membershipTier} · {user.points.toLocaleString()} pts
+                    </div>
+                  </div>
+
+                  <Link
+                    to="/profile"
+                    className="user-dropdown-item"
+                    onClick={() => setUserDropdown(false)}
+                  >
+                    <User size={15} />
+                    <span>My Profile</span>
+                  </Link>
+
+                  <Link
+                    to="/dashboard"
+                    className="user-dropdown-item"
+                    onClick={() => setUserDropdown(false)}
+                  >
+                    <Briefcase size={15} />
+                    <span>My Saved Trips &amp; Bookings</span>
+                  </Link>
+
+                  <Link
+                    to="/stats"
+                    className="user-dropdown-item"
+                    onClick={() => setUserDropdown(false)}
+                  >
+                    <Award size={15} />
+                    <span>Voyager Rewards &amp; Badges</span>
+                  </Link>
+
+                  <Link
+                    to="/preferences"
+                    className="user-dropdown-item"
+                    onClick={() => setUserDropdown(false)}
+                  >
+                    <Globe size={15} />
+                    <span>Travel Preferences</span>
+                  </Link>
+
+                  <div className="user-dropdown-divider"></div>
+
+                  <button
+                    type="button"
+                    className="user-dropdown-item logout-item"
+                    onClick={handleLogout}
+                  >
+                    <LogOut size={15} />
+                    <span>Sign Out</span>
+                  </button>
+                </div>
+              )}
+            </div>
+          ) : (
+            <button
+              type="button"
+              className="signin-pill-btn"
+              onClick={openLoginModal}
+            >
+              <User size={14} />
+              <span>Sign in</span>
+            </button>
+          )}
 
           <button
             type="button"
@@ -180,6 +282,30 @@ export default function Navbar() {
         {/* Mobile Dropdown Panel */}
         {mobileOpen && (
           <div className="mobile-nav-panel">
+            {isAuthenticated && user ? (
+              <div style={{ padding: '14px 16px', background: 'var(--pine-50)', borderRadius: '12px', margin: '8px 12px 14px', display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <img src={user.avatar} alt={user.name} style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                <div>
+                  <strong>{user.name}</strong>
+                  <div style={{ fontSize: '0.78rem', color: 'var(--pine-700)' }}>{user.membershipTier}</div>
+                </div>
+              </div>
+            ) : (
+              <div style={{ padding: '10px 12px' }}>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  style={{ width: '100%', justifyContent: 'center' }}
+                  onClick={() => {
+                    setMobileOpen(false);
+                    openLoginModal();
+                  }}
+                >
+                  <User size={15} /> Sign in / Register
+                </button>
+              </div>
+            )}
+
             {NAV_ITEMS.map((item) => (
               <NavLink
                 key={item.to}
@@ -194,6 +320,30 @@ export default function Navbar() {
                 )}
               </NavLink>
             ))}
+
+            {isAuthenticated && (
+              <>
+                <NavLink
+                  to="/profile"
+                  onClick={() => setMobileOpen(false)}
+                  className={({ isActive }) => `mobile-nav-link${isActive ? ' active' : ''}`}
+                >
+                  <span>My Profile &amp; Loyalty Tier</span>
+                </NavLink>
+
+                <button
+                  type="button"
+                  className="mobile-nav-link"
+                  style={{ color: '#dc2626', width: '100%', textAlign: 'left', background: 'none', border: 'none', cursor: 'pointer' }}
+                  onClick={() => {
+                    setMobileOpen(false);
+                    logout();
+                  }}
+                >
+                  <span>Sign Out</span>
+                </button>
+              </>
+            )}
           </div>
         )}
       </header>

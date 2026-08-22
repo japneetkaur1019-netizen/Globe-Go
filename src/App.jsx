@@ -2,6 +2,7 @@ import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import SaveToast from './components/SaveToast.jsx';
+import AuthModal from './components/AuthModal.jsx';
 
 import Home from './pages/Home.jsx';
 import AITravelPlanner from './pages/AITravelPlanner.jsx';
@@ -9,10 +10,16 @@ import Dashboard from './pages/Dashboard.jsx';
 import TravelPreferences from './pages/TravelPreferences.jsx';
 import TravelStatsAchievements from './pages/TravelStatsAchievements.jsx';
 
-// Merged Pages from Teammate Updates
+// Auth and User Profile
+import Profile from './pages/profile/Profile.jsx';
+import AuthPage from './pages/auth/AuthPage.jsx';
+
+// Discovery, Wishlist & Group
 import Explore from './pages/Explore/Explore.jsx';
 import Wishlist from './pages/wishlist/Wishlist.jsx';
 import GroupPlanner from './pages/group/GroupPlanner.jsx';
+
+// Flight Booking Flow
 import FlightSearch from './pages/flights/FlightSearch.jsx';
 import FlightResults from './pages/flights/FlightResults.jsx';
 import PassengerDetails from './pages/flights/PassengerDetails.jsx';
@@ -32,6 +39,11 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/preferences" element={<TravelPreferences />} />
           <Route path="/stats" element={<TravelStatsAchievements />} />
+
+          {/* User Auth & Profile Routes */}
+          <Route path="/login" element={<AuthPage defaultMode="login" />} />
+          <Route path="/signup" element={<AuthPage defaultMode="signup" />} />
+          <Route path="/profile" element={<Profile />} />
 
           {/* Discovery & Wishlist */}
           <Route path="/explore" element={<Explore />} />
@@ -55,6 +67,7 @@ export default function App() {
       </main>
       <Footer />
       <SaveToast />
+      <AuthModal />
     </div>
   );
 }

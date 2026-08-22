@@ -32,31 +32,14 @@ createRoot(document.getElementById("root")).render(
     <BrowserRouter>
 
       <AppProvider>
-<<<<<<< HEAD
         <WishlistProvider>
           <FlightBookingProvider>
             <App />
           </FlightBookingProvider>
         </WishlistProvider>
-=======
-
-        <WishlistProvider>
-          <FlightBookingProvider>
-
-            <App />
-
-          </FlightBookingProvider>
-        </WishlistProvider>
-
->>>>>>> f8ed227 (update main)
       </AppProvider>
 
     </BrowserRouter>
-<<<<<<< HEAD
   </StrictMode>,
 )
 
-=======
-  </StrictMode>
-);
->>>>>>> f8ed227 (update main)

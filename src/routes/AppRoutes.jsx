@@ -9,18 +9,7 @@ import ExplorePage from "../pages/Explore/Explore";
 import WishlistPage from "../pages/wishlist/Wishlist";
 import GroupPlannerPage from "../pages/group/GroupPlanner";
 import BookingConfirmation from "../pages/flights/BookingConfirmation";
-function Home() {
-  return <h1>Home</h1>;
-}
-
-
-function Flights() {
-  return <h1>Flight Booking</h1>;
-}
-
-
-
-
+import Home from "../pages/Home";
 function AppRoutes() {
   return (
     

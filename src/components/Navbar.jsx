@@ -3,7 +3,6 @@ import { NavLink, Link } from 'react-router-dom';
 import {
   Compass,
   Globe,
-  HelpCircle,
   Briefcase,
   Sun,
   Moon,

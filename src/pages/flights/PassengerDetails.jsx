@@ -22,27 +22,8 @@ export default function PassengerDetails() {
   const { state, dispatch } = useFlightBooking();
   const { search, selectedFlight } = state;
 
-  if (!selectedFlight || !search?.origin || !search?.destination) {
-    return (
-      <div className="passenger-page">
-        <div className="passenger-container">
-          <div className="passenger-empty card">
-            <div className="empty-icon-wrap">
-              <Plane size={44} />
-            </div>
-            <h2>No flight selected</h2>
-            <p>Please select a flight before entering passenger details.</p>
-            <button className="btn btn-primary" onClick={() => navigate("/flights")}>
-              Search Flights
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const initialAdultCount = Math.max(1, search.adults || 1);
-  const initialChildCount = search.children || 0;
+  const initialAdultCount = Math.max(1, search?.adults || 1);
+  const initialChildCount = search?.children || 0;
 
   const [passengers, setPassengers] = useState(() => {
     if (state.passengers && state.passengers.length > 0) {
@@ -79,6 +60,25 @@ export default function PassengerDetails() {
   const [contactEmail, setContactEmail] = useState("traveler@globego.com");
   const [contactPhone, setContactPhone] = useState("+91 98765 43210");
   const [error, setError] = useState("");
+
+  if (!selectedFlight || !search?.origin || !search?.destination) {
+    return (
+      <div className="passenger-page">
+        <div className="passenger-container">
+          <div className="passenger-empty card">
+            <div className="empty-icon-wrap">
+              <Plane size={44} />
+            </div>
+            <h2>No flight selected</h2>
+            <p>Please select a flight before entering passenger details.</p>
+            <button className="btn btn-primary" onClick={() => navigate("/flights")}>
+              Search Flights
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handlePassengerChange = (index, field, value) => {
     const updated = [...passengers];

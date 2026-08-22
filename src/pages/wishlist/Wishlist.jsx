@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
 import {
   Heart,
   Search,
@@ -14,10 +13,6 @@ import {
   Plus
 } from "lucide-react";
 import destinations from "../../data/destination";
-=======
-
-import destination from "../../data/destination";
->>>>>>> c17674e (css changed)
 import { useWishlist } from "../../context/WishlistContext";
 import "./Wishlist.css";
 
@@ -32,7 +27,6 @@ export default function Wishlist() {
 
   const [search, setSearch] = useState("");
 
-<<<<<<< HEAD
   // Search destinations safely from destinations array
   const destinationList = Array.isArray(destinations) ? destinations : [];
   const searchResults = search.trim() === ""
@@ -57,14 +51,6 @@ export default function Wishlist() {
       }
     });
   };
-=======
-  // Search destinations
-  const searchResults = destination.filter((destination) =>
-    destination.name
-      .toLowerCase()
-      .includes(search.toLowerCase())
-  );
->>>>>>> c17674e (css changed)
 
   return (
     <div className="wishlist-page">
@@ -81,75 +67,8 @@ export default function Wishlist() {
 
               <h1>Your Travel Wishlist</h1>
 
-<<<<<<< HEAD
               <p>
                 Keep your bucket-list destinations organized and instantly launch AI itineraries or book flights in one click.
-=======
-  <div className="wishlist-banner-overlay">
-
-    <div className="wishlist-banner-content">
-
-      <span className="wishlist-banner-eyebrow">
-        ♡ YOUR SAVED PLACES
-      </span>
-
-      <h1>
-        Your Travel Wishlist
-      </h1>
-
-      <p>
-        Keep your favorite destinations close
-        and start planning your next adventure.
-      </p>
-
-    </div>
-
-    <div className="wishlist-count">
-
-      <strong>
-        {wishlist.length}
-      </strong>
-
-      <span>
-        {wishlist.length === 1
-          ? "Destination"
-          : "Destination"}
-      </span>
-
-    </div>
-
-  </div>
-
-</div>
-        {/* SEARCH */}
-
-        <div className="wishlist-search">
-
-          <span>🔍</span>
-
-          <input
-            type="text"
-            placeholder="Search for a destination..."
-            value={search}
-            onChange={(e) =>
-              setSearch(e.target.value)
-            }
-          />
-
-        </div>
-
-
-        {/* SEARCH RESULTS */}
-
-        {search && (
-
-          <div className="wishlist-search-results">
-
-            {searchResults.length === 0 ? (
-
-              <p className="no-search-result">
-                No destination found.
->>>>>>> c17674e (css changed)
               </p>
             </div>
 

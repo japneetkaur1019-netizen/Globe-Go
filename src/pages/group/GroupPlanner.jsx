@@ -10,9 +10,7 @@ import {
   CheckCircle,
   Sparkles,
   MapPin,
-  Tag,
-  Share2,
-  Calendar
+  Tag
 } from "lucide-react";
 import "./GroupPlanner.css";
 

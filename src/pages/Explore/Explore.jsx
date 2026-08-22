@@ -8,25 +8,27 @@ import {
   Sparkles,
   Plane,
   SlidersHorizontal,
-  Compass,
-  Check
+  Compass
 } from "lucide-react";
 import destinations from "../../data/destination";
 import { useWishlist } from "../../context/WishlistContext";
 import "./Explore.css";
 
+const DESTINATION_LIST = Array.isArray(destinations) ? destinations : [];
+
 const CATEGORIES = [
   "All",
   "Beach",
   "Adventure",
-  "Romantic",
-  "Luxury",
   "Culture",
-  "City"
+  "Romantic",
+  "Nature",
+  "Luxury"
 ];
 
 export default function Explore() {
   const navigate = useNavigate();
+
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
   const [sortBy, setSortBy] = useState("rating");
@@ -37,11 +39,9 @@ export default function Explore() {
     isInWishlist
   } = useWishlist();
 
-  const destinationList = Array.isArray(destinations) ? destinations : [];
-
   // Filter and sort destinations
   const filteredDestinations = useMemo(() => {
-    let result = destinationList.filter((destination) => {
+    let result = DESTINATION_LIST.filter((destination) => {
       const matchesSearch =
         destination.name.toLowerCase().includes(search.toLowerCase()) ||
         destination.country.toLowerCase().includes(search.toLowerCase());
@@ -62,7 +62,7 @@ export default function Explore() {
     }
 
     return result;
-  }, [destinationList, search, category, sortBy]);
+  }, [search, category, sortBy]);
 
   const handlePlanAI = (destName) => {
     navigate("/ai-planner", {

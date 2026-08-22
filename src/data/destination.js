@@ -201,9 +201,5 @@ const destinations = [
   }
 ];
 
-<<<<<<< HEAD
 export { destinations };
 export default destinations;
-=======
-export default destination;
->>>>>>> c17674e (css changed)

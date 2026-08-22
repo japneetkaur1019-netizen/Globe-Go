@@ -74,39 +74,25 @@ export default function FlightResults() {
   const [selectedAirlines, setSelectedAirlines] = useState([]);
   const [stops, setStops] = useState("all");
   const [sortBy, setSortBy] = useState("price");
-  const [maxPrice, setMaxPrice] = useState(100000);
+  const [maxPrice] = useState(100000);
 
-  // Safety fallback if accessed without search
-  if (!search?.origin || !search?.destination) {
-    return (
-      <div className="results-page">
-        <div className="results-container">
-          <div className="results-empty card">
-            <div className="empty-icon-wrap">
-              <Plane size={44} />
-            </div>
-            <h2>No flight search selected</h2>
-            <p>Please enter your departure and destination airports to find flights.</p>
-            <button className="btn btn-primary" onClick={() => navigate("/flights")}>
-              Search Flights
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const hasSearch = Boolean(search?.origin && search?.destination);
 
   // Find exact flights from dataset or synthesize
-  const rawFlightMatches = flightsData.filter(
-    (f) => f.from === search.origin.code && f.to === search.destination.code
-  );
-
-  const availableFlights = rawFlightMatches.length > 0
-    ? rawFlightMatches
-    : generateDynamicFlights(search.origin.code, search.destination.code, search.cabin);
+  const availableFlights = useMemo(() => {
+    if (!hasSearch) return [];
+    const rawFlightMatches = flightsData.filter(
+      (f) => f.from === search.origin.code && f.to === search.destination.code
+    );
+    return rawFlightMatches.length > 0
+      ? rawFlightMatches
+      : generateDynamicFlights(search.origin.code, search.destination.code, search.cabin);
+  }, [hasSearch, search?.origin?.code, search?.destination?.code, search?.cabin]);
 
   // All distinct airlines on this route
-  const allAirlines = [...new Set(availableFlights.map((f) => f.airline))];
+  const allAirlines = useMemo(() => {
+    return [...new Set(availableFlights.map((f) => f.airline))];
+  }, [availableFlights]);
 
   // Filter & Sort
   const filteredFlights = useMemo(() => {
@@ -137,6 +123,26 @@ export default function FlightResults() {
       setSelectedAirlines([...selectedAirlines, airline]);
     }
   };
+
+  // Safety fallback if accessed without search
+  if (!hasSearch) {
+    return (
+      <div className="results-page">
+        <div className="results-container">
+          <div className="results-empty card">
+            <div className="empty-icon-wrap">
+              <Plane size={44} />
+            </div>
+            <h2>No flight search selected</h2>
+            <p>Please enter your departure and destination airports to find flights.</p>
+            <button className="btn btn-primary" onClick={() => navigate("/flights")}>
+              Search Flights
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   const handleSelectFlight = (flight) => {
     dispatch({

@@ -9,11 +9,8 @@ import {
   MapPin,
   ShieldCheck,
   Award,
-  Sparkles,
-  ChevronRight,
   TrendingDown,
-  Clock,
-  Check
+  Clock
 } from "lucide-react";
 import airports from "../../data/airports";
 import { useFlightBooking } from "../../context/FlightBookingContext";

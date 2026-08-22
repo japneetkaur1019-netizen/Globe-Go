@@ -12,8 +12,7 @@ import {
   CreditCard,
   Luggage,
   MapPin,
-  Clock,
-  QrCode
+  Clock
 } from "lucide-react";
 import { useFlightBooking } from "../../context/FlightBookingContext";
 import { useApp } from "../../context/AppContext";

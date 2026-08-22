@@ -5,11 +5,7 @@ import {
   User,
   Check,
   Sparkles,
-  ArrowRight,
-  ArrowLeft,
-  ShieldCheck,
-  Armchair,
-  Info
+  ArrowRight
 } from "lucide-react";
 import { useFlightBooking } from "../../context/FlightBookingContext";
 import "./SeatSelection.css";
@@ -17,7 +13,7 @@ import "./SeatSelection.css";
 export default function SeatSelection() {
   const navigate = useNavigate();
   const { state, dispatch } = useFlightBooking();
-  const { search, selectedFlight } = state;
+  const { selectedFlight } = state;
 
   const passengers = state.passengers && state.passengers.length > 0
     ? state.passengers
@@ -120,7 +116,6 @@ export default function SeatSelection() {
   }
 
   const assignedCount = Object.keys(selectedSeats).length;
-  const currentSeat = selectedSeats[passengers[activePassenger]?.id];
 
   return (
     <div className="seat-page">

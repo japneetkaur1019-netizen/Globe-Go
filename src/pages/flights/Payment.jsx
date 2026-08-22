@@ -9,9 +9,7 @@ import {
   ArrowLeft,
   Check,
   Sparkles,
-  Plane,
-  Luggage,
-  Calendar
+  Plane
 } from "lucide-react";
 import { useFlightBooking } from "../../context/FlightBookingContext";
 import "./Payment.css";

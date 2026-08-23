@@ -1,335 +1,1048 @@
+/* =========================================================
+   GLOBEGO — PASSENGER DETAILS PAGE
+   ========================================================= */
+
 :root {
   --primary: #1a73e8;
   --primary-hover: #1557b0;
   --primary-light: #e8f0fe;
+
   --dark-navy: #0a2540;
+
   --text-dark: #0f172a;
   --text-light: #334155;
   --text-muted: #64748b;
+
   --bg-page: #f6f8fc;
   --card-bg: #ffffff;
+
   --border-color: #e2e8f0;
   --border-light: #eef3f9;
+
   --danger: #d13b3b;
   --danger-light: #fdecec;
-  --shadow-card: 0 4px 14px rgba(10, 37, 64, 0.08), 0 2px 6px rgba(10, 37, 64, 0.04);
-  --shadow-hover: 0 12px 32px rgba(10, 37, 64, 0.12), 0 4px 12px rgba(10, 37, 64, 0.06);
+
+  --amber: #ffc72c;
+
+  --shadow-card:
+    0 4px 14px rgba(10, 37, 64, 0.08),
+    0 2px 6px rgba(10, 37, 64, 0.04);
+
+  --shadow-hover:
+    0 12px 32px rgba(10, 37, 64, 0.12),
+    0 4px 12px rgba(10, 37, 64, 0.06);
+
   --radius-lg: 18px;
   --radius-md: 12px;
   --radius-pill: 999px;
-  --font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --font-family:
+    "Plus Jakarta Sans",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
 }
 
-/* =========================================
-   PASSENGER PAGE LAYOUT
-   ========================================= */
+
+/* =========================================================
+   PAGE
+   ========================================================= */
 
 .passenger-page {
   min-height: calc(100vh - 70px);
-  background-color: var(--bg-page);
-  padding: 40px 0 70px;
-  font-family: var(--font-family);
+  padding: 36px 0 70px;
+
+  background: var(--bg-page);
   color: var(--text-dark);
+
+  font-family: var(--font-family);
+
+  box-sizing: border-box;
 }
+
 
 .passenger-container {
-  width: min(1000px, 92%);
-  margin: auto;
+  width: min(1050px, 92%);
+  margin: 0 auto;
+  box-sizing: border-box;
 }
 
-/* =========================================
-   HEADER & PROGRESS
-   ========================================= */
+
+/* =========================================================
+   FLIGHT STEPPER
+   ========================================================= */
+
+.flight-stepper-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 10px;
+
+  margin-bottom: 28px;
+
+  width: 100%;
+}
+
+.step-node {
+  display: flex;
+  align-items: center;
+
+  gap: 7px;
+
+  color: var(--text-muted);
+
+  font-size: 12px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+.step-num {
+  width: 28px;
+  height: 28px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+  border: 1px solid var(--border-color);
+
+  color: var(--text-muted);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  flex-shrink: 0;
+}
+
+.step-node.completed,
+.step-node.active {
+  color: var(--primary);
+}
+
+.step-node.completed .step-num,
+.step-node.active .step-num {
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #ffffff;
+}
+
+.step-line {
+  width: 45px;
+  height: 2px;
+
+  background: var(--border-color);
+
+  flex-shrink: 0;
+}
+
+.step-line.completed,
+.step-line.active {
+  background: var(--primary);
+}
+
+
+/* =========================================================
+   HEADER / BANNER
+   ========================================================= */
 
 .passenger-header {
-  text-align: center;
-  margin-bottom: 35px;
-  background: linear-gradient(135deg, #0a2540 0%, #1a73e8 100%);
-  color: #ffffff;
+  width: 100%;
+
+  min-height: 190px;
+
+  margin-bottom: 30px;
   padding: 44px 24px;
+
+  box-sizing: border-box;
+
   border-radius: var(--radius-lg);
+
+  background:
+    linear-gradient(
+      135deg,
+      #0a2540 0%,
+      #123c68 48%,
+      #1a73e8 100%
+    );
+
+  color: #ffffff;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+
   box-shadow: var(--shadow-card);
+
+  overflow: hidden;
 }
+
+
+/* =========================================================
+   BANNER LABEL
+   ========================================================= */
 
 .passenger-header .flight-label {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
   padding: 6px 16px;
+  margin-bottom: 12px;
+
   border-radius: var(--radius-pill);
+
   background: rgba(10, 37, 64, 0.35);
+
   border: 1px solid rgba(255, 199, 44, 0.5);
+
   backdrop-filter: blur(8px);
+
   color: var(--amber);
+
   font-size: 11px;
   font-weight: 700;
+
   letter-spacing: 1px;
   text-transform: uppercase;
-  margin-bottom: 12px;
 }
+
+
+/* =========================================================
+   BANNER TITLE
+   ========================================================= */
 
 .passenger-header h1 {
-  font-size: clamp(28px, 4vw, 38px);
-  font-weight: 800;
-  letter-spacing: -0.5px;
   margin: 0 0 8px;
+
   color: #ffffff;
+
+  font-size: clamp(28px, 4vw, 38px);
+
+  line-height: 1.15;
+
+  font-weight: 800;
+
+  letter-spacing: -0.5px;
 }
+
+
+/* =========================================================
+   BANNER DESCRIPTION
+   ========================================================= */
 
 .passenger-header p {
-  color: rgba(255, 255, 255, 0.85);
-  font-size: 15px;
+  max-width: 650px;
+
   margin: 0;
+
+  color: rgba(255, 255, 255, 0.85);
+
+  font-size: 15px;
+
+  line-height: 1.6;
 }
 
-/* =========================================
-   FLIGHT SUMMARY BAR
-   ========================================= */
+
+/* =========================================================
+   FLIGHT SUMMARY
+   ========================================================= */
 
 .flight-summary {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 24px;
-  margin-bottom: 30px;
-  box-shadow: var(--shadow-card);
   display: grid;
+
   grid-template-columns: 2fr 1fr 1fr;
-  gap: 20px;
+
   align-items: center;
+
+  gap: 20px;
+
+  margin-bottom: 30px;
+  padding: 24px;
+
+  background: var(--card-bg);
+
+  border: 1px solid var(--border-color);
+
+  border-radius: var(--radius-lg);
+
+  box-shadow: var(--shadow-card);
+
+  box-sizing: border-box;
 }
 
 .flight-summary div {
   display: flex;
   flex-direction: column;
+
   gap: 4px;
 }
 
 .flight-summary strong {
+  color: var(--text-dark);
+
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-dark);
 }
 
 .flight-summary span {
-  font-size: 12px;
   color: var(--text-light);
+
+  font-size: 12px;
   font-weight: 500;
 }
 
-/* =========================================
-   PASSENGER & CONTACT SECTIONS
-   ========================================= */
+
+/* =========================================================
+   MAIN SECTIONS
+   ========================================================= */
 
 .passenger-section {
-  background: var(--card-bg);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-lg);
-  padding: 28px;
   margin-bottom: 25px;
+  padding: 28px;
+
+  background: var(--card-bg);
+
+  border: 1px solid var(--border-color);
+
+  border-radius: var(--radius-lg);
+
   box-shadow: var(--shadow-card);
+
+  box-sizing: border-box;
+}
+
+.passenger-section h2,
+.passenger-section h3 {
+  color: var(--text-dark);
 }
 
 .passenger-section h2 {
+  margin: 0;
+
   font-size: 20px;
   font-weight: 700;
-  color: var(--text-dark);
-  margin: 0;
 }
 
 .section-description {
+  margin: 6px 0 24px;
+
   color: var(--text-light);
+
   font-size: 14px;
-  margin-top: 6px;
-  margin-bottom: 24px;
+
+  line-height: 1.5;
 }
 
-/* Section Sub-titles */
+
+/* =========================================================
+   SECTION TITLE
+   ========================================================= */
 
 .passenger-title {
   margin-bottom: 20px;
   padding-bottom: 14px;
+
   border-bottom: 1px solid var(--border-color);
 }
 
 .passenger-title div {
   display: flex;
+
   align-items: center;
   justify-content: space-between;
+
+  gap: 15px;
 }
 
 .passenger-title h3 {
+  margin: 0;
+
+  display: flex;
+  align-items: center;
+
+  gap: 8px;
+
   font-size: 16px;
   font-weight: 700;
-  color: var(--text-dark);
-  margin: 0;
 }
 
 .passenger-title span {
-  background: var(--primary-light);
-  color: var(--primary);
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
   padding: 4px 12px;
+
   border-radius: var(--radius-pill);
+
+  background: var(--primary-light);
+
+  color: var(--primary);
+
   font-size: 12px;
   font-weight: 700;
+
+  white-space: nowrap;
 }
 
-/* =========================================
-   FORM GRIDS & INPUT STYLES
-   ========================================= */
+
+/* =========================================================
+   FORM GRIDS
+   ========================================================= */
 
 .contact-grid,
 .passenger-grid {
   display: grid;
+
   grid-template-columns: 1fr 1fr;
+
   gap: 20px;
 }
+
+
+/* =========================================================
+   FORM GROUP
+   ========================================================= */
 
 .form-group {
   display: flex;
   flex-direction: column;
+
   gap: 8px;
 }
 
 .form-group label {
+  display: flex;
+  align-items: center;
+
+  gap: 5px;
+
+  color: var(--text-dark);
+
   font-size: 12px;
   font-weight: 700;
+
   text-transform: uppercase;
+
   letter-spacing: 0.5px;
-  color: var(--text-dark);
 }
 
 .form-group input,
 .form-group select {
   width: 100%;
   height: 48px;
+
+  box-sizing: border-box;
+
   padding: 0 16px;
+
   border: 1px solid var(--border-color);
+
   border-radius: var(--radius-md);
+
   background: #f8fafc;
+
   outline: none;
+
   color: var(--text-dark);
+
+  font-family: inherit;
+
   font-size: 14px;
   font-weight: 600;
-  transition: all 0.2s ease;
+
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.form-group input::placeholder {
+  color: var(--text-muted);
+
+  font-weight: 500;
 }
 
 .form-group input:focus,
 .form-group select:focus {
   border-color: var(--primary);
+
   background: #ffffff;
-  box-shadow: 0 0 0 3px rgba(26, 115, 232, 0.12);
+
+  box-shadow:
+    0 0 0 3px rgba(26, 115, 232, 0.12);
 }
 
-/* =========================================
-   ERROR DISPLAY
-   ========================================= */
+
+/* =========================================================
+   PASSENGER FORM CARD
+   ========================================================= */
+
+.passenger-form-card {
+  margin-top: 22px;
+
+  padding: 22px;
+
+  background: #f8fafc;
+
+  border: 1px solid var(--border-color);
+
+  border-radius: var(--radius-md);
+
+  box-sizing: border-box;
+}
+
+.passenger-card-header {
+  display: flex;
+
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 22px;
+  padding-bottom: 15px;
+
+  border-bottom: 1px solid var(--border-color);
+
+  color: var(--primary);
+}
+
+.passenger-card-title {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+}
+
+.passenger-number {
+  width: 34px;
+  height: 34px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 50%;
+
+  background: var(--primary);
+
+  color: #ffffff;
+
+  font-size: 13px;
+  font-weight: 800;
+
+  flex-shrink: 0;
+}
+
+.passenger-card-title h4 {
+  margin: 0 0 3px;
+
+  color: var(--text-dark);
+
+  font-size: 15px;
+  font-weight: 800;
+}
+
+.passenger-card-title span {
+  color: var(--text-muted);
+
+  font-size: 12px;
+}
+
+
+/* =========================================================
+   SECURITY NOTE
+   ========================================================= */
+
+.passenger-security-note {
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 12px;
+
+  margin-top: 20px;
+  padding: 15px 18px;
+
+  background: var(--primary-light);
+
+  border: 1px solid #d5e4ff;
+
+  border-radius: var(--radius-md);
+
+  color: var(--primary);
+}
+
+.passenger-security-note svg {
+  flex-shrink: 0;
+
+  margin-top: 2px;
+}
+
+.passenger-security-note div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 3px;
+}
+
+.passenger-security-note strong {
+  font-size: 13px;
+}
+
+.passenger-security-note span {
+  color: var(--text-light);
+
+  font-size: 12px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================================
+   ERROR
+   ========================================================= */
 
 .passenger-error {
-  padding: 14px 18px;
-  background: var(--danger-light);
-  color: var(--danger);
-  border: 1px solid #f3c2c2;
-  border-radius: var(--radius-md);
   margin-bottom: 25px;
+
+  padding: 14px 18px;
+
+  background: var(--danger-light);
+
+  color: var(--danger);
+
+  border: 1px solid #f3c2c2;
+
+  border-radius: var(--radius-md);
+
   font-size: 13px;
   font-weight: 600;
+
+  line-height: 1.5;
 }
 
-/* =========================================
+
+/* =========================================================
    ACTION BUTTONS
-   ========================================= */
+   ========================================================= */
 
 .passenger-actions {
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
   margin-top: 30px;
 }
 
+.passenger-actions button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  font-family: inherit;
+
+  cursor: pointer;
+}
+
 .passenger-actions .btn-secondary {
-  border: 1px solid var(--border-color);
-  background: #ffffff;
-  color: var(--text-dark);
   padding: 12px 24px;
+
+  border: 1px solid var(--border-color);
+
   border-radius: var(--radius-pill);
+
+  background: #ffffff;
+
+  color: var(--text-dark);
+
   font-size: 14px;
   font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s ease;
+
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .passenger-actions .btn-secondary:hover {
   background: var(--border-light);
+
+  border-color: #cbd5e1;
+
+  transform: translateY(-1px);
 }
 
 .passenger-actions .btn-primary {
   padding: 13px 28px;
+
+  border: none;
+
   border-radius: var(--radius-pill);
+
   background: var(--primary);
+
   color: #ffffff;
+
   font-size: 14px;
   font-weight: 700;
-  border: none;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
+
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
 }
 
 .passenger-actions .btn-primary:hover {
   background: var(--primary-hover);
+
+  transform: translateY(-1px);
+
+  box-shadow:
+    0 6px 15px rgba(26, 115, 232, 0.2);
 }
 
-/* =========================================
+
+/* =========================================================
    EMPTY STATE
-   ========================================= */
+   ========================================================= */
 
 .passenger-empty {
-  text-align: center;
+  max-width: 550px;
+
+  margin: 60px auto;
+
   padding: 60px 20px;
+
   background: var(--card-bg);
+
   border: 1px dashed var(--border-color);
+
   border-radius: var(--radius-lg);
+
   box-shadow: var(--shadow-card);
+
+  text-align: center;
+
+  box-sizing: border-box;
 }
 
 .passenger-empty h2 {
+  margin: 0;
+
+  color: var(--text-dark);
+
   font-size: 20px;
   font-weight: 700;
-  color: var(--text-dark);
-  margin: 0;
 }
 
 .passenger-empty p {
-  color: var(--text-light);
   margin: 10px 0 24px;
+
+  color: var(--text-light);
+
   font-size: 14px;
+
+  line-height: 1.5;
 }
 
-/* =========================================
-   RESPONSIVE DESIGN
-   ========================================= */
+.passenger-empty .btn-primary {
+  padding: 12px 24px;
 
-@media (max-width: 700px) {
+  border: none;
+
+  border-radius: var(--radius-pill);
+
+  background: var(--primary);
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+
+/* =========================================================
+   RESPONSIVE — TABLET
+   ========================================================= */
+
+@media (max-width: 850px) {
+
+  .passenger-container {
+    width: 94%;
+  }
+
+  .passenger-header {
+    min-height: 180px;
+  }
+
   .flight-summary {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
+
     gap: 15px;
   }
+
+  .flight-summary div:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+
+/* =========================================================
+   RESPONSIVE — MOBILE
+   ========================================================= */
+
+@media (max-width: 700px) {
+
+  .passenger-page {
+    padding: 25px 0 50px;
+  }
+
+  .passenger-container {
+    width: 94%;
+  }
+
+  /* Stepper */
+
+  .flight-stepper-bar {
+    gap: 5px;
+
+    justify-content: flex-start;
+
+    overflow-x: auto;
+
+    padding-bottom: 5px;
+  }
+
+  .step-node {
+    font-size: 10px;
+  }
+
+  .step-num {
+    width: 25px;
+    height: 25px;
+  }
+
+  .step-line {
+    width: 25px;
+  }
+
+  /* Banner */
+
+  .passenger-header {
+    min-height: 165px;
+
+    padding: 35px 18px;
+
+    margin-bottom: 20px;
+
+    border-radius: 16px;
+  }
+
+  .passenger-header h1 {
+    font-size: 28px;
+  }
+
+  .passenger-header p {
+    font-size: 13px;
+  }
+
+  .passenger-header .flight-label {
+    font-size: 10px;
+
+    padding: 5px 13px;
+  }
+
+  /* Summary */
+
+  .flight-summary {
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+
+    padding: 20px;
+
+    margin-bottom: 20px;
+  }
+
+  .flight-summary div:first-child {
+    grid-column: auto;
+  }
+
+  /* Forms */
 
   .contact-grid,
   .passenger-grid {
     grid-template-columns: 1fr;
+
     gap: 15px;
   }
 
   .passenger-section {
-    padding: 20px;
+    padding: 20px 16px;
+
+    margin-bottom: 18px;
   }
+
+  .passenger-section h2 {
+    font-size: 18px;
+  }
+
+  .section-description {
+    font-size: 13px;
+
+    margin-bottom: 20px;
+  }
+
+  .passenger-title {
+    margin-bottom: 18px;
+  }
+
+  .passenger-title div {
+    align-items: flex-start;
+  }
+
+  .passenger-title h3 {
+    font-size: 15px;
+  }
+
+  .passenger-form-card {
+    padding: 17px;
+  }
+
+  /* Actions */
 
   .passenger-actions {
     flex-direction: column-reverse;
+
+    width: 100%;
+
     gap: 12px;
   }
 
   .passenger-actions button {
     width: 100%;
-    text-align: center;
+  }
+}
+
+
+/* =========================================================
+   VERY SMALL SCREENS
+   ========================================================= */
+
+@media (max-width: 400px) {
+
+  .passenger-container {
+    width: 95%;
+  }
+
+  .passenger-header {
+    min-height: 150px;
+
+    padding: 30px 15px;
+
+    border-radius: 14px;
+  }
+
+  .passenger-header h1 {
+    font-size: 25px;
+  }
+
+  .passenger-header p {
+    font-size: 12px;
+  }
+
+  .passenger-header .flight-label {
+    margin-bottom: 9px;
+
+    font-size: 9px;
+  }
+
+  .flight-summary {
+    padding: 17px 15px;
+  }
+
+  .passenger-section {
+    padding: 17px 15px;
+  }
+
+  .passenger-title div {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 8px;
+  }
+
+  .passenger-actions .btn-primary,
+  .passenger-actions .btn-secondary {
+    width: 100%;
+
+    box-sizing: border-box;
+
+    padding: 12px 20px;
+  }
+}
+
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+
+@media print {
+
+  .passenger-page {
+    min-height: auto;
+
+    padding: 0;
+
+    background: #ffffff;
+  }
+
+  .passenger-container {
+    width: 100%;
+  }
+
+  .passenger-header {
+    box-shadow: none;
+
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
+  .passenger-section,
+  .flight-summary,
+  .passenger-empty {
+    box-shadow: none;
+
+    break-inside: avoid;
+  }
+
+  .passenger-actions {
+    display: none;
   }
 }

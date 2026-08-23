@@ -1,18 +1,16 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
+  Plane,
   User,
   Mail,
   Phone,
   Calendar,
-  Globe,
-  Plane,
   ArrowRight,
   ArrowLeft,
   Check,
   ShieldCheck,
-  Sparkles,
-  Info
+  Users
 } from "lucide-react";
 import { useFlightBooking } from "../../context/FlightBookingContext";
 import "./PassengerDetails.css";
@@ -20,58 +18,165 @@ import "./PassengerDetails.css";
 export default function PassengerDetails() {
   const navigate = useNavigate();
   const { state, dispatch } = useFlightBooking();
-  const { search, selectedFlight } = state;
 
-  const initialAdultCount = Math.max(1, search?.adults || 1);
-  const initialChildCount = search?.children || 0;
+  const {
+    search,
+    selectedFlight,
+    passengers: savedPassengers
+  } = state;
 
-  const [passengers, setPassengers] = useState(() => {
-    if (state.passengers && state.passengers.length > 0) {
-      return state.passengers;
-    }
-    const list = [];
-    for (let i = 0; i < initialAdultCount; i++) {
-      list.push({
-        id: `adult-${i + 1}`,
-        type: "Adult",
-        title: "Mr",
-        firstName: i === 0 ? "John" : "",
-        lastName: i === 0 ? "Doe" : "",
-        dob: "1994-05-15",
-        gender: "Male",
-        nationality: "Indian"
-      });
-    }
-    for (let i = 0; i < initialChildCount; i++) {
-      list.push({
-        id: `child-${i + 1}`,
-        type: "Child",
-        title: "Master",
-        firstName: "",
-        lastName: "",
-        dob: "2018-09-20",
-        gender: "Male",
-        nationality: "Indian"
-      });
-    }
-    return list;
+  const passengers =
+    savedPassengers && savedPassengers.length > 0
+      ? savedPassengers
+      : [
+          {
+            id: "adult-1",
+            type: "Adult",
+            title: "",
+            firstName: "",
+            lastName: "",
+            dateOfBirth: "",
+            gender: ""
+          }
+        ];
+
+  const [passengerData, setPassengerData] = useState(passengers);
+
+  const [contact, setContact] = useState({
+    email: "",
+    phone: ""
   });
 
-  const [contactEmail, setContactEmail] = useState("traveler@globego.com");
-  const [contactPhone, setContactPhone] = useState("+91 98765 43210");
   const [error, setError] = useState("");
+
+  /* =========================================================
+     UPDATE PASSENGER
+     ========================================================= */
+
+  const updatePassenger = (index, field, value) => {
+    setPassengerData((current) =>
+      current.map((passenger, i) =>
+        i === index
+          ? {
+              ...passenger,
+              [field]: value
+            }
+          : passenger
+      )
+    );
+
+    setError("");
+  };
+
+  /* =========================================================
+     UPDATE CONTACT
+     ========================================================= */
+
+  const updateContact = (field, value) => {
+    setContact((current) => ({
+      ...current,
+      [field]: value
+    }));
+
+    setError("");
+  };
+
+  /* =========================================================
+     VALIDATION
+     ========================================================= */
+
+  const validateForm = () => {
+    if (!contact.email.trim()) {
+      setError("Please enter your email address.");
+      return false;
+    }
+
+    if (!contact.email.includes("@")) {
+      setError("Please enter a valid email address.");
+      return false;
+    }
+
+    if (!contact.phone.trim()) {
+      setError("Please enter your phone number.");
+      return false;
+    }
+
+    if (contact.phone.replace(/\D/g, "").length < 10) {
+      setError("Please enter a valid 10-digit phone number.");
+      return false;
+    }
+
+    for (let i = 0; i < passengerData.length; i++) {
+      const passenger = passengerData[i];
+
+      if (!passenger.firstName?.trim()) {
+        setError(`Please enter the first name for Passenger ${i + 1}.`);
+        return false;
+      }
+
+      if (!passenger.lastName?.trim()) {
+        setError(`Please enter the last name for Passenger ${i + 1}.`);
+        return false;
+      }
+
+      if (!passenger.gender) {
+        setError(`Please select the gender for Passenger ${i + 1}.`);
+        return false;
+      }
+
+      if (!passenger.dateOfBirth) {
+        setError(`Please enter the date of birth for Passenger ${i + 1}.`);
+        return false;
+      }
+    }
+
+    return true;
+  };
+
+  /* =========================================================
+     CONTINUE
+     ========================================================= */
+
+  const handleContinue = () => {
+    if (!validateForm()) return;
+
+    dispatch({
+      type: "SET_PASSENGERS",
+      payload: passengerData
+    });
+
+    dispatch({
+      type: "SET_CONTACT",
+      payload: contact
+    });
+
+    navigate("/flights/seats");
+  };
+
+  /* =========================================================
+     NO FLIGHT STATE
+     ========================================================= */
 
   if (!selectedFlight || !search?.origin || !search?.destination) {
     return (
       <div className="passenger-page">
         <div className="passenger-container">
-          <div className="passenger-empty card">
+          <div className="passenger-empty">
             <div className="empty-icon-wrap">
-              <Plane size={44} />
+              <Plane size={46} />
             </div>
-            <h2>No flight selected</h2>
-            <p>Please select a flight before entering passenger details.</p>
-            <button className="btn btn-primary" onClick={() => navigate("/flights")}>
+
+            <h2>No Flight Selected</h2>
+
+            <p>
+              Please select a flight before entering passenger details.
+            </p>
+
+            <button
+              type="button"
+              className="passenger-actions btn-primary"
+              onClick={() => navigate("/flights")}
+            >
               Search Flights
             </button>
           </div>
@@ -80,306 +185,451 @@ export default function PassengerDetails() {
     );
   }
 
-  const handlePassengerChange = (index, field, value) => {
-    const updated = [...passengers];
-    updated[index] = { ...updated[index], [field]: value };
-    setPassengers(updated);
-  };
-
-  const autofillSample = () => {
-    const samples = [
-      { firstName: "Rohan", lastName: "Sharma", dob: "1992-04-12", gender: "Male", title: "Mr", nationality: "Indian" },
-      { firstName: "Ananya", lastName: "Iyer", dob: "1995-11-28", gender: "Female", title: "Ms", nationality: "Indian" },
-      { firstName: "Karan", lastName: "Mehta", dob: "2000-01-19", gender: "Male", title: "Mr", nationality: "Indian" },
-    ];
-    setPassengers(
-      passengers.map((p, i) => {
-        const sample = samples[i % samples.length];
-        return { ...p, ...sample };
-      })
-    );
-  };
-
-  const handleContinue = (e) => {
-    if (e) e.preventDefault();
-    setError("");
-
-    if (!contactEmail.includes("@")) {
-      setError("Please provide a valid contact email for e-ticket delivery.");
-      return;
-    }
-    if (!contactPhone.trim()) {
-      setError("Please enter a mobile phone number for flight SMS updates.");
-      return;
-    }
-
-    for (let i = 0; i < passengers.length; i++) {
-      const p = passengers[i];
-      if (!p.firstName.trim() || !p.lastName.trim()) {
-        setError(`Please fill first and last name for Passenger ${i + 1} (${p.type}).`);
-        return;
-      }
-    }
-
-    dispatch({
-      type: "SET_PASSENGERS",
-      payload: passengers
-    });
-
-    navigate("/flights/seats");
-  };
-
   return (
     <div className="passenger-page">
       <div className="passenger-container">
 
-        {/* Stepper Bar */}
+        {/* =====================================================
+            STEPPER
+        ===================================================== */}
+
         <div className="flight-stepper-bar">
+
           <div className="step-node completed">
-            <span className="step-num"><Check size={14} /></span>
+            <span className="step-num">
+              <Check size={14} />
+            </span>
             <span className="step-label">Search</span>
           </div>
+
           <div className="step-line completed"></div>
+
           <div className="step-node completed">
-            <span className="step-num"><Check size={14} /></span>
+            <span className="step-num">
+              <Check size={14} />
+            </span>
             <span className="step-label">Select Flight</span>
           </div>
+
           <div className="step-line active"></div>
+
           <div className="step-node active">
             <span className="step-num">3</span>
             <span className="step-label">Passengers</span>
           </div>
+
           <div className="step-line"></div>
+
           <div className="step-node">
             <span className="step-num">4</span>
             <span className="step-label">Seats</span>
           </div>
+
           <div className="step-line"></div>
+
           <div className="step-node">
             <span className="step-num">5</span>
             <span className="step-label">Payment</span>
           </div>
+
         </div>
 
-        {/* Header & Quick Fill */}
-        <div className="passenger-header-row">
-          <div>
-            <span className="flight-badge-label">TRAVELER INFORMATION</span>
-            <h1>Who's travelling on this flight?</h1>
-            <p className="passenger-subtext">
-              Names must match government-issued photo ID or passport exactly.
-            </p>
-          </div>
-          <button
-            type="button"
-            className="btn btn-outline quick-fill-btn"
-            onClick={autofillSample}
-          >
-            <Sparkles size={14} /> Auto-fill Demo Details
-          </button>
+        {/* =====================================================
+            HEADER / BANNER
+        ===================================================== */}
+
+        <div className="passenger-header">
+
+          <span className="flight-label">
+            PASSENGER DETAILS
+          </span>
+
+          <h1>Who's Flying?</h1>
+
+          <p>
+            Enter the details exactly as they appear on your
+            government-issued ID or passport.
+          </p>
+
         </div>
+
+        {/* =====================================================
+            FLIGHT SUMMARY
+        ===================================================== */}
+
+        <div className="flight-summary">
+
+          <div>
+            <span>Flight</span>
+
+            <strong>
+              {selectedFlight.airline} · {selectedFlight.flightNumber}
+            </strong>
+          </div>
+
+          <div>
+            <span>Route</span>
+
+            <strong>
+              {search.origin.code} → {search.destination.code}
+            </strong>
+          </div>
+
+          <div>
+            <span>Travel Date</span>
+
+            <strong>
+              {search.departDate || "Upcoming"}
+            </strong>
+          </div>
+
+        </div>
+
+        {/* =====================================================
+            CONTACT INFORMATION
+        ===================================================== */}
+
+        <section className="passenger-section">
+
+          <div className="passenger-title">
+            <div>
+              <h3>Contact Information</h3>
+
+              <span>
+                Booking Updates
+              </span>
+            </div>
+          </div>
+
+          <p className="section-description">
+            We'll send your booking confirmation and important
+            flight updates to these details.
+          </p>
+
+          <div className="contact-grid">
+
+            <div className="form-group">
+
+              <label htmlFor="email">
+                <Mail size={13} /> Email Address
+              </label>
+
+              <input
+                id="email"
+                type="email"
+                value={contact.email}
+                onChange={(e) =>
+                  updateContact("email", e.target.value)
+                }
+                placeholder="you@example.com"
+              />
+
+            </div>
+
+            <div className="form-group">
+
+              <label htmlFor="phone">
+                <Phone size={13} /> Phone Number
+              </label>
+
+              <input
+                id="phone"
+                type="tel"
+                value={contact.phone}
+                onChange={(e) =>
+                  updateContact("phone", e.target.value)
+                }
+                placeholder="9876543210"
+              />
+
+            </div>
+
+          </div>
+
+        </section>
+
+        {/* =====================================================
+            PASSENGERS
+        ===================================================== */}
+
+        <section className="passenger-section">
+
+          <div className="passenger-title">
+
+            <div>
+
+              <h3>
+                <Users size={17} /> Passenger Information
+              </h3>
+
+              <span>
+                {passengerData.length}{" "}
+                {passengerData.length === 1
+                  ? "Passenger"
+                  : "Passengers"}
+              </span>
+
+            </div>
+
+          </div>
+
+          <p className="section-description">
+            Make sure every passenger's name and personal
+            information is entered correctly.
+          </p>
+
+          {passengerData.map((passenger, index) => (
+
+            <div
+              className="passenger-form-card"
+              key={passenger.id || index}
+            >
+
+              {/* Passenger heading */}
+
+              <div className="passenger-card-header">
+
+                <div className="passenger-card-title">
+
+                  <div className="passenger-number">
+                    {index + 1}
+                  </div>
+
+                  <div>
+                    <h4>
+                      Passenger {index + 1}
+                    </h4>
+
+                    <span>
+                      {passenger.type || "Adult"}
+                    </span>
+                  </div>
+
+                </div>
+
+                <User size={20} />
+
+              </div>
+
+              {/* Form */}
+
+              <div className="passenger-grid">
+
+                {/* Title */}
+
+                <div className="form-group">
+
+                  <label htmlFor={`title-${index}`}>
+                    Title
+                  </label>
+
+                  <select
+                    id={`title-${index}`}
+                    value={passenger.title || ""}
+                    onChange={(e) =>
+                      updatePassenger(
+                        index,
+                        "title",
+                        e.target.value
+                      )
+                    }
+                  >
+
+                    <option value="">
+                      Select
+                    </option>
+
+                    <option value="Mr">
+                      Mr
+                    </option>
+
+                    <option value="Ms">
+                      Ms
+                    </option>
+
+                    <option value="Mrs">
+                      Mrs
+                    </option>
+
+                    <option value="Dr">
+                      Dr
+                    </option>
+
+                  </select>
+
+                </div>
+
+                {/* Gender */}
+
+                <div className="form-group">
+
+                  <label htmlFor={`gender-${index}`}>
+                    Gender
+                  </label>
+
+                  <select
+                    id={`gender-${index}`}
+                    value={passenger.gender || ""}
+                    onChange={(e) =>
+                      updatePassenger(
+                        index,
+                        "gender",
+                        e.target.value
+                      )
+                    }
+                  >
+
+                    <option value="">
+                      Select Gender
+                    </option>
+
+                    <option value="Male">
+                      Male
+                    </option>
+
+                    <option value="Female">
+                      Female
+                    </option>
+
+                    <option value="Other">
+                      Other
+                    </option>
+
+                  </select>
+
+                </div>
+
+                {/* First Name */}
+
+                <div className="form-group">
+
+                  <label htmlFor={`firstName-${index}`}>
+                    First Name *
+                  </label>
+
+                  <input
+                    id={`firstName-${index}`}
+                    type="text"
+                    value={passenger.firstName || ""}
+                    onChange={(e) =>
+                      updatePassenger(
+                        index,
+                        "firstName",
+                        e.target.value
+                      )
+                    }
+                    placeholder="Enter first name"
+                  />
+
+                </div>
+
+                {/* Last Name */}
+
+                <div className="form-group">
+
+                  <label htmlFor={`lastName-${index}`}>
+                    Last Name *
+                  </label>
+
+                  <input
+                    id={`lastName-${index}`}
+                    type="text"
+                    value={passenger.lastName || ""}
+                    onChange={(e) =>
+                      updatePassenger(
+                        index,
+                        "lastName",
+                        e.target.value
+                      )
+                    }
+                    placeholder="Enter last name"
+                  />
+
+                </div>
+
+                {/* DOB */}
+
+                <div className="form-group">
+
+                  <label htmlFor={`dob-${index}`}>
+                    <Calendar size={13} /> Date of Birth *
+                  </label>
+
+                  <input
+                    id={`dob-${index}`}
+                    type="date"
+                    value={passenger.dateOfBirth || ""}
+                    onChange={(e) =>
+                      updatePassenger(
+                        index,
+                        "dateOfBirth",
+                        e.target.value
+                      )
+                    }
+                  />
+
+                </div>
+
+              </div>
+
+            </div>
+
+          ))}
+
+        </section>
+
+        {/* =====================================================
+            ERROR
+        ===================================================== */}
 
         {error && (
-          <div className="form-error-alert card">
-            <Info size={16} />
-            <span>{error}</span>
+          <div className="passenger-error">
+            {error}
           </div>
         )}
 
-        <div className="passenger-layout-grid">
+        {/* =====================================================
+            SECURITY NOTE
+        ===================================================== */}
 
-          {/* Left Form Area */}
-          <div className="passenger-forms-col">
+        <div className="passenger-security-note">
 
-            {/* Contact Details Card */}
-            <div className="passenger-card card">
-              <div className="card-section-title">
-                <h3><Mail size={18} /> Primary Contact &amp; Booking Updates</h3>
-                <span>Your e-ticket and boarding alerts will be sent here</span>
-              </div>
+          <ShieldCheck size={18} />
 
-              <div className="form-two-col">
-                <div className="form-group">
-                  <label><Mail size={14} /> Email Address</label>
-                  <input
-                    type="email"
-                    value={contactEmail}
-                    onChange={(e) => setContactEmail(e.target.value)}
-                    placeholder="e.g. traveler@example.com"
-                    required
-                  />
-                </div>
+          <div>
+            <strong>Your information is secure</strong>
 
-                <div className="form-group">
-                  <label><Phone size={14} /> Mobile Phone</label>
-                  <input
-                    type="tel"
-                    value={contactPhone}
-                    onChange={(e) => setContactPhone(e.target.value)}
-                    placeholder="e.g. +91 98765 43210"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-
-            {/* Passengers Cards */}
-            {passengers.map((p, idx) => (
-              <div className="passenger-card card" key={p.id || idx}>
-                <div className="passenger-card-header">
-                  <div className="passenger-title-wrap">
-                    <div className="passenger-num-circle">{idx + 1}</div>
-                    <div>
-                      <h3>Passenger {idx + 1}</h3>
-                      <span className="passenger-type-pill">{p.type}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="passenger-inputs-grid">
-                  <div className="form-group title-group">
-                    <label>Title</label>
-                    <select
-                      value={p.title || "Mr"}
-                      onChange={(e) => handlePassengerChange(idx, "title", e.target.value)}
-                    >
-                      <option value="Mr">Mr.</option>
-                      <option value="Ms">Ms.</option>
-                      <option value="Mrs">Mrs.</option>
-                      <option value="Dr">Dr.</option>
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label>First &amp; Middle Name</label>
-                    <input
-                      type="text"
-                      value={p.firstName}
-                      onChange={(e) => handlePassengerChange(idx, "firstName", e.target.value)}
-                      placeholder="As on passport / ID"
-                      required
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label>Last / Surname</label>
-                    <input
-                      type="text"
-                      value={p.lastName}
-                      onChange={(e) => handlePassengerChange(idx, "lastName", e.target.value)}
-                      placeholder="As on passport / ID"
-                      required
-                    />
-                  </div>
-                </div>
-
-                <div className="passenger-meta-grid">
-                  <div className="form-group">
-                    <label><Calendar size={14} /> Date of Birth</label>
-                    <input
-                      type="date"
-                      value={p.dob}
-                      onChange={(e) => handlePassengerChange(idx, "dob", e.target.value)}
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label><User size={14} /> Gender</label>
-                    <select
-                      value={p.gender || "Male"}
-                      onChange={(e) => handlePassengerChange(idx, "gender", e.target.value)}
-                    >
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Other">Other</option>
-                    </select>
-                  </div>
-
-                  <div className="form-group">
-                    <label><Globe size={14} /> Nationality</label>
-                    <input
-                      type="text"
-                      value={p.nationality || "Indian"}
-                      onChange={(e) => handlePassengerChange(idx, "nationality", e.target.value)}
-                      placeholder="e.g. Indian"
-                    />
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            {/* Navigation buttons */}
-            <div className="passenger-nav-actions">
-              <button
-                type="button"
-                className="btn btn-outline"
-                onClick={() => navigate("/flights/results")}
-              >
-                <ArrowLeft size={16} /> Back to Flights
-              </button>
-
-              <button
-                type="button"
-                className="btn btn-primary next-step-btn"
-                onClick={handleContinue}
-              >
-                <span>Continue to Seat Selection</span>
-                <ArrowRight size={16} />
-              </button>
-            </div>
-
+            <span>
+              Your passenger details are used only to process
+              your flight booking.
+            </span>
           </div>
 
-          {/* Right Summary Sidebar */}
-          <aside className="passenger-summary-sidebar">
-            <div className="flight-brief-card card">
-              <div className="brief-header">
-                <span className="airline-name">{selectedFlight.airline}</span>
-                <span className="flight-number">{selectedFlight.flightNumber}</span>
-              </div>
+        </div>
 
-              <div className="brief-route">
-                <div>
-                  <strong>{selectedFlight.departure}</strong>
-                  <span>{search.origin.city} ({search.origin.code})</span>
-                </div>
-                <div className="brief-mid">
-                  <span>{selectedFlight.duration}</span>
-                  <Plane size={14} />
-                  <span>{selectedFlight.stops === 0 ? "Non-stop" : `${selectedFlight.stops} Stop`}</span>
-                </div>
-                <div className="text-right">
-                  <strong>{selectedFlight.arrival}</strong>
-                  <span>{search.destination.city} ({search.destination.code})</span>
-                </div>
-              </div>
+        {/* =====================================================
+            ACTIONS
+        ===================================================== */}
 
-              <div className="brief-divider"></div>
+        <div className="passenger-actions">
 
-              <div className="fare-summary-list">
-                <div className="fare-line">
-                  <span>Flight Fare ({passengers.length} traveler{passengers.length > 1 ? "s" : ""})</span>
-                  <strong>₹{(selectedFlight.price * passengers.length).toLocaleString("en-IN")}</strong>
-                </div>
-                <div className="fare-line">
-                  <span>Estimated Taxes &amp; GST</span>
-                  <strong>₹{Math.round(selectedFlight.price * passengers.length * 0.12).toLocaleString("en-IN")}</strong>
-                </div>
-                <div className="brief-divider"></div>
-                <div className="fare-line total-fare">
-                  <span>Estimated Total</span>
-                  <strong className="text-primary">
-                    ₹{Math.round(selectedFlight.price * passengers.length * 1.12).toLocaleString("en-IN")}
-                  </strong>
-                </div>
-              </div>
+          <button
+            type="button"
+            className="btn-secondary"
+            onClick={() => navigate("/flights")}
+          >
+            <ArrowLeft size={16} />
+            Back to Flights
+          </button>
 
-              <div className="brief-security-note">
-                <ShieldCheck size={16} color="#107c41" />
-                <span>Encrypted SSL 256-bit safe checkout</span>
-              </div>
-            </div>
-          </aside>
+          <button
+            type="button"
+            className="btn-primary"
+            onClick={handleContinue}
+          >
+            Continue to Seat Selection
+            <ArrowRight size={16} />
+          </button>
 
         </div>
 

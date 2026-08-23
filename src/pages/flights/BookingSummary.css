@@ -1,946 +1,1042 @@
-/* =========================================
-   BOOKING SUMMARY
-   ========================================= 
+/* ==========================================================================
+   BOOKING CONFIRMATION PAGE — GLOBEGO
+   ========================================================================== */
 
-.summary-page {
-  min-height: calc(100vh - 70px);
-
-  padding: 45px 0 70px;
-
-  background:
-    radial-gradient(
-      circle at top right,
-      #dbeafe 0,
-      transparent 30%
-    ),
-    #f8fafc;
-}
-
-.summary-container {
-  width: min(950px, 92%);
-
-  margin: auto;
-}
-
-
-/* =========================================
-   HEADER
-   ========================================= 
-
-.summary-header {
-  text-align: center;
-
-  margin-bottom: 32px;
-}
-
-.summary-header h1 {
-  font-size: clamp(32px, 4vw, 42px);
-
-  margin: 8px 0;
-
-  letter-spacing: -1px;
-}
-
-.summary-header p:last-child {
-  color: var(--text-light);
-}
-
-
-/* =========================================
-   SUMMARY CARDS
-   ========================================= 
-
-.summary-card {
-  background: white;
-
-  border: 1px solid var(--border);
-
-  border-radius: 18px;
-
-  padding: 25px;
-
-  margin-bottom: 18px;
-
-  box-shadow: var(--shadow-sm);
-
-  transition: 0.2s ease;
-}
-
-.summary-card:hover {
-  box-shadow: var(--shadow);
-}
-
-
-/* =========================================
-   CARD HEADER
-   ========================================= 
-
-.summary-card-title {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  gap: 15px;
-
-  margin-bottom: 22px;
-
-  padding-bottom: 15px;
-
-  border-bottom: 1px solid var(--border-light);
-}
-
-.summary-card-title h2 {
-  margin: 0;
-
-  font-size: 18px;
-}
-
-
-/* =========================================
-   CHANGE / EDIT BUTTON
-   ========================================= 
-
-.text-button {
-  border: none;
-
-  background: transparent;
-
-  color: var(--primary);
-
-  font-size: 13px;
-
-  font-weight: 700;
-
-  cursor: pointer;
-
-  padding: 5px 8px;
-
-  border-radius: 6px;
-}
-
-.text-button:hover {
-  background: var(--primary-light);
-}
-
-
-/* =========================================
-   FLIGHT
-   ========================================= 
-
-.flight-summary-main {
-  display: grid;
-
-  grid-template-columns:
-    1fr
-    1.4fr
-    1fr;
-
-  gap: 20px;
-
-  align-items: center;
-
-  text-align: center;
-
-  padding: 10px 0 22px;
-}
-
-.summary-location {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 6px;
-}
-
-.summary-location strong {
-  font-size: 30px;
-
-  color: var(--text);
-}
-
-.summary-location span {
-  color: var(--text-light);
-
-  font-size: 13px;
-}
-
-.summary-route {
-  color: var(--text-light);
-
-  font-size: 12px;
-}
-
-.summary-route div {
-  color: var(--primary);
-
-  font-size: 16px;
-
-  margin: 6px 0;
-}
-
-.summary-route small {
-  color: var(--text-light);
-}
-
-
-/* =========================================
-   FLIGHT META
-   ========================================= 
-
-.flight-meta {
-  display: flex;
-
-  justify-content: center;
-
-  flex-wrap: wrap;
-
-  gap: 10px;
-}
-
-.flight-meta span {
-  padding: 7px 12px;
-
-  border-radius: 999px;
-
-  background: #eff6ff;
-
-  color: #1d4ed8;
-
-  font-size: 12px;
-
-  font-weight: 600;
-}
-
-
-/* =========================================
-   PASSENGERS
-   ========================================= 
-
-.passenger-list {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 10px;
-}
-
-.summary-passenger {
-  display: grid;
-
-  grid-template-columns:
-    40px
-    1.5fr
-    1fr
-    1fr;
-
-  align-items: center;
-
-  gap: 15px;
-
-  padding: 13px;
-
-  border: 1px solid var(--border-light);
-
-  border-radius: 12px;
-
-  background: #fafcff;
-}
-
-.passenger-number {
-  width: 32px;
-
-  height: 32px;
-
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  border-radius: 50%;
-
-  background: var(--primary-light);
-
-  color: var(--primary);
-
-  font-size: 12px;
-
-  font-weight: 700;
-}
-
-.summary-passenger div:nth-child(2) {
-  display: flex;
-
-  flex-direction: column;
-
-  gap: 3px;
-}
-
-.summary-passenger div:nth-child(2) span {
-  color: var(--text-light);
-
-  font-size: 11px;
-
-  text-transform: capitalize;
-}
-
-.summary-passenger > div:not(:first-child) {
-  font-size: 13px;
-
-  color: var(--text-secondary);
-}
-
-
-/* =========================================
-   SEATS
-   ========================================= 
-
-.selected-seat-list {
-  display: grid;
-
-  grid-template-columns:
-    repeat(2, 1fr);
-
-  gap: 10px;
-}
-
-.selected-seat {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  padding: 14px 16px;
-
-  border: 1px solid var(--border);
-
-  border-radius: 12px;
-
-  background: #fafcff;
-}
-
-.selected-seat span {
-  font-size: 13px;
-
-  color: var(--text-secondary);
-}
-
-.selected-seat strong {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: center;
-
-  width: 38px;
-
-  height: 32px;
-
-  border-radius: 8px;
-
-  background: var(--primary);
-
-  color: white;
-
-  font-size: 12px;
-}
-
-.no-seats {
-  padding: 15px;
-
-  border-radius: 10px;
-
-  background: #f8fafc;
-
-  color: var(--text-light);
-
-  text-align: center;
-
-  font-size: 13px;
-}
-
-
-/* =========================================
-   PRICE BREAKDOWN
-   ========================================= 
-
-.price-row {
-  display: flex;
-
-  align-items: center;
-
-  justify-content: space-between;
-
-  padding: 10px 0;
-
-  color: var(--text-secondary);
-
-  font-size: 14px;
-}
-
-.price-row strong {
-  color: var(--text);
-}
-
-.price-divider {
-  height: 1px;
-
-  background: var(--border);
-
-  margin: 10px 0;
-}
-
-.price-total {
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: center;
-
-  padding-top: 8px;
-}
-
-.price-total span {
-  font-size: 17px;
-
-  font-weight: 700;
-}
-
-.price-total strong {
-  font-size: 25px;
-
-  color: var(--primary);
-}
-
-
-/* =========================================
-   ACTIONS
-   ========================================= 
-
-.summary-actions {
-  display: flex;
-
-  justify-content: space-between;
-
-  gap: 15px;
-
-  margin-top: 25px;
-}
-
-.summary-actions button {
-  min-height: 48px;
-
-  padding: 0 24px;
-}
-
-
-/* =========================================
-   EMPTY STATE
-   ========================================= 
-
-.summary-empty {
-  max-width: 550px;
-
-  margin: 80px auto;
-
-  padding: 55px 25px;
-
-  text-align: center;
-
-  background: white;
-
-  border-radius: 20px;
-
-  border: 1px solid var(--border);
-
-  box-shadow: var(--shadow);
-}
-
-.summary-empty p {
-  color: var(--text-light);
-
-  margin: 10px 0 22px;
-}
-
-
-/* =========================================
-   RESPONSIVE
-   ========================================= 
-
-@media (max-width: 700px) {
-
-  .flight-summary-main {
-    grid-template-columns: 1fr;
-
-    gap: 12px;
-  }
-
-  .summary-route {
-    order: 3;
-  }
-
-  .summary-passenger {
-    grid-template-columns:
-      40px
-      1fr;
-  }
-
-  .summary-passenger > div:nth-child(3),
-  .summary-passenger > div:nth-child(4) {
-    display: none;
-  }
-
-  .selected-seat-list {
-    grid-template-columns: 1fr;
-  }
-
-  .summary-actions {
-    flex-direction: column-reverse;
-  }
-
-  .summary-actions button {
-    width: 100%;
-  }
-
-}
-
-
-/* =========================================
-   GLOBEGO SYSTEM TOKENS
-   ========================================= */
 :root {
   --primary: #2b52ba;
   --primary-hover: #1e3f9a;
   --primary-light: #e8f0fe;
+
   --dark-navy: #0d1b2a;
+
   --text-dark: #1e293b;
   --text-light: #64748b;
+  --text-muted: #94a3b8;
+
   --bg-page: #f4f6f9;
   --card-bg: #ffffff;
+
   --border-color: #e2e8f0;
   --border-light: #f1f5f9;
-  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
-  --shadow-hover: 0 20px 30px -10px rgba(0, 0, 0, 0.08);
+
+  --success: #16803c;
+  --success-light: #eaf7ef;
+
+  --danger: #d13b3b;
+
+  --amber: #ffc72c;
+
+  --shadow-card:
+    0 10px 25px -5px rgba(0, 0, 0, 0.05),
+    0 8px 10px -6px rgba(0, 0, 0, 0.01);
+
+  --shadow-hover:
+    0 20px 30px -10px rgba(0, 0, 0, 0.08);
+
   --radius-lg: 20px;
   --radius-md: 12px;
+  --radius-sm: 8px;
   --radius-pill: 9999px;
-  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+
+  --font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    Helvetica,
+    Arial,
+    sans-serif;
 }
 
-/* =========================================
-   BOOKING SUMMARY PAGE
-   ========================================= */
 
-.summary-page {
+/* ==========================================================================
+   PAGE
+   ========================================================================== */
+
+.confirmation-page {
   min-height: calc(100vh - 70px);
   padding: 40px 0 70px;
-  background-color: var(--bg-page);
-  font-family: var(--font-family);
+  background: var(--bg-page);
   color: var(--text-dark);
+  font-family: var(--font-family);
 }
 
-.summary-container {
+.confirmation-container {
   width: min(950px, 92%);
-  margin: auto;
+  margin: 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
 }
 
-/* =========================================
-   HEADER (GLOBEGO HERO BANNER STYLE)
-   ========================================= */
 
-.summary-header {
+/* ==========================================================================
+   SUCCESS HEADER
+   ========================================================================== */
+
+.confirmation-success {
   text-align: center;
-  margin-bottom: 32px;
-  background: linear-gradient(135deg, #1d4ed8 0%, #2b52ba 100%);
-  color: #ffffff;
-  padding: 35px 20px;
-  border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-card);
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  padding: 20px 10px 10px;
+
+  gap: 10px;
 }
 
-.summary-header h1 {
-  font-size: clamp(28px, 4vw, 36px);
+
+/* Green circular check */
+
+.success-icon {
+  width: 72px;
+  height: 72px;
+
+  border-radius: 50%;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: var(--success-light);
+  color: var(--success);
+
+  font-size: 38px;
   font-weight: 800;
-  margin: 8px 0;
-  letter-spacing: -0.5px;
-  color: #ffffff;
+
+  margin-bottom: 5px;
+
+  box-shadow:
+    0 0 0 8px rgba(22, 128, 60, 0.05);
+
+  animation: successPulse 2.5s infinite ease-in-out;
 }
 
-.summary-header p:last-child {
-  color: #d0e1fd;
+
+@keyframes successPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+
+/* BOOKING CONFIRMED label */
+
+.flight-label {
+  margin: 0;
+
+  padding: 6px 14px;
+
+  border-radius: var(--radius-pill);
+
+  background: var(--success-light);
+  color: var(--success);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+}
+
+
+.confirmation-success h1 {
+  margin: 0;
+
+  color: var(--text-dark);
+
+  font-size: clamp(28px, 4vw, 38px);
+  line-height: 1.15;
+
+  font-weight: 800;
+  letter-spacing: -0.6px;
+}
+
+
+.confirmation-success > p:last-child {
+  margin: 0;
+
+  color: var(--text-light);
+
   font-size: 15px;
-  margin-top: 6px;
+  line-height: 1.5;
 }
 
-/* =========================================
-   SUMMARY CARDS
-   ========================================= */
 
-.summary-card {
+/* ==========================================================================
+   COMMON CARD
+   ========================================================================== */
+
+.card {
   background: var(--card-bg);
+
   border: 1px solid var(--border-color);
+
   border-radius: var(--radius-lg);
-  padding: 28px;
-  margin-bottom: 20px;
+
   box-shadow: var(--shadow-card);
-  transition: all 0.2s ease-in-out;
 }
 
-.summary-card:hover {
-  box-shadow: var(--shadow-hover);
-  border-color: #cbd5e1;
-}
 
-/* =========================================
-   CARD HEADER
-   ========================================= */
+/* ==========================================================================
+   BOOKING REFERENCE
+   ========================================================================== */
 
-.summary-card-title {
+.booking-reference {
+  padding: 20px 26px;
+
   display: flex;
   align-items: center;
   justify-content: space-between;
+
   gap: 15px;
+
+  flex-wrap: wrap;
+}
+
+
+.booking-reference > span {
+  color: var(--text-light);
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+
+.booking-reference strong {
+  color: var(--primary);
+
+  font-family: monospace;
+
+  font-size: 22px;
+  font-weight: 800;
+
+  letter-spacing: 2px;
+
+  margin-left: auto;
+}
+
+
+.booking-reference small {
+  color: var(--text-muted);
+
+  font-size: 12px;
+
+  width: 100%;
+
+  margin-top: -5px;
+}
+
+
+/* ==========================================================================
+   CONFIRMATION CARDS
+   ========================================================================== */
+
+.confirmation-card {
+  padding: 26px;
+}
+
+
+/* ==========================================================================
+   CARD TITLE
+   ========================================================================== */
+
+.confirmation-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 15px;
+
   margin-bottom: 22px;
+
   padding-bottom: 16px;
+
   border-bottom: 1px solid var(--border-color);
 }
 
-.summary-card-title h2 {
+
+.confirmation-title h2 {
   margin: 0;
-  font-size: 20px;
-  font-weight: 700;
+
   color: var(--text-dark);
+
+  font-size: 19px;
+  font-weight: 800;
 }
 
-/* =========================================
-   CHANGE / EDIT BUTTON
-   ========================================= */
 
-.text-button {
-  border: 1px solid transparent;
-  background: var(--primary-light);
-  color: var(--primary);
-  font-size: 12px;
-  font-weight: 700;
-  cursor: pointer;
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  transition: all 0.2s ease;
+.confirmation-title > span:not(.confirmed-badge):not(.paid-badge) {
+  color: var(--text-light);
+
+  font-size: 13px;
+  font-weight: 600;
 }
 
-.text-button:hover {
-  background: var(--primary);
-  color: #ffffff;
-}
 
-/* =========================================
-   FLIGHT
-   ========================================= */
+/* Confirmed badge */
 
-.flight-summary-main {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr 1fr;
-  gap: 20px;
+.confirmed-badge {
+  display: inline-flex;
   align-items: center;
-  text-align: center;
-  padding: 10px 0 22px;
+
+  padding: 5px 12px;
+
+  border-radius: var(--radius-pill);
+
+  background: var(--success-light);
+  color: var(--success);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  text-transform: uppercase;
 }
 
-.summary-location {
+
+/* Paid badge */
+
+.paid-badge {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 5px 12px;
+
+  border-radius: var(--radius-pill);
+
+  background: var(--success-light);
+  color: var(--success);
+
+  font-size: 11px;
+  font-weight: 800;
+
+  letter-spacing: 0.5px;
+}
+
+
+/* ==========================================================================
+   FLIGHT DETAILS
+   ========================================================================== */
+
+.confirmation-flight {
+  display: grid;
+
+  grid-template-columns: 1fr 1.4fr 1fr;
+
+  align-items: center;
+
+  gap: 20px;
+
+  padding: 10px 0 25px;
+
+  text-align: center;
+}
+
+
+.confirmation-location {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+
+  gap: 5px;
 }
 
-.summary-location strong {
+
+.confirmation-location strong {
+  color: var(--text-dark);
+
   font-size: 28px;
   font-weight: 800;
-  color: var(--text-dark);
 }
 
-.summary-location span {
+
+.confirmation-location span {
   color: var(--text-light);
+
   font-size: 13px;
   font-weight: 500;
 }
 
-.summary-route {
-  color: var(--text-light);
-  font-size: 12px;
-}
 
-.summary-route div {
-  color: var(--primary);
-  font-size: 16px;
-  font-weight: 700;
-  margin: 6px 0;
-}
-
-.summary-route small {
-  color: var(--text-light);
-  font-size: 11px;
-}
-
-/* =========================================
-   FLIGHT META
-   ========================================= */
-
-.flight-meta {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.flight-meta span {
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  background: var(--primary-light);
-  color: var(--primary);
-  font-size: 12px;
-  font-weight: 700;
-}
-
-/* =========================================
-   PASSENGERS
-   ========================================= */
-
-.passenger-list {
+.confirmation-route {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-}
 
-.summary-passenger {
-  display: grid;
-  grid-template-columns: 40px 1.5fr 1fr 1fr;
   align-items: center;
-  gap: 15px;
-  padding: 14px 18px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  background: #f8fafc;
+
+  gap: 6px;
+
+  color: var(--text-light);
+
+  font-size: 12px;
 }
 
-.passenger-number {
+
+.confirmation-route > div {
+  color: var(--primary);
+
+  font-size: 17px;
+  font-weight: 700;
+
+  white-space: nowrap;
+}
+
+
+.confirmation-route small {
+  color: var(--success);
+
+  font-size: 11px;
+  font-weight: 700;
+}
+
+
+/* ==========================================================================
+   FLIGHT META
+   ========================================================================== */
+
+.confirmation-meta {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 12px;
+
+  padding-top: 20px;
+
+  border-top: 1px solid var(--border-color);
+}
+
+
+.confirmation-meta > div {
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+
+  padding: 12px 14px;
+
+  background: #f8fafc;
+
+  border-radius: var(--radius-md);
+
+  border: 1px solid var(--border-light);
+}
+
+
+.confirmation-meta span {
+  color: var(--text-muted);
+
+  font-size: 11px;
+
+  font-weight: 600;
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.4px;
+}
+
+
+.confirmation-meta strong {
+  color: var(--text-dark);
+
+  font-size: 13px;
+
+  font-weight: 700;
+}
+
+
+/* ==========================================================================
+   PASSENGERS
+   ========================================================================== */
+
+.confirmed-passengers {
+  display: flex;
+  flex-direction: column;
+
+  gap: 10px;
+}
+
+
+.confirmed-passenger {
+  display: grid;
+
+  grid-template-columns: 40px 1fr auto;
+
+  align-items: center;
+
+  gap: 14px;
+
+  padding: 13px 16px;
+
+  background: #f8fafc;
+
+  border: 1px solid var(--border-color);
+
+  border-radius: var(--radius-md);
+
+  transition: all 0.2s ease;
+}
+
+
+.confirmed-passenger:hover {
+  border-color: #cbd5e1;
+
+  transform: translateY(-1px);
+}
+
+
+.confirmed-number {
   width: 34px;
   height: 34px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   border-radius: 50%;
+
   background: var(--primary-light);
+
   color: var(--primary);
+
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 800;
 }
 
-.summary-passenger div:nth-child(2) {
+
+.confirmed-passenger > div:nth-child(2) {
   display: flex;
   flex-direction: column;
+
   gap: 3px;
 }
 
-.summary-passenger div:nth-child(2) span {
+
+.confirmed-passenger strong {
+  color: var(--text-dark);
+
+  font-size: 14px;
+
+  font-weight: 700;
+}
+
+
+.confirmed-passenger > div:nth-child(2) span {
   color: var(--text-light);
+
   font-size: 12px;
+
   text-transform: capitalize;
 }
 
-.summary-passenger > div:not(:first-child) {
-  font-size: 13px;
-  color: var(--text-dark);
-  font-weight: 500;
-}
 
-/* =========================================
-   SEATS
-   ========================================= */
+.confirmed-seat {
+  padding: 6px 12px;
 
-.selected-seat-list {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 12px;
-}
-
-.selected-seat {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 14px 18px;
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
-  background: #f8fafc;
-}
-
-.selected-seat span {
-  font-size: 13px;
-  color: var(--text-dark);
-  font-weight: 600;
-}
-
-.selected-seat strong {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 4px 12px;
   border-radius: var(--radius-pill);
-  background: var(--primary);
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 700;
-}
 
-.no-seats {
-  padding: 18px;
-  border-radius: var(--radius-md);
-  background: #f8fafc;
-  color: var(--text-light);
-  text-align: center;
+  background: var(--primary-light);
+
+  color: var(--primary);
+
   font-size: 13px;
-  border: 1px dashed var(--border-color);
+
+  font-weight: 800;
 }
 
-/* =========================================
-   PRICE BREAKDOWN
-   ========================================= */
 
-.price-row {
+/* ==========================================================================
+   PAYMENT SUMMARY
+   ========================================================================== */
+
+.confirmation-price {
+  display: flex;
+  flex-direction: column;
+
+  gap: 0;
+}
+
+
+.confirmation-price > div {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 0;
+
+  padding: 11px 0;
+
+  border-bottom: 1px solid var(--border-light);
+}
+
+
+.confirmation-price span {
   color: var(--text-light);
+
   font-size: 14px;
 }
 
-.price-row strong {
+
+.confirmation-price strong {
   color: var(--text-dark);
-  font-weight: 600;
+
+  font-size: 14px;
+
+  font-weight: 700;
 }
 
-.price-divider {
-  height: 1px;
-  background: var(--border-color);
-  margin: 12px 0;
-}
 
-.price-total {
+.confirmation-total {
   display: flex;
-  justify-content: space-between;
+
   align-items: center;
-  padding-top: 12px;
+  justify-content: space-between;
+
+  margin-top: 15px;
+
+  padding-top: 18px;
+
   border-top: 2px dashed var(--border-color);
 }
 
-.price-total span {
+
+.confirmation-total span {
+  color: var(--text-dark);
+
   font-size: 16px;
-  font-weight: 700;
-  color: var(--text-dark);
-}
 
-.price-total strong {
-  font-size: 26px;
   font-weight: 800;
+}
+
+
+.confirmation-total strong {
   color: var(--primary);
+
+  font-size: 26px;
+
+  font-weight: 900;
 }
 
-/* =========================================
-   ACTIONS
-   ========================================= */
 
-.summary-actions {
+/* ==========================================================================
+   ACTION BUTTONS
+   ========================================================================== */
+
+.confirmation-actions {
   display: flex;
+
+  align-items: center;
   justify-content: space-between;
+
   gap: 15px;
-  margin-top: 30px;
+
+  margin-top: 5px;
 }
 
-.summary-actions button {
+
+.confirmation-actions .btn {
   min-height: 48px;
-  padding: 0 28px;
+
+  padding: 0 24px;
+
   border-radius: var(--radius-pill);
-  font-weight: 700;
+
+  font-family: inherit;
+
   font-size: 14px;
+  font-weight: 700;
+
   cursor: pointer;
+
   transition: all 0.2s ease;
-  border: none;
 }
 
-.summary-actions button:last-child {
-  background-color: var(--primary);
-  color: #ffffff;
-}
 
-.summary-actions button:last-child:hover {
-  background-color: var(--primary-hover);
-}
+/* Outline button */
 
-.summary-actions button:first-child {
-  background-color: #ffffff;
+.confirmation-actions .btn-outline {
+  background: #ffffff;
+
   color: var(--text-dark);
+
   border: 1px solid var(--border-color);
 }
 
-.summary-actions button:first-child:hover {
-  background-color: #f8fafc;
+
+.confirmation-actions .btn-outline:hover {
+  background: #f8fafc;
+
+  border-color: #cbd5e1;
+
+  transform: translateY(-1px);
 }
 
-/* =========================================
-   EMPTY STATE
-   ========================================= */
 
-.summary-empty {
-  max-width: 550px;
-  margin: 60px auto;
-  padding: 50px 25px;
+/* Primary button */
+
+.confirmation-actions .btn-primary {
+  background: var(--primary);
+
+  color: #ffffff;
+
+  border: 1px solid var(--primary);
+}
+
+
+.confirmation-actions .btn-primary:hover {
+  background: var(--primary-hover);
+
+  border-color: var(--primary-hover);
+
+  transform: translateY(-1px);
+
+  box-shadow: 0 6px 15px rgba(43, 82, 186, 0.2);
+}
+
+
+/* ==========================================================================
+   NOTE
+   ========================================================================== */
+
+.confirmation-note {
+  margin: 0;
+
   text-align: center;
-  background: var(--card-bg);
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--border-color);
-  box-shadow: var(--shadow-card);
+
+  color: var(--text-muted);
+
+  font-size: 12px;
+
+  line-height: 1.5;
+
+  padding: 0 15px;
 }
 
-.summary-empty p {
+
+/* ==========================================================================
+   EMPTY STATE
+   ========================================================================== */
+
+.confirmation-empty {
+  max-width: 550px;
+
+  width: 100%;
+
+  box-sizing: border-box;
+
+  margin: 70px auto;
+
+  padding: 50px 30px;
+
+  text-align: center;
+}
+
+
+.confirmation-empty h2 {
+  margin: 0 0 10px;
+
+  color: var(--text-dark);
+
+  font-size: 24px;
+
+  font-weight: 800;
+}
+
+
+.confirmation-empty p {
+  margin: 0 0 25px;
+
   color: var(--text-light);
-  margin: 10px 0 24px;
+
+  font-size: 14px;
 }
 
-/* =========================================
-   RESPONSIVE
-   ========================================= */
 
-@media (max-width: 700px) {
-  .flight-summary-main {
+.confirmation-empty .btn {
+  min-height: 46px;
+
+  padding: 0 24px;
+
+  border: none;
+
+  border-radius: var(--radius-pill);
+
+  background: var(--primary);
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+
+.confirmation-empty .btn:hover {
+  background: var(--primary-hover);
+
+  transform: translateY(-1px);
+}
+
+
+/* ==========================================================================
+   RESPONSIVE — TABLET
+   ========================================================================== */
+
+@media (max-width: 800px) {
+
+  .confirmation-container {
+    width: min(94%, 700px);
+  }
+
+
+  .confirmation-meta {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+
+  .confirmation-flight {
+    grid-template-columns: 1fr 1.2fr 1fr;
+
+    gap: 10px;
+  }
+
+
+  .confirmation-location strong {
+    font-size: 24px;
+  }
+
+}
+
+
+/* ==========================================================================
+   RESPONSIVE — MOBILE
+   ========================================================================== */
+
+@media (max-width: 600px) {
+
+  .confirmation-page {
+    padding: 25px 0 50px;
+  }
+
+
+  .confirmation-container {
+    width: 94%;
+
+    gap: 16px;
+  }
+
+
+  .confirmation-success {
+    padding: 15px 5px 5px;
+  }
+
+
+  .success-icon {
+    width: 62px;
+    height: 62px;
+
+    font-size: 32px;
+  }
+
+
+  .confirmation-success h1 {
+    font-size: 28px;
+  }
+
+
+  .confirmation-success > p:last-child {
+    font-size: 13px;
+  }
+
+
+  /* Reference */
+
+  .booking-reference {
+    padding: 18px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+
+  .booking-reference strong {
+    margin-left: 0;
+  }
+
+
+  /* Cards */
+
+  .confirmation-card {
+    padding: 20px 16px;
+  }
+
+
+  .confirmation-title {
+    align-items: flex-start;
+  }
+
+
+  .confirmation-title h2 {
+    font-size: 17px;
+  }
+
+
+  /* Flight */
+
+  .confirmation-flight {
     grid-template-columns: 1fr;
-    gap: 12px;
+
+    gap: 16px;
+
+    padding-bottom: 20px;
   }
 
-  .summary-route {
-    order: 3;
+
+  .confirmation-location strong {
+    font-size: 26px;
   }
 
-  .summary-passenger {
-    grid-template-columns: 40px 1fr;
+
+  .confirmation-route {
+    order: 2;
   }
 
-  .summary-passenger > div:nth-child(3),
-  .summary-passenger > div:nth-child(4) {
+
+  /* Meta */
+
+  .confirmation-meta {
+    grid-template-columns: 1fr 1fr;
+
+    gap: 8px;
+
+    padding-top: 16px;
+  }
+
+
+  .confirmation-meta > div {
+    padding: 10px;
+  }
+
+
+  /* Passenger */
+
+  .confirmed-passenger {
+    grid-template-columns: 36px 1fr;
+
+    gap: 10px;
+  }
+
+
+  .confirmed-number {
+    width: 32px;
+    height: 32px;
+  }
+
+
+  .confirmed-seat {
+    grid-column: 2;
+
+    justify-self: start;
+  }
+
+
+  /* Payment */
+
+  .confirmation-total strong {
+    font-size: 23px;
+  }
+
+
+  /* Actions */
+
+  .confirmation-actions {
+    flex-direction: column-reverse;
+
+    width: 100%;
+  }
+
+
+  .confirmation-actions .btn {
+    width: 100%;
+  }
+
+}
+
+
+/* ==========================================================================
+   VERY SMALL SCREENS
+   ========================================================================== */
+
+@media (max-width: 400px) {
+
+  .confirmation-meta {
+    grid-template-columns: 1fr;
+  }
+
+
+  .confirmation-success h1 {
+    font-size: 25px;
+  }
+
+
+  .confirmation-title {
+    flex-direction: column;
+
+    align-items: flex-start;
+  }
+
+
+  .booking-reference strong {
+    font-size: 19px;
+  }
+
+}
+
+
+/* ==========================================================================
+   PRINT
+   ========================================================================== */
+
+@media print {
+
+  .confirmation-page {
+    background: #ffffff;
+
+    padding: 0;
+  }
+
+
+  .confirmation-container {
+    width: 100%;
+  }
+
+
+  .confirmation-actions,
+  .confirmation-note {
     display: none;
   }
 
-  .selected-seat-list {
-    grid-template-columns: 1fr;
+  .card,
+  .confirmation-card {
+    box-shadow: none;
+
+    break-inside: avoid;
   }
 
-  .summary-actions {
-    flex-direction: column-reverse;
+
+  .confirmation-success {
+    padding-top: 10px;
   }
 
-  .summary-actions button {
-    width: 100%;
-  }
 }

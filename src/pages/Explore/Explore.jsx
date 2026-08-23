@@ -10,11 +10,15 @@ import {
   SlidersHorizontal,
   Compass
 } from "lucide-react";
+
 import destinations from "../../data/destination";
 import { useWishlist } from "../../context/WishlistContext";
+
 import "./Explore.css";
 
-const DESTINATION_LIST = Array.isArray(destinations) ? destinations : [];
+const DESTINATION_LIST = Array.isArray(destinations)
+  ? destinations
+  : [];
 
 const CATEGORIES = [
   "All",
@@ -25,6 +29,20 @@ const CATEGORIES = [
   "Nature",
   "Luxury"
 ];
+
+/* =========================================================
+   OPTIMIZE UNSPLASH IMAGES
+   ========================================================= */
+
+const getOptimizedImage = (url, width = 800) => {
+  if (!url) return "";
+
+  return `${url}?auto=format&fit=crop&w=${width}&q=75`;
+};
+
+/* =========================================================
+   EXPLORE PAGE
+   ========================================================= */
 
 export default function Explore() {
   const navigate = useNavigate();
@@ -39,78 +57,145 @@ export default function Explore() {
     isInWishlist
   } = useWishlist();
 
-  // Filter and sort destinations
+  /* =========================================================
+     FILTER + SORT DESTINATIONS
+     ========================================================= */
+
   const filteredDestinations = useMemo(() => {
     let result = DESTINATION_LIST.filter((destination) => {
+      const name = destination.name?.toLowerCase() || "";
+      const country = destination.country?.toLowerCase() || "";
+      const searchValue = search.toLowerCase();
+
       const matchesSearch =
-        destination.name.toLowerCase().includes(search.toLowerCase()) ||
-        destination.country.toLowerCase().includes(search.toLowerCase());
+        name.includes(searchValue) ||
+        country.includes(searchValue);
 
       const matchesCategory =
-        category === "All" || destination.category === category;
+        category === "All" ||
+        destination.category === category;
 
       return matchesSearch && matchesCategory;
     });
 
-    // Sorting
+    /* SORTING */
+
     if (sortBy === "rating") {
       result.sort((a, b) => b.rating - a.rating);
-    } else if (sortBy === "price-low") {
+    }
+
+    if (sortBy === "price-low") {
       result.sort((a, b) => a.price - b.price);
-    } else if (sortBy === "price-high") {
+    }
+
+    if (sortBy === "price-high") {
       result.sort((a, b) => b.price - a.price);
     }
 
     return result;
   }, [search, category, sortBy]);
 
+  /* =========================================================
+     AI PLANNER
+     ========================================================= */
+
   const handlePlanAI = (destName) => {
     navigate("/ai-planner", {
       state: {
-        initialQuery: `Plan a 5-day trip to ${destName} with best attractions and hotels`,
+        initialQuery: `Plan a 5-day trip to ${destName} with best attractions and hotels`
       }
     });
   };
 
-  const handleFindFlights = (dest) => {
+  /* =========================================================
+     FIND FLIGHTS
+     ========================================================= */
+
+  const handleFindFlights = (destination) => {
     navigate("/flights", {
       state: {
-        prefillDestination: dest.name,
+        prefillDestination: destination.name
       }
     });
   };
+
+  /* =========================================================
+     RESET FILTERS
+     ========================================================= */
+
+  const handleResetFilters = () => {
+    setSearch("");
+    setCategory("All");
+    setSortBy("rating");
+  };
+
+  /* =========================================================
+     RENDER
+     ========================================================= */
 
   return (
     <div className="explore-page">
 
-      {/* Hero Banner */}
+      {/* =====================================================
+          HERO BANNER
+      ===================================================== */}
+
       <section className="explore-hero">
+
         <div className="explore-hero-content">
+
           <div className="explore-hero-pill">
             <Compass size={15} />
-            <span>CURATED DESTINATIONS</span>
+
+            <span>
+              CURATED DESTINATIONS
+            </span>
           </div>
 
-          <h1>Where will you go next?</h1>
+          <h1>
+            Where will you go next?
+          </h1>
 
           <p>
-            Discover breathtaking global destinations, verified traveler ratings, and seamlessly generate custom AI itineraries.
+            Discover breathtaking global destinations,
+            verified traveler ratings, and seamlessly
+            generate custom AI itineraries.
           </p>
+
         </div>
+
       </section>
+
+      {/* =====================================================
+          MAIN CONTAINER
+      ===================================================== */}
 
       <div className="explore-container">
 
-        {/* Floating Search Controls Bar */}
+        {/* ===================================================
+            SEARCH + SORT
+        =================================================== */}
+
         <div className="explore-controls card">
+
+          {/* SEARCH */}
+
           <div className="destination-search">
-            <Search size={18} className="search-icon" />
+
+            <Search
+              size={18}
+              className="search-icon"
+            />
+
             <input
               type="text"
               placeholder="Search destinations or countries (e.g. Paris, Tokyo, Bali)..."
               value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              onChange={(e) =>
+                setSearch(e.target.value)
+              }
             />
+
             {search && (
               <button
                 type="button"
@@ -120,153 +205,358 @@ export default function Explore() {
                 Clear
               </button>
             )}
+
           </div>
+
+          {/* SORT */}
 
           <div className="sort-controls">
-            <SlidersHorizontal size={16} className="sort-icon" />
+
+            <SlidersHorizontal
+              size={16}
+              className="sort-icon"
+            />
+
             <select
               value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
+              onChange={(e) =>
+                setSortBy(e.target.value)
+              }
               aria-label="Sort destinations"
             >
-              <option value="rating">Highest Rated</option>
-              <option value="price-low">Price: Low to High</option>
-              <option value="price-high">Price: High to Low</option>
+
+              <option value="rating">
+                Highest Rated
+              </option>
+
+              <option value="price-low">
+                Price: Low to High
+              </option>
+
+              <option value="price-high">
+                Price: High to Low
+              </option>
+
             </select>
+
           </div>
+
         </div>
 
-        {/* Categories Bar */}
+        {/* ===================================================
+            CATEGORY SECTION
+        =================================================== */}
+
         <div className="category-section">
+
           <div className="category-header">
-            <h3>Explore by travel interest</h3>
-            <span className="category-count">{filteredDestinations.length} places available</span>
+
+            <h3>
+              Explore by travel interest
+            </h3>
+
+            <span className="category-count">
+              {filteredDestinations.length} places available
+            </span>
+
           </div>
 
           <div className="category-pills">
+
             {CATEGORIES.map((item) => (
+
               <button
                 key={item}
                 type="button"
-                className={`category-pill${category === item ? " active" : ""}`}
-                onClick={() => setCategory(item)}
+                className={`category-pill${
+                  category === item
+                    ? " active"
+                    : ""
+                }`}
+                onClick={() =>
+                  setCategory(item)
+                }
               >
                 {item}
               </button>
+
             ))}
+
           </div>
+
         </div>
 
-        {/* Destination Cards Grid */}
+        {/* ===================================================
+            DESTINATION RESULTS
+        =================================================== */}
+
         {filteredDestinations.length === 0 ? (
+
+          /* =================================================
+             EMPTY STATE
+          ================================================= */
+
           <div className="explore-empty card">
+
             <div className="empty-icon-wrap">
-              <Compass size={44} strokeWidth={1.75} />
+              <Compass
+                size={44}
+                strokeWidth={1.75}
+              />
             </div>
-            <h2>No destinations found</h2>
+
+            <h2>
+              No destinations found
+            </h2>
+
             <p>
-              Try adjusting your search query or selecting a different category filter.
+              Try adjusting your search query or
+              selecting a different category filter.
             </p>
+
             <button
               type="button"
               className="btn btn-outline"
-              onClick={() => {
-                setSearch("");
-                setCategory("All");
-              }}
+              onClick={handleResetFilters}
             >
               Reset Filters
             </button>
+
           </div>
+
         ) : (
+
+          /* =================================================
+             DESTINATION GRID
+          ================================================= */
+
           <div className="destination-grid">
-            {filteredDestinations.map((destination) => {
-              const saved = isInWishlist(destination.id);
 
-              return (
-                <div className="destination-card" key={destination.id}>
-                  {/* Image Header */}
-                  <div className="destination-image">
-                    <img
-                      src={destination.image}
-                      alt={destination.name}
-                      loading="lazy"
-                    />
+            {filteredDestinations.map(
+              (destination, index) => {
 
-                    <button
-                      type="button"
-                      className={`wishlist-button${saved ? " saved" : ""}`}
-                      title={saved ? "Remove from wishlist" : "Add to wishlist"}
-                      aria-label="Toggle wishlist"
-                      onClick={() => {
-                        if (saved) {
-                          removeFromWishlist(destination.id);
-                        } else {
-                          addToWishlist(destination);
+                const saved =
+                  isInWishlist(destination.id);
+
+                return (
+
+                  <div
+                    className="destination-card"
+                    key={destination.id}
+                  >
+
+                    {/* =====================================
+                        IMAGE
+                    ===================================== */}
+
+                    <div className="destination-image">
+
+                      <img
+                        src={getOptimizedImage(
+                          destination.image
+                        )}
+                        alt={destination.name}
+                        loading={
+                          index < 6
+                            ? "eager"
+                            : "lazy"
                         }
-                      }}
-                    >
-                      <Heart
-                        size={18}
-                        fill={saved ? "#ff385c" : "none"}
-                        color={saved ? "#ff385c" : "#ffffff"}
+                        decoding="async"
                       />
-                    </button>
 
-                    <span className="destination-category">
-                      {destination.category}
-                    </span>
-                  </div>
+                      {/* =================================
+                          WISHLIST
+                      ================================= */}
 
-                  {/* Destination Info */}
-                  <div className="destination-info">
-                    <div className="destination-title">
-                      <div>
-                        <h3>{destination.name}</h3>
-                        <p className="destination-country">
-                          <MapPin size={13} /> {destination.country}
-                        </p>
-                      </div>
+                      <button
+                        type="button"
+                        className={`wishlist-button${
+                          saved
+                            ? " saved"
+                            : ""
+                        }`}
+                        title={
+                          saved
+                            ? "Remove from wishlist"
+                            : "Add to wishlist"
+                        }
+                        aria-label={
+                          saved
+                            ? `Remove ${destination.name} from wishlist`
+                            : `Add ${destination.name} to wishlist`
+                        }
+                        onClick={() => {
 
-                      <div className="rating-badge">
-                        <Star size={13} fill="#ffc72c" color="#ffc72c" />
-                        <span>{destination.rating}</span>
-                      </div>
+                          if (saved) {
+
+                            removeFromWishlist(
+                              destination.id
+                            );
+
+                          } else {
+
+                            addToWishlist(
+                              destination
+                            );
+
+                          }
+
+                        }}
+                      >
+
+                        <Heart
+                          size={18}
+                          fill={
+                            saved
+                              ? "#ff385c"
+                              : "none"
+                          }
+                          color={
+                            saved
+                              ? "#ff385c"
+                              : "#ffffff"
+                          }
+                        />
+
+                      </button>
+
+                      {/* =================================
+                          CATEGORY
+                      ================================= */}
+
+                      <span className="destination-category">
+                        {destination.category}
+                      </span>
+
                     </div>
 
-                    <div className="destination-bottom">
-                      <div className="price-box">
-                        <span className="price-tag-label">Starting from</span>
-                        <strong>₹{destination.price.toLocaleString("en-IN")}</strong>
+                    {/* =====================================
+                        DESTINATION INFORMATION
+                    ===================================== */}
+
+                    <div className="destination-info">
+
+                      <div className="destination-title">
+
+                        <div>
+
+                          <h3>
+                            {destination.name}
+                          </h3>
+
+                          <p className="destination-country">
+
+                            <MapPin size={13} />
+
+                            {destination.country}
+
+                          </p>
+
+                        </div>
+
+                        {/* ===============================
+                            RATING
+                        =============================== */}
+
+                        <div className="rating-badge">
+
+                          <Star
+                            size={13}
+                            fill="#ffc72c"
+                            color="#ffc72c"
+                          />
+
+                          <span>
+                            {destination.rating}
+                          </span>
+
+                        </div>
+
                       </div>
 
-                      <div className="destination-actions">
-                        <button
-                          type="button"
-                          className="btn-card btn-plan-ai"
-                          onClick={() => handlePlanAI(destination.name)}
-                          title="Generate AI itinerary"
-                        >
-                          <Sparkles size={14} /> AI Plan
-                        </button>
-                        <button
-                          type="button"
-                          className="btn-card btn-flights"
-                          onClick={() => handleFindFlights(destination)}
-                          title="Search flights"
-                        >
-                          <Plane size={14} /> Flights
-                        </button>
+                      {/* =================================
+                          CARD BOTTOM
+                      ================================= */}
+
+                      <div className="destination-bottom">
+
+                        {/* PRICE */}
+
+                        <div className="price-box">
+
+                          <span className="price-tag-label">
+                            Starting from
+                          </span>
+
+                          <strong>
+                            ₹
+                            {destination.price.toLocaleString(
+                              "en-IN"
+                            )}
+                          </strong>
+
+                        </div>
+
+                        {/* ACTION BUTTONS */}
+
+                        <div className="destination-actions">
+
+                          {/* AI PLAN */}
+
+                          <button
+                            type="button"
+                            className="btn-card btn-plan-ai"
+                            onClick={() =>
+                              handlePlanAI(
+                                destination.name
+                              )
+                            }
+                            title="Generate AI itinerary"
+                          >
+
+                            <Sparkles size={14} />
+
+                            AI Plan
+
+                          </button>
+
+                          {/* FLIGHTS */}
+
+                          <button
+                            type="button"
+                            className="btn-card btn-flights"
+                            onClick={() =>
+                              handleFindFlights(
+                                destination
+                              )
+                            }
+                            title="Search flights"
+                          >
+
+                            <Plane size={14} />
+
+                            Flights
+
+                          </button>
+
+                        </div>
+
                       </div>
+
                     </div>
+
                   </div>
-                </div>
-              );
-            })}
+
+                );
+              }
+            )}
+
           </div>
+
         )}
 
       </div>
+
     </div>
   );
 }

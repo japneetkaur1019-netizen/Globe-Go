@@ -40,11 +40,9 @@
   font-size: 0.84rem;
   font-weight: 600;
 }
-
 .step-node.completed {
   color: var(--rating-green);
 }
-
 .step-node.active {
   color: var(--expedia-blue);
   font-weight: 800;

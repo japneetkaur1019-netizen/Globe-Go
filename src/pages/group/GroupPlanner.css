@@ -44,6 +44,21 @@
     sans-serif;
 }
 
+[data-theme="dark"] {
+  --bg-page: #060d17;
+  --card-bg: #101e33;
+  --text-dark: #f8fafc;
+  --text-light: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border: #1e3352;
+  --border-light: #15253e;
+  --primary-light: rgba(26, 115, 232, 0.18);
+  --danger-light: rgba(209, 59, 59, 0.18);
+  --success-light: rgba(16, 124, 65, 0.18);
+  --shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.6);
+}
+
 /* =========================================================
    PAGE
    ========================================================= */

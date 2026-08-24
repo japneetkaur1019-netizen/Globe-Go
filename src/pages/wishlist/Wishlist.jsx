@@ -62,21 +62,6 @@ export default function Wishlist() {
 
 
   /* =========================================================
-     AI PLANNER
-     ========================================================= */
-
-  const handlePlanAI = (destinationName) => {
-    navigate("/ai-planner", {
-      state: {
-        initialQuery:
-          `Plan a luxury 5-day holiday to ${destinationName} ` +
-          `with top hotel and activity recommendations`,
-      },
-    });
-  };
-
-
-  /* =========================================================
      FIND FLIGHTS
      ========================================================= */
 
@@ -509,26 +494,6 @@ export default function Wishlist() {
                     {/* ACTIONS */}
 
                     <div className="wishlist-actions-row">
-
-
-                      <button
-                        type="button"
-                        className="btn-action btn-ai"
-                        onClick={() =>
-                          handlePlanAI(
-                            destination.name
-                          )
-                        }
-                        title="Generate AI Itinerary"
-                      >
-
-                        <Sparkles size={14} />
-
-                        AI Planner
-
-                      </button>
-
-
                       <button
                         type="button"
                         className="btn-action btn-flight"
@@ -538,14 +503,10 @@ export default function Wishlist() {
                           )
                         }
                         title="Find flights to this destination"
+                        style={{ width: '100%', justifyContent: 'center' }}
                       >
-
-                        <Plane size={14} />
-
-                        Flights
-
+                        <Plane size={14} /> Book Flights
                       </button>
-
                     </div>
 
                   </div>
@@ -578,15 +539,9 @@ export default function Wishlist() {
               <button
                 type="button"
                 className="btn btn-primary"
-                onClick={() =>
-                  navigate("/ai-planner")
-                }
+                onClick={() => navigate("/flights")}
               >
-
-                <Sparkles size={16} />
-
-                Plan Master Trip with AI
-
+                <Plane size={16} /> Search Low-Fare Flights
               </button>
 
             </div>

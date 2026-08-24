@@ -25,7 +25,6 @@ import { useAuth } from '../context/AuthContext.jsx';
 
 const NAV_ITEMS = [
   { to: '/', label: 'Home', end: true },
-  { to: '/ai-planner', label: 'AI Planner' },
   { to: '/flights', label: 'Flights' },
   { to: '/explore', label: 'Explore' },
   { to: '/wishlist', label: 'Wishlist', showWishlistBadge: true },
@@ -71,13 +70,13 @@ export default function Navbar() {
     <>
       <div className="top-bar-notice">
         <div className="container" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <span>Intelligent AI Travel Portal &amp; Flight Booking Engine with Member Price Guarantee.</span>
+          <span>Intelligent Travel Portal &amp; Flight Booking Engine with Member Price Guarantee.</span>
           <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
             <Link to="/flights" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
               <Plane size={13} /> Book Flights
             </Link>
-            <Link to="/ai-planner" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
-              <Sparkles size={13} /> AI Itinerary →
+            <Link to="/explore" style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+              <MapPin size={13} /> Explore Destinations →
             </Link>
           </div>
         </div>
@@ -109,9 +108,6 @@ export default function Navbar() {
                 </Link>
                 <Link to="/explore" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
                   <MapPin size={15} /> Explore Global Destinations
-                </Link>
-                <Link to="/ai-planner" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
-                  <Sparkles size={15} /> AI Smart Itinerary Planner
                 </Link>
                 <Link to="/group" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
                   <Users size={15} /> Group Trip &amp; Splitter

@@ -342,15 +342,15 @@ export default function Profile() {
                     style={{ flex: 1 }}
                     onClick={() => navigate('/preferences')}
                   >
-                    Configure AI Travel Persona
+                    Travel Persona
                   </button>
                   <button
                     type="button"
                     className="btn btn-primary"
                     style={{ flex: 1 }}
-                    onClick={() => navigate('/ai-planner')}
+                    onClick={() => navigate('/flights')}
                   >
-                    <Sparkles size={14} /> Plan with AI
+                    <Plane size={14} /> Search Flights
                   </button>
                 </div>
               </div>

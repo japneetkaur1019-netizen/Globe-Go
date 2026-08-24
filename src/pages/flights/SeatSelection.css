@@ -50,6 +50,22 @@
     sans-serif;
 }
 
+[data-theme="dark"] {
+  --bg-page: #060d17;
+  --card-bg: #101e33;
+  --text-dark: #f8fafc;
+  --text-light: #cbd5e1;
+  --text-muted: #94a3b8;
+  --border-color: #1e3352;
+  --border-light: #15253e;
+  --primary-light: rgba(43, 82, 186, 0.25);
+  --dark-navy: #040910;
+  --navy-blue: #0a1f3d;
+  --success-light: rgba(22, 128, 60, 0.2);
+  --shadow-card: 0 10px 25px -5px rgba(0, 0, 0, 0.4);
+  --shadow-hover: 0 20px 30px -10px rgba(0, 0, 0, 0.6);
+}
+
 
 /* ==========================================================================
    PAGE
@@ -100,7 +116,7 @@
 
   padding: 14px 18px;
 
-  background: #ffffff;
+  background: var(--card-bg);
 
   border: 1px solid var(--border-color);
 
@@ -376,7 +392,7 @@
 
 
 .btn-outline {
-  background: #ffffff;
+  background: var(--card-bg);
 
   border: 1px solid var(--border-color);
 
@@ -385,9 +401,9 @@
 
 
 .btn-outline:hover {
-  background: #f8fafc;
+  background: var(--border-light);
 
-  border-color: #cbd5e1;
+  border-color: var(--primary);
 }
 
 
@@ -652,7 +668,7 @@
 
 
 .cabin-row:hover {
-  background: #f8fafc;
+  background: var(--border-light);
 }
 
 
@@ -665,11 +681,11 @@
 
   padding-bottom: 7px;
 
-  border-top: 1px dashed #b8c6df;
+  border-top: 1px dashed var(--border-color);
 
-  border-bottom: 1px dashed #b8c6df;
+  border-bottom: 1px dashed var(--border-color);
 
-  background: #fbfdff;
+  background: var(--border-light);
 }
 
 
@@ -717,7 +733,7 @@
 
   padding: 3px 6px;
 
-  background: #ffffff;
+  background: var(--card-bg);
 
   color: var(--text-muted);
 

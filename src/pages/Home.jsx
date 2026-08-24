@@ -228,14 +228,8 @@ export default function Home() {
           prefillDestination: query,
         },
       });
-    } else if (activeSearchTab === 'activities') {
-      navigate('/explore');
     } else {
-      navigate('/ai-planner', {
-        state: {
-          initialQuery: `Plan a 5-day trip to ${query} under ₹80,000`,
-        },
-      });
+      navigate('/explore');
     }
   };
 
@@ -361,7 +355,7 @@ export default function Home() {
           <button
             type="button"
             className="discount-promo-btn"
-            onClick={() => navigate('/ai-planner')}
+            onClick={() => navigate('/flights')}
           >
             Book now
           </button>
@@ -379,7 +373,7 @@ export default function Home() {
             <button
               type="button"
               className="section-action-btn"
-              onClick={() => navigate('/ai-planner')}
+              onClick={() => navigate('/explore')}
             >
               <span>See all deals</span>
               <ChevronRight size={16} />
@@ -456,7 +450,7 @@ export default function Home() {
               <div
                 className="rental-type-card"
                 key={rental.title}
-                onClick={() => navigate('/ai-planner', { state: { initialQuery: `Plan a stay in ${rental.title}` } })}
+                onClick={() => navigate('/flights', { state: { prefillDestination: rental.title } })}
               >
                 <img src={rental.image} alt={rental.title} className="rental-type-img" />
                 <div className="rental-type-overlay">
@@ -496,7 +490,7 @@ export default function Home() {
               <div
                 className="package-deal-card"
                 key={pkg.name}
-                onClick={() => navigate('/ai-planner', { state: { initialQuery: `Plan package to ${pkg.name}` } })}
+                onClick={() => navigate('/flights', { state: { prefillDestination: pkg.name } })}
                 style={{ cursor: 'pointer' }}
               >
                 <div className="package-img-wrap">
@@ -555,7 +549,7 @@ export default function Home() {
               <div
                 className="travel-style-card"
                 key={sc.title}
-                onClick={() => navigate('/ai-planner', { state: { initialQuery: `Plan trip to ${sc.title}` } })}
+                onClick={() => navigate('/explore')}
               >
                 <div className="style-card-img-wrap">
                   <img src={sc.image} alt={sc.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
@@ -660,7 +654,7 @@ export default function Home() {
                 <button
                   type="button"
                   className="btn btn-primary"
-                  onClick={() => navigate('/ai-planner')}
+                  onClick={() => navigate('/preferences')}
                   style={{ padding: '10px 24px' }}
                 >
                   List your property

@@ -27,7 +27,7 @@ export default function Dashboard() {
           <span>Expedia VIP Member</span>
         </div>
         <h1>Member Travel Dashboard</h1>
-        <p className="page-subtitle">Track your upcoming AI-planned itineraries, saved destinations and loyalty stats.</p>
+        <p className="page-subtitle">Track your upcoming flight bookings, saved destinations and loyalty stats.</p>
       </header>
 
       <div className="container" style={{ paddingTop: 36, paddingBottom: 64 }}>
@@ -73,8 +73,8 @@ export default function Dashboard() {
         <section style={{ marginBottom: 40 }}>
           <div className="section-header-row">
             <div>
-              <h2 className="section-main-title">Upcoming Itineraries</h2>
-              <p className="section-main-sub">Your active AI-generated travel itineraries ready for departure.</p>
+              <h2 className="section-main-title">Upcoming Itineraries &amp; Bookings</h2>
+              <p className="section-main-sub">Your active flight bookings and travel itineraries ready for departure.</p>
             </div>
           </div>
 
@@ -97,10 +97,10 @@ export default function Dashboard() {
               </div>
               <h3 style={{ fontSize: '1.2rem', fontWeight: 800, marginBottom: 6 }}>No saved trips yet</h3>
               <p style={{ color: 'var(--ink-500)', fontSize: '0.92rem', maxWidth: 420, margin: '0 auto 20px' }}>
-                Use our AI travel planner to create your first customized day-by-day itinerary with verified hotel picks.
+                Discover trending destinations and search low-fare flights for your next dream getaway.
               </p>
-              <Link to="/ai-planner" className="btn btn-primary">
-                <span>Plan a Trip</span>
+              <Link to="/explore" className="btn btn-primary">
+                <span>Explore Destinations</span>
                 <ArrowRight size={16} />
               </Link>
             </div>
@@ -160,12 +160,12 @@ export default function Dashboard() {
 
                     <div style={{ marginTop: 'auto', display: 'flex', gap: 10 }}>
                       <Link
-                        to="/ai-planner"
-                        state={{ initialQuery: `Plan a ${t.duration}-day trip to ${t.destination}` }}
+                        to="/flights"
+                        state={{ prefillDestination: t.destination }}
                         className="btn btn-secondary btn-sm"
                         style={{ flex: 1 }}
                       >
-                        View Itinerary
+                        Book Flights
                       </Link>
                     </div>
                   </div>

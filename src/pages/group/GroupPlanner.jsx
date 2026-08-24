@@ -129,12 +129,11 @@ export default function GroupPlanner() {
     });
   });
 
-  const handleAIPlanForGroup = () => {
+  const handleBookFlightsForGroup = () => {
     const dest = destination.trim() || "Goa";
-    const bg = budget ? `with budget ₹${budget}` : "";
-    navigate("/ai-planner", {
+    navigate("/flights", {
       state: {
-        initialQuery: `Plan a ${members.length || 4}-person group trip to ${dest} ${bg} including villa stays, group dining, and shared activities`,
+        prefillDestination: dest,
       }
     });
   };

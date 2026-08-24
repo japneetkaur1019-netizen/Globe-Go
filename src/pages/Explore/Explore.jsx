@@ -96,26 +96,14 @@ export default function Explore() {
   }, [search, category, sortBy]);
 
   /* =========================================================
-     AI PLANNER
-     ========================================================= */
-
-  const handlePlanAI = (destName) => {
-    navigate("/ai-planner", {
-      state: {
-        initialQuery: `Plan a 5-day trip to ${destName} with best attractions and hotels`
-      }
-    });
-  };
-
-  /* =========================================================
      FIND FLIGHTS
      ========================================================= */
 
   const handleFindFlights = (destination) => {
     navigate("/flights", {
       state: {
-        prefillDestination: destination.name
-      }
+        prefillDestination: destination.name,
+      },
     });
   };
 
@@ -498,47 +486,16 @@ export default function Explore() {
                         </div>
 
                         {/* ACTION BUTTONS */}
-
                         <div className="destination-actions">
-
-                          {/* AI PLAN */}
-
-                          <button
-                            type="button"
-                            className="btn-card btn-plan-ai"
-                            onClick={() =>
-                              handlePlanAI(
-                                destination.name
-                              )
-                            }
-                            title="Generate AI itinerary"
-                          >
-
-                            <Sparkles size={14} />
-
-                            AI Plan
-
-                          </button>
-
-                          {/* FLIGHTS */}
-
                           <button
                             type="button"
                             className="btn-card btn-flights"
-                            onClick={() =>
-                              handleFindFlights(
-                                destination
-                              )
-                            }
+                            onClick={() => handleFindFlights(destination)}
                             title="Search flights"
+                            style={{ width: '100%', justifyContent: 'center' }}
                           >
-
-                            <Plane size={14} />
-
-                            Flights
-
+                            <Plane size={14} /> Book Flights
                           </button>
-
                         </div>
 
                       </div>

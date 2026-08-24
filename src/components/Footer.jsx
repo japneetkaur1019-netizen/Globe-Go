@@ -6,7 +6,7 @@ const FOOTER_COLUMNS = [
     title: 'Company',
     links: [
       { label: 'About GlobeGo', to: '/' },
-      { label: 'How the AI Planner Works', to: '/ai-planner' },
+      { label: 'Explore Destinations', to: '/explore' },
       { label: 'Careers & Team', to: '/' },
       { label: 'Investor Relations', to: '/' },
       { label: 'Press & Newsroom', to: '/' },
@@ -15,12 +15,12 @@ const FOOTER_COLUMNS = [
   {
     title: 'Explore & Plan',
     links: [
-      { label: 'AI Trip Planner', to: '/ai-planner' },
       { label: 'Flight Search & Booking', to: '/flights' },
       { label: 'Explore Destinations', to: '/explore' },
       { label: 'Group Trip & Splitter', to: '/group' },
       { label: 'Travel Wishlist', to: '/wishlist' },
       { label: 'Travel Preferences Engine', to: '/preferences' },
+      { label: 'Rewards & Stats', to: '/stats' },
     ],
   },
   {
@@ -36,7 +36,7 @@ const FOOTER_COLUMNS = [
   {
     title: 'Help & Support',
     links: [
-      { label: 'Customer Support 24/7', to: '/ai-planner' },
+      { label: 'Customer Support 24/7', to: '/dashboard' },
       { label: 'Cancel or Change Trip', to: '/dashboard' },
       { label: 'Member Rewards FAQs', to: '/stats' },
       { label: 'List Your Property', to: '/' },

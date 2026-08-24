@@ -10,7 +10,8 @@ import {
   CheckCircle,
   Sparkles,
   MapPin,
-  Tag
+  Tag,
+  Plane
 } from "lucide-react";
 import "./GroupPlanner.css";
 
@@ -201,9 +202,9 @@ export default function GroupPlanner() {
             <button
               type="button"
               className="btn btn-ai-quick"
-              onClick={handleAIPlanForGroup}
+              onClick={handleBookFlightsForGroup}
             >
-              <Sparkles size={15} /> Plan Group Itinerary with AI
+              <Plane size={15} /> Find Group Flights
             </button>
           </div>
 

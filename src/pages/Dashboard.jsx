@@ -48,32 +48,28 @@ const HERO_SLIDES = [
     title: 'Explore Neon Skylines & Historic Temples',
     destination: 'Tokyo, Japan',
     image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=1600&q=80',
-    tag: 'Cherry Blossom Special',
-    query: 'Plan a 7-day culture & food trip to Japan'
+    tag: 'Cherry Blossom Special'
   },
   {
     id: 'bali',
     title: 'Serene Emerald Terraces & Ocean Sunsets',
     destination: 'Bali, Indonesia',
     image: 'https://images.unsplash.com/photo-1518548419970-58e3b4079ab2?auto=format&fit=crop&w=1600&q=80',
-    tag: 'Tropical Escape',
-    query: 'Plan a 5-day relaxing nature getaway to Bali'
+    tag: 'Tropical Escape'
   },
   {
     id: 'swiss',
     title: 'Majestic Alpine Summits & Crystal Lakes',
     destination: 'Swiss Alps, Switzerland',
     image: 'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=1600&q=80',
-    tag: 'Mountain Adventure',
-    query: 'Plan a 6-day scenic adventure in Switzerland'
+    tag: 'Mountain Adventure'
   },
   {
     id: 'paris',
     title: 'Timeless Art, Cafes & Romantic Boulevards',
     destination: 'Paris, France',
     image: 'https://images.unsplash.com/photo-1499856871958-5b9627545d1a?auto=format&fit=crop&w=1600&q=80',
-    tag: 'Gourmet & Culture',
-    query: 'Plan a 4-day romantic highlights tour of Paris'
+    tag: 'Gourmet & Culture'
   }
 ];
 
@@ -111,7 +107,7 @@ const CURATED_TRIPS = [
   }
 ];
 
-// Smart AI Travel Tips for the generator widget
+// Smart Travel Tips for the generator widget
 const TRAVEL_TIPS = [
   {
     category: 'Smart Booking',
@@ -126,7 +122,7 @@ const TRAVEL_TIPS = [
     tip: 'Always opt for local currency payments on your credit card at checkout to avoid high dynamic currency conversion fees.'
   },
   {
-    category: 'AI Travel Hack',
+    category: 'Travel Hack',
     tip: 'Download offline Google Maps of your destination before departure to navigate seamlessly without cellular data.'
   },
   {
@@ -181,7 +177,7 @@ export default function Dashboard() {
   // State 6: Search input text for filtering destination cards live
   const [searchQuery, setSearchQuery] = useState('');
 
-  // State 7: Index of the current AI Travel Tip displayed
+  // State 7: Index of the current Travel Tip displayed
   const [tipIndex, setTipIndex] = useState(0);
 
   // State 8: Travel Bucket List goals checklist
@@ -229,7 +225,7 @@ export default function Dashboard() {
     return () => clearInterval(interval);
   }, [isAutoplay]);
 
-  // Effect 3: AI travel tips rotation timer (every 8 seconds)
+  // Effect 3: Travel tips rotation timer (every 8 seconds)
   useEffect(() => {
     const tipInterval = setInterval(() => {
       setTipIndex((prev) => (prev + 1) % TRAVEL_TIPS.length);
@@ -274,7 +270,7 @@ export default function Dashboard() {
     setNewGoalInput('');
   };
 
-  // Next AI tip button handler
+  // Next tip button handler
   const handleNextTip = () => {
     setTipIndex((prev) => (prev + 1) % TRAVEL_TIPS.length);
   };
@@ -286,11 +282,6 @@ export default function Dashboard() {
     } else {
       addToWishlist(dest);
     }
-  };
-
-  // Quick Plan action - navigates to AI travel planner with search state
-  const handleQuickPlan = (query) => {
-    navigate('/ai-planner', { state: { initialQuery: query } });
   };
 
   // Calculate estimated budget for the interactive tool widget
@@ -353,25 +344,25 @@ export default function Dashboard() {
             </div>
 
             <h1 className="dashboard-hero-title">
-              {greeting}, {user?.name ? user.name.split(' ')[0] : 'Traveler'}! ✈️
+              Member Travel Dashboard
             </h1>
 
             <p className="dashboard-hero-subtitle">
-              {currentHero.title} — Discover curated AI day-by-day itineraries, member perks, and explore {currentHero.destination}.
+              Track your upcoming trips, saved destinations and travel spending.
             </p>
 
             <div className="hero-actions">
-              <button
-                onClick={() => handleQuickPlan(currentHero.query)}
+              <Link
+                to="/explore"
                 className="btn btn-primary"
                 style={{ padding: '12px 24px', fontSize: '0.96rem' }}
               >
-                <Sparkles size={18} />
-                <span>Plan Trip to {currentHero.destination.split(',')[0]}</span>
-              </button>
+                <Globe size={18} />
+                <span>Explore Destinations</span>
+              </Link>
 
               <Link
-                to="/explore"
+                to="/flights"
                 className="btn btn-secondary"
                 style={{
                   background: 'rgba(255,255,255,0.18)',
@@ -380,8 +371,8 @@ export default function Dashboard() {
                   backdropFilter: 'blur(8px)'
                 }}
               >
-                <Globe size={18} />
-                <span>Explore All Places</span>
+                <Plane size={18} />
+                <span>Book Flights</span>
               </Link>
             </div>
           </div>
@@ -502,8 +493,8 @@ export default function Dashboard() {
             onClick={() => setActiveTab('tools')}
             className={`dash-tab-btn ${activeTab === 'tools' ? 'active' : ''}`}
           >
-            <Sparkles size={17} />
-            <span>Smart Travel Tools</span>
+            <Sliders size={17} />
+            <span>Travel Tools</span>
           </button>
         </div>
 
@@ -516,18 +507,18 @@ export default function Dashboard() {
               <div>
                 <h2>
                   <Luggage size={22} color="#0284c7" />
-                  <span>Upcoming &amp; Recommended Itineraries</span>
+                  <span>Upcoming &amp; Recommended Trips</span>
                 </h2>
                 <p>
                   {upcomingTrips.length > 0
-                    ? 'Your active customized itineraries ready for departure.'
-                    : 'Curated itineraries crafted by our AI engine ready for your next getaway.'}
+                    ? 'Your active travel itineraries ready for departure.'
+                    : 'Curated itineraries and custom travel packages for your next getaway.'}
                 </p>
               </div>
 
-              <Link to="/ai-planner" className="btn btn-primary btn-sm">
-                <Sparkles size={15} />
-                <span>Generate Custom Trip</span>
+              <Link to="/explore" className="btn btn-primary btn-sm">
+                <Compass size={15} />
+                <span>Explore Packages</span>
               </Link>
             </div>
 
@@ -563,16 +554,14 @@ export default function Dashboard() {
                     </div>
 
                     <div className="trip-card-actions">
-                      <button
-                        onClick={() =>
-                          handleQuickPlan(`Plan a ${trip.duration}-day detailed travel itinerary to ${trip.destination}`)
-                        }
+                      <Link
+                        to="/flights"
                         className="btn btn-primary btn-sm"
-                        style={{ flex: 1 }}
+                        style={{ flex: 1, textDecoration: 'none', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '6px' }}
                       >
-                        <span>View Day-by-Day Plan</span>
+                        <span>Book Flights</span>
                         <ArrowRight size={14} />
-                      </button>
+                      </Link>
 
                       <button
                         onClick={() => {
@@ -607,7 +596,7 @@ export default function Dashboard() {
                   <MapPin size={22} color="#0284c7" />
                   <span>Featured World Destinations</span>
                 </h2>
-                <p>Browse high-rated global spots with estimated daily packages and one-click AI planning.</p>
+                <p>Browse high-rated global spots with estimated daily packages and flight connections.</p>
               </div>
             </div>
 
@@ -682,13 +671,13 @@ export default function Dashboard() {
                           <div className="dest-price-unit">Estimated Package</div>
                         </div>
 
-                        <button
-                          onClick={() => handleQuickPlan(`Plan a 5-day holiday in ${dest.name}, ${dest.country}`)}
+                        <Link
+                          to="/flights"
                           className="btn btn-primary btn-sm"
-                          style={{ padding: '6px 12px', fontSize: '0.82rem' }}
+                          style={{ padding: '6px 12px', fontSize: '0.82rem', textDecoration: 'none' }}
                         >
-                          <span>Plan AI Trip</span>
-                        </button>
+                          <span>Explore Stays</span>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -709,21 +698,21 @@ export default function Dashboard() {
                   <Sparkles size={22} color="#0284c7" />
                   <span>Travel Tools &amp; Daily Insights</span>
                 </h2>
-                <p>Interactive utilities powered by standard React hooks (useState &amp; useEffect).</p>
+                <p>Interactive utilities to plan budgets, checklists, and travel tips.</p>
               </div>
             </div>
 
             <div className="tools-widgets-grid">
               
-              {/* WIDGET 1: AI Daily Travel Tip Generator */}
+              {/* WIDGET 1: Daily Travel Tip Generator */}
               <div className="widget-card">
                 <div className="widget-header">
                   <div className="widget-icon" style={{ background: '#f0fdf4', color: '#16a34a' }}>
                     <Lightbulb size={22} />
                   </div>
                   <div>
-                    <h3 className="widget-title">AI Travel Tip of the Day</h3>
-                    <p className="widget-sub">Auto-refreshes daily with insider hacks</p>
+                    <h3 className="widget-title">Travel Tip of the Day</h3>
+                    <p className="widget-sub">Refreshes daily with insider hacks</p>
                   </div>
                 </div>
 
@@ -733,8 +722,8 @@ export default function Dashboard() {
                 </div>
 
                 <button onClick={handleNextTip} className="btn btn-secondary btn-sm" style={{ width: '100%' }}>
-                  <Sparkles size={14} />
-                  <span>Get Another Travel Hack ({tipIndex + 1}/{TRAVEL_TIPS.length})</span>
+                  <Lightbulb size={14} />
+                  <span>Get Another Travel Tip ({tipIndex + 1}/{TRAVEL_TIPS.length})</span>
                 </button>
               </div>
 

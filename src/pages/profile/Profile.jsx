@@ -128,7 +128,16 @@ export default function Profile() {
           <div className="profile-hero-main">
             <div className="profile-avatar-stack">
               <div className="avatar-wrapper">
-                <img src={user.avatar} alt={user.name} className="avatar-img" />
+                <img
+                  src={user.avatar}
+                  alt={`${user.name} profile`}
+                  className="avatar-img"
+                  loading="eager"
+                  onError={(e) => {
+                    e.currentTarget.src =
+                      'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=300&q=85';
+                  }}
+                />
                 <button
                   type="button"
                   className="avatar-edit-badge"
@@ -407,6 +416,67 @@ export default function Profile() {
                 </button>
               </div>
             </div>
+
+            {/* PREMIUM TRAVEL VISUAL GALLERY */}
+            <section className="profile-travel-gallery" aria-label="Travel inspiration">
+              <div className="profile-travel-gallery-head">
+                <div>
+                  <h3>Your next chapter starts here</h3>
+                  <p>Curated destinations inspired by the GlobeGo traveler experience.</p>
+                </div>
+                <span className="tier-pill-badge">✦ INSPIRED BY YOU</span>
+              </div>
+
+              <div className="profile-gallery-grid">
+                <div className="profile-gallery-item">
+                  <img
+                    src="https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1100&q=85"
+                    alt="Mountain landscape travel destination"
+                    loading="lazy"
+                  />
+                  <div className="profile-gallery-caption">
+                    <span className="profile-gallery-pill">Adventure</span>
+                    Find your next horizon
+                  </div>
+                </div>
+
+                <div className="profile-gallery-item">
+                  <img
+                    src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?auto=format&fit=crop&w=700&q=85"
+                    alt="Colorful coastal village in Italy"
+                    loading="lazy"
+                  />
+                  <div className="profile-gallery-caption">Mediterranean escapes</div>
+                </div>
+
+                <div className="profile-gallery-item">
+                  <img
+                    src="https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=700&q=85"
+                    alt="Traditional Japanese travel scene"
+                    loading="lazy"
+                  />
+                  <div className="profile-gallery-caption">Culture &amp; discovery</div>
+                </div>
+
+                <div className="profile-gallery-item">
+                  <img
+                    src="https://images.unsplash.com/photo-1528181304800-259b08848526?auto=format&fit=crop&w=700&q=85"
+                    alt="Tropical island travel destination"
+                    loading="lazy"
+                  />
+                  <div className="profile-gallery-caption">Slow island days</div>
+                </div>
+
+                <div className="profile-gallery-item">
+                  <img
+                    src="https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=700&q=85"
+                    alt="Modern city skyline at night"
+                    loading="lazy"
+                  />
+                  <div className="profile-gallery-caption">City lights</div>
+                </div>
+              </div>
+            </section>
           </>
         )}
 

@@ -21,11 +21,14 @@ import {
   BookmarkCheck,
   Utensils,
   Armchair,
-  X
+  X,
+  Zap,
+  FileText
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext.jsx';
 import { useApp } from '../../context/AppContext.jsx';
 import { useWishlist } from '../../context/WishlistContext.jsx';
+import ProfileReduxVault from './ProfileReduxVault.jsx';
 import './Profile.css';
 
 export default function Profile() {
@@ -237,6 +240,19 @@ export default function Profile() {
 
           <button
             type="button"
+            className={`profile-tab-btn ${activeTab === 'vault' ? 'active' : ''}`}
+            onClick={() => setActiveTab('vault')}
+            style={{ position: 'relative' }}
+          >
+            <Zap size={16} color="#764abc" />
+            <span>Travel Vault &amp; Rewards</span>
+            <span style={{ fontSize: '10px', background: 'rgba(118,74,188,0.15)', color: '#764abc', padding: '1px 6px', borderRadius: '999px', fontWeight: 800 }}>
+              Redux
+            </span>
+          </button>
+
+          <button
+            type="button"
             className={`profile-tab-btn ${activeTab === 'bookings' ? 'active' : ''}`}
             onClick={() => setActiveTab('bookings')}
           >
@@ -298,6 +314,63 @@ export default function Profile() {
                   <span className="stat-lbl">Member Savings Unlocked</span>
                 </div>
               </div>
+            </div>
+
+            {/* REDUX TOOLKIT VAULT QUICK CARD */}
+            <div
+              className="card"
+              style={{
+                background: 'linear-gradient(135deg, rgba(118,74,188,0.06) 0%, rgba(37,99,235,0.06) 100%)',
+                border: '1.5px solid rgba(118,74,188,0.25)',
+                borderRadius: '20px',
+                padding: '20px 24px',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+                gap: '16px',
+                marginBottom: '4px',
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                <div
+                  style={{
+                    width: '46px',
+                    height: '46px',
+                    borderRadius: '12px',
+                    background: '#764abc',
+                    color: '#fff',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: '0 4px 12px rgba(118,74,188,0.3)',
+                  }}
+                >
+                  <Zap size={24} />
+                </div>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <strong style={{ fontSize: '1.05rem', color: 'var(--ink-900)' }}>
+                      Redux Travel Vault &amp; Loyalty Rewards
+                    </strong>
+                    <span style={{ fontSize: '11px', fontWeight: 800, background: '#764abc', color: '#fff', padding: '2px 8px', borderRadius: '999px' }}>
+                      Redux Toolkit
+                    </span>
+                  </div>
+                  <p style={{ margin: '3px 0 0', fontSize: '0.84rem', color: 'var(--ink-600)' }}>
+                    Manage verified travel passports/visas, emergency companions, claim daily miles, and dream bucket lists.
+                  </p>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => setActiveTab('vault')}
+                style={{ background: '#764abc', borderColor: '#764abc' }}
+              >
+                <Zap size={14} /> Open Travel Vault →
+              </button>
             </div>
 
             {/* Two Column Layout */}
@@ -806,6 +879,9 @@ export default function Profile() {
             </div>
           </div>
         )}
+
+        {/* TAB 5: REDUX TOOLKIT TRAVEL VAULT */}
+        {activeTab === 'vault' && <ProfileReduxVault />}
 
       </div>
 

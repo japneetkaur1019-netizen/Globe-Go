@@ -9,21 +9,25 @@ import { AuthProvider } from './context/AuthContext.jsx';
 import { WishlistProvider } from './context/WishlistContext.jsx';
 import { FlightBookingProvider } from './context/FlightBookingContext.jsx';
 import { GroupTripProvider } from './context/GroupTripContext.jsx';
+import { Provider } from 'react-redux';
+import store from './store/index.js';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
-      <AppProvider>
-        <AuthProvider>
-          <WishlistProvider>
-            <FlightBookingProvider>
-              <GroupTripProvider>
-                <App />
-              </GroupTripProvider>
-            </FlightBookingProvider>
-          </WishlistProvider>
-        </AuthProvider>
-      </AppProvider>
-    </BrowserRouter>
+    <Provider store={store}>
+      <BrowserRouter>
+        <AppProvider>
+          <AuthProvider>
+            <WishlistProvider>
+              <FlightBookingProvider>
+                <GroupTripProvider>
+                  <App />
+                </GroupTripProvider>
+              </FlightBookingProvider>
+            </WishlistProvider>
+          </AuthProvider>
+        </AppProvider>
+      </BrowserRouter>
+    </Provider>
   </StrictMode>
 );

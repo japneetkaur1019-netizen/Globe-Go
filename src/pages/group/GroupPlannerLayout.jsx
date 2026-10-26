@@ -13,7 +13,7 @@
  */
 
 import { useMemo } from "react";
-import { NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
+import { Link, NavLink, Outlet, useNavigate, useLocation } from "react-router-dom";
 import {
   Users, Wallet, DollarSign, Target,
   BarChart3, Receipt, CalendarDays, Vote, MapPin, Clock,
@@ -22,16 +22,16 @@ import { useGroupTrip } from "../../context/GroupTripContext";
 import "./GroupPlanner.css";
 
 const TABS = [
-  { to: "/group/overview",   label: "Overview",        icon: BarChart3    },
-  { to: "/group/budget",     label: "Budget Tracking", icon: DollarSign   },
-  { to: "/group/expenses",   label: "Expenses & Split", icon: Receipt      },
-  { to: "/group/itinerary",  label: "Itinerary",       icon: CalendarDays },
-  { to: "/group/polls",      label: "Polls",           icon: Vote         },
+  { to: "/group/overview", label: "Overview", icon: BarChart3 },
+  { to: "/group/budget", label: "Budget Tracking", icon: DollarSign },
+  { to: "/group/expenses", label: "Expenses & Split", icon: Receipt },
+  { to: "/group/itinerary", label: "Itinerary", icon: CalendarDays },
+  { to: "/group/polls", label: "Polls", icon: Vote },
 ];
 
 export default function GroupPlannerLayout() {
-  const navigate  = useNavigate();
-  const location  = useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const {
     groupName, destination, budget,
@@ -41,8 +41,8 @@ export default function GroupPlannerLayout() {
 
   /* ── Derived stats ─────────────────────────────────────── */
   const totalExpenses = useMemo(() => expenses.reduce((s, e) => s + e.amount, 0), [expenses]);
-  const avgExpense    = members.length > 0 ? totalExpenses / members.length : 0;
-  const budgetNum     = Number(budget) || 0;
+  const avgExpense = members.length > 0 ? totalExpenses / members.length : 0;
+  const budgetNum = Number(budget) || 0;
 
   const tripDays = useMemo(() => {
     if (!startDate || !endDate) return 0;

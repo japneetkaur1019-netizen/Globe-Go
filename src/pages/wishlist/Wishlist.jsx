@@ -1,5 +1,5 @@
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -77,27 +77,19 @@ const CAT_COLOR = {
 
 export default function Wishlist() {
   const navigate  = useNavigate();
-  const { wishlist, addToWishlist, removeFromWishlist } = useWishlist();
+  const {
+    wishlist,
+    cardMeta,
+    addToWishlist,
+    removeFromWishlist,
+    setCardMeta,
+  } = useWishlist();
 
   /* ── Search ──────────────────────────────────────────── */
   const [search, setSearch] = useState("");
 
-  /* ── Per-card meta stored locally ───────────────────── */
-  // { [id]: { priority: "dream"|"planned"|"next", note: "" } }
-  const [cardMeta, setCardMeta] = useState(() => {
-    try { return JSON.parse(localStorage.getItem("wl_meta") || "{}"); }
-    catch { return {}; }
-  });
-
-  useEffect(() => {
-    localStorage.setItem("wl_meta", JSON.stringify(cardMeta));
-  }, [cardMeta]);
-
-  const setMeta = (id, patch) =>
-    setCardMeta((prev) => ({
-      ...prev,
-      [id]: { ...(prev[id] || {}), ...patch },
-    }));
+  /* ── setMeta delegates to context (which uses the reducer) ── */
+  const setMeta = useCallback((id, patch) => setCardMeta(id, patch), [setCardMeta]);
 
   /* ── Lightbox ────────────────────────────────────────── */
   const [lightbox, setLightbox] = useState(null); // { dest, imgIdx }

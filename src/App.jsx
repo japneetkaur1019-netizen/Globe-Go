@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar.jsx';
 import Footer from './components/Footer.jsx';
 import SaveToast from './components/SaveToast.jsx';
@@ -16,7 +16,12 @@ import AuthPage from './pages/auth/AuthPage.jsx';
 // Discovery, Wishlist & Group
 import Explore from './pages/Explore/Explore.jsx';
 import Wishlist from './pages/wishlist/Wishlist.jsx';
-import GroupPlanner from './pages/group/GroupPlanner.jsx';
+import GroupPlannerLayout from './pages/group/GroupPlannerLayout.jsx';
+import GroupOverview from './pages/group/GroupOverview.jsx';
+import GroupBudget from './pages/group/GroupBudget.jsx';
+import GroupExpenses from './pages/group/GroupExpenses.jsx';
+import GroupItinerary from './pages/group/GroupItinerary.jsx';
+import GroupPolls from './pages/group/GroupPolls.jsx';
 
 // Flight Booking Flow
 import FlightSearch from './pages/flights/FlightSearch.jsx';
@@ -47,8 +52,16 @@ export default function App() {
           <Route path="/explore" element={<Explore />} />
           <Route path="/wishlist" element={<Wishlist />} />
 
-          {/* Group Travel Splitter */}
-          <Route path="/group" element={<GroupPlanner />} />
+          {/* Group Travel & Budget Tracking (Nested Routes) */}
+          <Route path="/group" element={<GroupPlannerLayout />}>
+            <Route index element={<Navigate to="overview" replace />} />
+            <Route path="overview" element={<GroupOverview />} />
+            <Route path="budget" element={<GroupBudget />} />
+            <Route path="expenses" element={<GroupExpenses />} />
+            <Route path="itinerary" element={<GroupItinerary />} />
+            <Route path="polls" element={<GroupPolls />} />
+          </Route>
+          <Route path="/budget" element={<Navigate to="/group/budget" replace />} />
 
           {/* Full Flight Booking Flow */}
           <Route path="/flights" element={<FlightSearch />} />

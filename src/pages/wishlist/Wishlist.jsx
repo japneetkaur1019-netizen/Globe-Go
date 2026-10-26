@@ -1,5 +1,5 @@
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -31,22 +31,22 @@ import "./Wishlist.css";
 
 /* ─── Priority options ─────────────────────────────────── */
 const PRIORITIES = [
-  { key: "dream",    label: "Dream",     emoji: "✨" },
-  { key: "planned",  label: "Planned",   emoji: "📅" },
-  { key: "next",     label: "Next Trip", emoji: "🚀" },
+  { key: "dream", label: "Dream", emoji: "✨" },
+  { key: "planned", label: "Planned", emoji: "📅" },
+  { key: "next", label: "Next Trip", emoji: "🚀" },
 ];
 
 /* ─── Extra gallery images per destination (Unsplash themed) ─── */
 const GALLERY_EXTRAS = {
-  1:  ["photo-1431274172761-fca41d930114", "photo-1499856374427-1e745d9d8b4f"],
-  2:  ["photo-1582672060674-bc2bd808a8b5", "photo-1493246507139-91e8fad9978e"],
-  3:  ["photo-1513407030348-c983a97b98d8", "photo-1528360983277-13d401cdc186"],
-  4:  ["photo-1558618666-fcd25c85cd64", "photo-1573790387438-4da905039392"],
-  5:  ["photo-1486325212027-8081e485255e", "photo-1529655683826-aba9b3e77383"],
-  6:  ["photo-1586500036706-41963de24d8b", "photo-1540202404-d0c7fe46a087"],
-  7:  ["photo-1534430480872-3498386e7856", "photo-1522083165195-3424ed129620"],
-  8:  ["photo-1510798831971-661eb04b3739", "photo-1507003211169-0a1dd7228f2d"],
-  9:  ["photo-1533105079780-92b9be482077", "photo-1601581875309-faf6711e37d6"],
+  1: ["photo-1431274172761-fca41d930114", "photo-1499856374427-1e745d9d8b4f"],
+  2: ["photo-1582672060674-bc2bd808a8b5", "photo-1493246507139-91e8fad9978e"],
+  3: ["photo-1513407030348-c983a97b98d8", "photo-1528360983277-13d401cdc186"],
+  4: ["photo-1558618666-fcd25c85cd64", "photo-1573790387438-4da905039392"],
+  5: ["photo-1486325212027-8081e485255e", "photo-1529655683826-aba9b3e77383"],
+  6: ["photo-1586500036706-41963de24d8b", "photo-1540202404-d0c7fe46a087"],
+  7: ["photo-1534430480872-3498386e7856", "photo-1522083165195-3424ed129620"],
+  8: ["photo-1510798831971-661eb04b3739", "photo-1507003211169-0a1dd7228f2d"],
+  9: ["photo-1533105079780-92b9be482077", "photo-1601581875309-faf6711e37d6"],
   10: ["photo-1555992336-03a23c7b20ee", "photo-1529260830199-42c24126f198"],
   11: ["photo-1524413840807-0c3cb6fa808d", "photo-1528360983277-13d401cdc186"],
   12: ["photo-1518464922534-4cd1ee3571a9", "photo-1577086664693-894d8405334a"],
@@ -76,7 +76,7 @@ const CAT_COLOR = {
 };
 
 export default function Wishlist() {
-  const navigate  = useNavigate();
+  const navigate = useNavigate();
   const {
     wishlist,
     cardMeta,
@@ -94,7 +94,7 @@ export default function Wishlist() {
   /* ── Lightbox ────────────────────────────────────────── */
   const [lightbox, setLightbox] = useState(null); // { dest, imgIdx }
 
-  const openLightbox  = (dest, imgIdx = 0) => setLightbox({ dest, imgIdx });
+  const openLightbox = (dest, imgIdx = 0) => setLightbox({ dest, imgIdx });
   const closeLightbox = () => setLightbox(null);
 
   const lightboxNext = useCallback(() => {
@@ -115,7 +115,7 @@ export default function Wishlist() {
     const handler = (e) => {
       if (e.key === "Escape") closeLightbox();
       if (e.key === "ArrowRight") lightboxNext();
-      if (e.key === "ArrowLeft")  lightboxPrev();
+      if (e.key === "ArrowLeft") lightboxPrev();
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
@@ -130,9 +130,9 @@ export default function Wishlist() {
   const searchResults = search.trim() === ""
     ? []
     : destinationList.filter((d) => {
-        const q = search.toLowerCase();
-        return d.name?.toLowerCase().includes(q) || d.country?.toLowerCase().includes(q);
-      });
+      const q = search.toLowerCase();
+      return d.name?.toLowerCase().includes(q) || d.country?.toLowerCase().includes(q);
+    });
 
   const handleFindFlights = (destination) =>
     navigate("/flights", { state: { prefillDestination: destination.name } });
@@ -141,11 +141,11 @@ export default function Wishlist() {
   const totalBudget = wishlist.reduce((s, d) => s + (d.price || 0), 0);
   const topCategory = wishlist.length
     ? Object.entries(
-        wishlist.reduce((acc, d) => {
-          acc[d.category] = (acc[d.category] || 0) + 1;
-          return acc;
-        }, {})
-      ).sort((a, b) => b[1] - a[1])[0][0]
+      wishlist.reduce((acc, d) => {
+        acc[d.category] = (acc[d.category] || 0) + 1;
+        return acc;
+      }, {})
+    ).sort((a, b) => b[1] - a[1])[0][0]
     : null;
 
   /* ── Share ───────────────────────────────────────────── */
@@ -217,7 +217,7 @@ export default function Wishlist() {
               <Star size={16} fill="#ffc72c" color="#ffc72c" />
               <span>Avg Rating: <strong>
                 {wishlist.length
-                  ? (wishlist.reduce((s,d)=>s+(d.rating||0),0)/wishlist.length).toFixed(1)
+                  ? (wishlist.reduce((s, d) => s + (d.rating || 0), 0) / wishlist.length).toFixed(1)
                   : "—"}
               </strong></span>
             </div>
@@ -272,7 +272,7 @@ export default function Wishlist() {
                         disabled={saved}
                         onClick={() => { if (!saved) addToWishlist(dest); setSearch(""); }}
                       >
-                        {saved ? <><Check size={13}/> Saved</> : <><Plus size={13}/> Add</>}
+                        {saved ? <><Check size={13} /> Saved</> : <><Plus size={13} /> Add</>}
                       </button>
                     </div>
                   );
@@ -309,12 +309,12 @@ export default function Wishlist() {
           <div className="wl-masonry">
 
             {wishlist.map((dest, idx) => {
-              const meta     = cardMeta[dest.id] || {};
+              const meta = cardMeta[dest.id] || {};
               const priority = meta.priority || null;
-              const note     = meta.note || "";
-              const gallery  = getGallery(dest);
+              const note = meta.note || "";
+              const gallery = getGallery(dest);
               const catColor = CAT_COLOR[dest.category] || CAT_COLOR.default;
-              const isTall   = idx % 5 === 1 || idx % 5 === 3; // staggered tall cards
+              const isTall = idx % 5 === 1 || idx % 5 === 3; // staggered tall cards
 
               return (
                 <article
@@ -403,7 +403,7 @@ export default function Wishlist() {
                       </div>
                       <div className="wl-price">
                         <span className="wl-price-from">from</span>
-                        <strong>₹{Number(dest.price||0).toLocaleString("en-IN")}</strong>
+                        <strong>₹{Number(dest.price || 0).toLocaleString("en-IN")}</strong>
                       </div>
                     </div>
 
@@ -534,7 +534,7 @@ export default function Wishlist() {
                 {/* Info at bottom */}
                 <div className="wl-lb-info">
                   <h2>{dest.name}</h2>
-                  <span><MapPin size={14}/> {dest.country}</span>
+                  <span><MapPin size={14} /> {dest.country}</span>
                 </div>
 
                 {/* Prev / Next */}
@@ -559,7 +559,7 @@ export default function Wishlist() {
                       className={`wl-lb-thumb ${i === imgIdx ? "active" : ""}`}
                       onClick={() => setLightbox((lb) => ({ ...lb, imgIdx: i }))}
                     >
-                      <img src={src.replace("w=1400", "w=200")} alt={`thumb ${i+1}`} />
+                      <img src={src.replace("w=1400", "w=200")} alt={`thumb ${i + 1}`} />
                     </button>
                   ))}
                 </div>

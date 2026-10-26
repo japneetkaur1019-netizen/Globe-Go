@@ -24,6 +24,11 @@ const initialState = {
     cvv: ""
   },
 
+  contact: {
+    email: "",
+    phone: ""
+  },
+
   booking: null
 };
 
@@ -79,6 +84,15 @@ function flightReducer(state, action) {
       return {
         ...state,
         booking: action.payload
+      };
+
+    case "SET_CONTACT":
+      return {
+        ...state,
+        contact: {
+          ...state.contact,
+          ...action.payload
+        }
       };
 
     case "RESET_BOOKING":

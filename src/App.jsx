@@ -1,8 +1,6 @@
 import { Routes, Route } from 'react-router-dom';
-import Navbar from './components/Navbar.jsx';
-import Footer from './components/Footer.jsx';
-import SaveToast from './components/SaveToast.jsx';
-import AuthModal from './components/AuthModal.jsx';
+import AppLayout from './layouts/AppLayout.jsx';
+import NotFound from './pages/NotFound.jsx';
 
 import Home from './pages/Home.jsx';
 import Dashboard from './pages/Dashboard.jsx';
@@ -28,12 +26,10 @@ import BookingConfirmation from './pages/flights/BookingConfirmation.jsx';
 
 export default function App() {
   return (
-    <div className="app-layout">
-      <Navbar />
-      <main className="app-content">
-        <Routes>
+    <Routes>
+      <Route element={<AppLayout />}>
           {/* Core App Routes */}
-          <Route path="/" element={<Home />} />
+          <Route index element={<Home />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/preferences" element={<TravelPreferences />} />
           <Route path="/stats" element={<TravelStatsAchievements />} />
@@ -60,12 +56,8 @@ export default function App() {
           <Route path="/flights/summary" element={<BookingConfirmation />} />
 
           {/* Catch-all fallback */}
-          <Route path="*" element={<Home />} />
-        </Routes>
-      </main>
-      <Footer />
-      <SaveToast />
-      <AuthModal />
-    </div>
+          <Route path="*" element={<NotFound />} />
+      </Route>
+    </Routes>
   );
 }

@@ -70,6 +70,14 @@ export default function FlightSearch() {
         setDestinationQuery(`${match.city} (${match.code})`);
       }
     }
+    const search = location.state?.travelSearch;
+    if (search) {
+      setDepartDate(search.startDate);
+      setReturnDate(search.endDate);
+      setAdults(search.guests);
+      setChildren(0);
+      setTripType('round-trip');
+    }
   }, [location.state]);
 
   const filteredOriginAirports = airports.filter(

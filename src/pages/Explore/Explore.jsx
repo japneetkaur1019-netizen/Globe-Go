@@ -1,5 +1,5 @@
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import {
   Search,
   Heart,
@@ -47,7 +47,13 @@ const getOptimizedImage = (url, width = 800) => {
 export default function Explore() {
   const navigate = useNavigate();
 
-  const [search, setSearch] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get('q') || '';
+  const setSearch = (value) => setSearchParams((current) => {
+    const next = new URLSearchParams(current);
+    if (value) next.set('q', value); else next.delete('q');
+    return next;
+  }, { replace: true });
   const [category, setCategory] = useState("All");
   const [sortBy, setSortBy] = useState("rating");
 

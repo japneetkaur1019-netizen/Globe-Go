@@ -1,13 +1,14 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectActiveService, selectLastSearch, serviceSelected, searchSubmitted } from '../store/searchSlice.js';
+import { useWishlist } from '../context/WishlistContext.jsx';
+import { useApp } from '../context/AppContext.jsx';
+import { useForm } from '../hooks/useForm.js';
+import SearchField from '../components/SearchField.jsx';
+import { defaultSearchValues, validateSearch, parseDates, parseTravelers } from '../utils/searchValidation.js';
 import { useNavigate } from 'react-router-dom';
 import {
-  Building2,
-  Home as HomeIcon,
   Plane,
-  Car,
-  Package,
-  Ticket,
-  Ship,
   MapPin,
   Calendar,
   Users,
@@ -23,213 +24,51 @@ import {
 } from 'lucide-react';
 import { formatINR } from '../utils/budgetCalculator.js';
 import DynamicHeroReel from '../components/DynamicHeroReel.jsx';
+import SearchTabIcon from '../components/SearchTabIcon.jsx';
+import homeData from '../data/db.json';
 
-const SEARCH_TABS = [
-  { id: 'hotels', icon: <Building2 size={20} />, label: 'Hotels' },
-  { id: 'homes', icon: <HomeIcon size={20} />, label: 'Homes' },
-  { id: 'flights', icon: <Plane size={20} />, label: 'Flights' },
-  { id: 'cars', icon: <Car size={20} />, label: 'Cars' },
-  { id: 'packages', icon: <Package size={20} />, label: 'Packages' },
-  { id: 'activities', icon: <Ticket size={20} />, label: 'Things to do' },
-  { id: 'cruises', icon: <Ship size={20} />, label: 'Cruises' },
-];
-
-const WEEKEND_DEALS = [
-  {
-    id: 'hotel-1',
-    name: 'The Imperial New Delhi',
-    city: 'New Delhi, India',
-    rating: 9.6,
-    ratingLabel: 'Exceptional',
-    reviews: 860,
-    nightlyRate: 18500,
-    totalRate: 44000,
-    originalTotal: 58000,
-    vipAccess: true,
-    memberPrice: true,
-    image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'hotel-2',
-    name: 'Orchid Hotel & Spa Chandigarh',
-    city: 'Zirakpur, India',
-    rating: 9.4,
-    ratingLabel: 'Exceptional',
-    reviews: 450,
-    nightlyRate: 4600,
-    totalRate: 9800,
-    originalTotal: 13200,
-    vipAccess: false,
-    memberPrice: true,
-    image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'hotel-3',
-    name: 'WelcomHeritage Santa Roza Kasauli',
-    city: 'Kasauli Hills, India',
-    rating: 9.4,
-    ratingLabel: 'Exceptional',
-    reviews: 670,
-    nightlyRate: 10600,
-    totalRate: 25200,
-    originalTotal: 32500,
-    vipAccess: true,
-    memberPrice: true,
-    image: 'https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80',
-  },
-  {
-    id: 'hotel-4',
-    name: 'WelcomHeritage Elysium Resort & Spa',
-    city: 'Shimla, India',
-    rating: 9.2,
-    ratingLabel: 'Wonderful',
-    reviews: 520,
-    nightlyRate: 8300,
-    totalRate: 19600,
-    originalTotal: 28600,
-    vipAccess: false,
-    memberPrice: true,
-    image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80',
-  },
-];
-
-const VACATION_RENTALS = [
-  { title: 'Private vacation homes', image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80' },
-  { title: 'Apartments & Condos', image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80' },
-  { title: 'Cabins', image: 'https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80' },
-  { title: 'Cottages', image: 'https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=800&q=80' },
-  { title: 'Villas', image: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80' },
-];
-
-const PACKAGE_CITIES = ['Bangkok', 'Goa', 'Maldives', 'Paris', 'Tokyo', 'Dubai'];
-
-const PACKAGE_DEALS = {
-  Bangkok: [
-    { name: 'Divalux Resort & Spa Bangkok', detail: 'Suvarnabhumi Airport + Flight Included', price: 34500, image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Shanghai Mansion Bangkok', detail: 'Historic Chinatown + Flight Included', price: 29800, image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80' },
-    { name: 'The Quarter Saladaeng by UHG', detail: 'Silom Business Hub + Flight Included', price: 32000, image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Night Hotel Bangkok Sukhumvit 15', detail: 'Sukhumvit City Center + Flight Included', price: 38200, image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80' },
-  ],
-  Goa: [
-    { name: 'Taj Exotica Resort & Spa', detail: 'Benaulim Beach + Flight Included', price: 42000, image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80' },
-    { name: 'W Goa Beachfront Retreat', detail: 'Vagator Bay + Flight Included', price: 49000, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Alila Diwa South Goa', detail: 'Majorda Paddy Vistas + Flight Included', price: 38000, image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Grand Hyatt Goa Waterfront', detail: 'Bambolim Bay + Flight Included', price: 45000, image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80' },
-  ],
-  Maldives: [
-    { name: 'Centara Grand Island Resort', detail: 'South Ari Atoll + Seaplane + Flight', price: 115000, image: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Sun Siyam Olhuveli Maldives', detail: 'Overwater Lagoon Suite + Flight Included', price: 98000, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Kurumba Maldives Heritage', detail: 'North Malé Atoll Speedboat + Flight', price: 82000, image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Hard Rock Hotel Maldives', detail: 'Emboodhoo Lagoon + Flight Included', price: 108000, image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80' },
-  ],
-  Paris: [
-    { name: 'Pullman Paris Tour Eiffel', detail: 'Champ de Mars + Flight Included', price: 135000, image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80' },
-    { name: 'CitizenM Paris Gare de Lyon', detail: 'Boutique Design + Flight Included', price: 89000, image: 'https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Novotel Paris Centre Tour Eiffel', detail: 'Seine Riverfront + Flight Included', price: 110000, image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Hôtel Regina Louvre', detail: 'Palais Royal + Flight Included', price: 165000, image: 'https://images.unsplash.com/photo-1549144511-f099e773c147?auto=format&fit=crop&w=800&q=80' },
-  ],
-  Tokyo: [
-    { name: 'Keio Plaza Hotel Tokyo', detail: 'Shinjuku Skyscraper + Flight Included', price: 95000, image: 'https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Hotel Gracery Shinjuku', detail: 'Kabukicho Sights + Flight Included', price: 86000, image: 'https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Grand Nikko Tokyo Daiba', detail: 'Tokyo Bay Waterfront + Flight Included', price: 104000, image: 'https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&w=800&q=80' },
-    { name: 'The Prince Park Tower Tokyo', detail: 'Tokyo Tower Views + Flight Included', price: 122000, image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80' },
-  ],
-  Dubai: [
-    { name: 'JW Marriott Marquis Dubai', detail: 'Business Bay Towers + Flight Included', price: 72000, image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Atlantis The Palm Dubai', detail: 'Aquaventure Pass + Flight Included', price: 145000, image: 'https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Rove Downtown Dubai', detail: 'Burj Khalifa Walking + Flight Included', price: 58000, image: 'https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=800&q=80' },
-    { name: 'Sofitel Dubai The Palm Resort', detail: 'Private Beach Cabana + Flight Included', price: 92000, image: 'https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80' },
-  ],
-};
-
-const TRAVEL_STYLES = [
-  { id: 'beach', label: 'Beach' },
-  { id: 'culture', label: 'Culture' },
-  { id: 'ski', label: 'Ski' },
-  { id: 'family', label: 'Family' },
-  { id: 'wellness', label: 'Wellness and Relaxation' },
-  { id: 'adventure', label: 'Adventure' },
-];
-
-const STYLE_CARDS = {
-  beach: [
-    { title: 'Pattaya', region: 'Chonburi Province, Thailand', tag: 'Lively beaches', price: 3400, image: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Sydney', region: 'New South Wales, Australia', tag: 'Modern and vibrant', price: 14500, image: 'https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Da Nang', region: 'Da Nang Municipality, Vietnam', tag: 'Coastal destination', price: 4400, image: 'https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Miami Beach', region: 'Florida, United States', tag: 'Relaxing beaches', price: 17800, image: 'https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80' },
-  ],
-  culture: [
-    { title: 'Kyoto', region: 'Kansai, Japan', tag: 'Historic temples', price: 10500, image: 'https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Paris', region: 'Île-de-France, France', tag: 'Iconic museums', price: 18000, image: 'https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Rome', region: 'Lazio, Italy', tag: 'Ancient heritage', price: 13200, image: 'https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=80' },
-    { title: 'London', region: 'Greater London, UK', tag: 'Royal landmarks', price: 17500, image: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80' },
-  ],
-  ski: [
-    { title: 'Zermatt', region: 'Valais, Switzerland', tag: 'Matterhorn slopes', price: 26000, image: 'https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Chamonix', region: 'Mont-Blanc, France', tag: 'Glacier skiing', price: 22000, image: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Niseko', region: 'Hokkaido, Japan', tag: 'Powder snow', price: 19500, image: 'https://images.unsplash.com/photo-1546548970-71785318a17b?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Aspen', region: 'Colorado, USA', tag: 'Luxury chalets', price: 34000, image: 'https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=80' },
-  ],
-  family: [
-    { title: 'Singapore', region: 'Marina Bay, Singapore', tag: 'Gardens & Zoos', price: 13000, image: 'https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Orlando', region: 'Florida, USA', tag: 'Theme park capital', price: 15500, image: 'https://images.unsplash.com/photo-1575089776834-8be34696ffb9?auto=format&fit=crop&w=800&q=80' },
-    { title: 'London', region: 'England, UK', tag: 'Museums & Shows', price: 17500, image: 'https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Dubai', region: 'Dubai, UAE', tag: 'Waterparks & Malls', price: 15000, image: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80' },
-  ],
-  wellness: [
-    { title: 'Ubud', region: 'Bali, Indonesia', tag: 'Yoga & holistic spas', price: 6500, image: 'https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Maldives', region: 'South Ari Atoll', tag: 'Overwater serenity', price: 25000, image: 'https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Interlaken', region: 'Bernese Oberland, Switzerland', tag: 'Alpine wellness', price: 22000, image: 'https://images.unsplash.com/photo-1527668752968-14dc70a27c95?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Santorini', region: 'Cyclades, Greece', tag: 'Sunset caldera', price: 19000, image: 'https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=800&q=80' },
-  ],
-  adventure: [
-    { title: 'Queenstown', region: 'Otago, New Zealand', tag: 'Thrill capital', price: 16000, image: 'https://images.unsplash.com/photo-1507699622108-4be3abd695ad?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Banff', region: 'Alberta, Canada', tag: 'Wilderness & peaks', price: 18500, image: 'https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Dubai Desert', region: 'Dubai, UAE', tag: 'Dune safari', price: 15000, image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80' },
-    { title: 'Phuket', region: 'Andaman Sea, Thailand', tag: 'Island diving', price: 6000, image: 'https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?auto=format&fit=crop&w=800&q=80' },
-  ],
-};
-
-const PARTNER_BRANDS = [
-  'FeWo-direkt',
-  'bookabach',
-  'Abritel',
-  'wotif',
-  'Expedia Cruises',
-  'ebookers',
-  'CheapTickets',
-  'travelocity',
-  'ORBITZ',
-  'hotwire',
-];
+// Static home-page content comes from a single JSON data file.
+const {
+  searchTabs: SEARCH_TABS,
+  weekendDeals: WEEKEND_DEALS,
+  vacationRentals: VACATION_RENTALS,
+  packageCities: PACKAGE_CITIES,
+  packageDeals: PACKAGE_DEALS,
+  travelStyles: TRAVEL_STYLES,
+  styleCards: STYLE_CARDS,
+  partnerBrands: PARTNER_BRANDS,
+} = homeData;
 
 export default function Home() {
   const navigate = useNavigate();
-  const [activeSearchTab, setActiveSearchTab] = useState('hotels');
-  const [whereTo, setWhereTo] = useState('');
-  const [dates, setDates] = useState('Wed, Aug 19 - Tue, Aug 25');
-  const [travelers, setTravelers] = useState('2 travelers, 1 room');
-  const [addFlight, setAddFlight] = useState(false);
-  const [addCar, setAddCar] = useState(false);
-  const [wishlist, setWishlist] = useState({});
+  const dispatch = useDispatch();
+  const activeSearchTab = useSelector(selectActiveService);
+  const lastSearch = useSelector(selectLastSearch);
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { showToast } = useApp();
   const [selectedPackageCity, setSelectedPackageCity] = useState('Bangkok');
   const [selectedStyle, setSelectedStyle] = useState('beach');
-
-  const toggleWishlist = (id) => {
-    setWishlist((prev) => ({ ...prev, [id]: !prev[id] }));
-  };
-
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    const query = whereTo.trim() || 'Japan';
-    if (activeSearchTab === 'flights' || addFlight) {
-      navigate('/flights', {
-        state: {
-          prefillDestination: query,
-        },
-      });
+  const form = useForm(lastSearch?.formValues || defaultSearchValues(), validateSearch, (values) => {
+    const search = {
+      service: activeSearchTab, destination: values.whereTo.trim(),
+      ...parseDates(values.dates), ...parseTravelers(values.travelers),
+      addFlight: values.addFlight, addCar: values.addCar, formValues: { ...values },
+    };
+    dispatch(searchSubmitted(search));
+    if (activeSearchTab === 'flights' || values.addFlight) {
+      navigate('/flights', { state: { prefillDestination: search.destination, travelSearch: search } });
     } else {
-      navigate('/explore');
+      navigate('/explore?' + new URLSearchParams({ q: search.destination, service: search.service }));
+    }
+  });
+  const toggleWishlist = (deal) => {
+    if (isInWishlist(deal.id)) {
+      removeFromWishlist(deal.id);
+      showToast('Removed from wishlist', deal.name, 'Heart');
+    } else {
+      addToWishlist({ id: deal.id, name: deal.name, country: deal.city, category: 'Luxury',
+        price: deal.nightlyRate, rating: deal.rating, image: deal.image.split('?')[0] });
+      showToast('Saved to wishlist', deal.name, 'Heart');
     }
   };
 
@@ -257,54 +96,32 @@ export default function Home() {
                     key={t.id}
                     type="button"
                     className={`search-tab-btn${activeSearchTab === t.id ? ' active' : ''}`}
-                    onClick={() => setActiveSearchTab(t.id)}
+                    aria-pressed={activeSearchTab === t.id}
+                    onClick={() => dispatch(serviceSelected(t.id))}
                   >
-                    <div className="search-tab-icon-wrap">{t.icon}</div>
+                    <div className="search-tab-icon-wrap"><SearchTabIcon name={t.icon} /></div>
                     <span>{t.label}</span>
                   </button>
                 ))}
               </div>
 
-              <form onSubmit={handleSearchSubmit}>
+              <form onSubmit={form.handleSubmit} noValidate>
                 <div className="search-inputs-grid">
-                  <div className="search-input-box">
-                    <MapPin size={20} className="search-input-icon" />
-                    <div className="search-input-content">
-                      <span className="search-input-label">Where to?</span>
-                      <input
-                        type="text"
-                        value={whereTo}
-                        onChange={(e) => setWhereTo(e.target.value)}
-                        placeholder="Destination, city or resort (e.g. Japan, Bali, Paris)"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="search-input-box">
-                    <Calendar size={20} className="search-input-icon" />
-                    <div className="search-input-content">
-                      <span className="search-input-label">Dates</span>
-                      <input
-                        type="text"
-                        value={dates}
-                        onChange={(e) => setDates(e.target.value)}
-                        placeholder="Select travel dates"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="search-input-box">
-                    <Users size={20} className="search-input-icon" />
-                    <div className="search-input-content">
-                      <span className="search-input-label">Travelers</span>
-                      <input
-                        type="text"
-                        value={travelers}
-                        onChange={(e) => setTravelers(e.target.value)}
-                        placeholder="Guests & Rooms"
-                      />
-                    </div>
-                  </div>
+                  <SearchField name="whereTo" label="Where to?"
+                    icon={<MapPin size={20} className="search-input-icon" />}
+                    value={form.values.whereTo} error={form.errors.whereTo}
+                    onChange={form.handleChange} onBlur={form.handleBlur}
+                    placeholder="Destination, city or resort (e.g. Japan, Bali, Paris)" />
+                  <SearchField name="dates" label="Dates"
+                    icon={<Calendar size={20} className="search-input-icon" />}
+                    value={form.values.dates} error={form.errors.dates}
+                    onChange={form.handleChange} onBlur={form.handleBlur}
+                    placeholder="YYYY-MM-DD to YYYY-MM-DD" title="Travel dates: YYYY-MM-DD to YYYY-MM-DD" />
+                  <SearchField name="travelers" label="Travelers"
+                    icon={<Users size={20} className="search-input-icon" />}
+                    value={form.values.travelers} error={form.errors.travelers}
+                    onChange={form.handleChange} onBlur={form.handleBlur}
+                    placeholder="2 travelers, 1 room" title="Example: 2 travelers, 1 room (up to 9 travelers)" />
 
                   <button type="submit" className="search-submit-btn">
                     <Search size={18} />
@@ -316,16 +133,18 @@ export default function Home() {
                   <label className="search-checkbox-label">
                     <input
                       type="checkbox"
-                      checked={addFlight}
-                      onChange={(e) => setAddFlight(e.target.checked)}
+                      name="addFlight"
+                      checked={form.values.addFlight}
+                      onChange={form.handleChange}
                     />
                     <span>Add a flight</span>
                   </label>
                   <label className="search-checkbox-label">
                     <input
                       type="checkbox"
-                      checked={addCar}
-                      onChange={(e) => setAddCar(e.target.checked)}
+                      name="addCar"
+                      checked={form.values.addCar}
+                      onChange={form.handleChange}
                     />
                     <span>Add a car</span>
                   </label>
@@ -337,7 +156,7 @@ export default function Home() {
       </section>
 
       {/* ==========================================================================
-          DISCOUNT PROMO BANNER (Matching Screenshot 1 Bottom)
+          DISCOUNT PROMO BANNER
           ========================================================================== */}
       <div className="container">
         <div className="discount-promo-card">
@@ -362,7 +181,7 @@ export default function Home() {
         </div>
 
         {/* ==========================================================================
-            LAST-MINUTE WEEKEND DEALS (Matching Screenshot 2)
+            LAST-MINUTE WEEKEND DEALS
             ========================================================================== */}
         <section style={{ marginBottom: 56 }}>
           <div className="section-header-row">
@@ -393,11 +212,12 @@ export default function Home() {
                   )}
                   <button
                     type="button"
-                    className={`hotel-wishlist-btn${wishlist[deal.id] ? ' active' : ''}`}
-                    onClick={() => toggleWishlist(deal.id)}
-                    aria-label="Save to wishlist"
+                    className={`hotel-wishlist-btn${isInWishlist(deal.id) ? ' active' : ''}`}
+                    onClick={() => toggleWishlist(deal)}
+                    aria-pressed={isInWishlist(deal.id)}
+                    aria-label={isInWishlist(deal.id) ? `Remove ${deal.name} from wishlist` : `Save ${deal.name} to wishlist`}
                   >
-                    <Heart size={16} fill={wishlist[deal.id] ? '#e11d48' : 'none'} />
+                    <Heart size={16} fill={isInWishlist(deal.id) ? '#e11d48' : 'none'} />
                   </button>
                 </div>
 
@@ -435,7 +255,7 @@ export default function Home() {
         </section>
 
         {/* ==========================================================================
-            VACATION RENTALS (Matching Screenshot 3 Top)
+            VACATION RENTALS
             ========================================================================== */}
         <section style={{ marginBottom: 56 }}>
           <div className="section-header-row">
@@ -462,7 +282,7 @@ export default function Home() {
         </section>
 
         {/* ==========================================================================
-            EASY PACKAGES (Matching Screenshot 3 Bottom)
+            EASY PACKAGES
             ========================================================================== */}
         <section style={{ marginBottom: 56 }}>
           <div className="section-header-row">
@@ -521,7 +341,7 @@ export default function Home() {
         </section>
 
         {/* ==========================================================================
-            STAYS FOR EVERY TRAVEL STYLE (Matching Screenshot 4 Top)
+            STAYS FOR EVERY TRAVEL STYLE
             ========================================================================== */}
         <section style={{ marginBottom: 56 }}>
           <div className="section-header-row">
@@ -573,7 +393,7 @@ export default function Home() {
         </section>
 
         {/* ==========================================================================
-            MEMBER REWARDS BANNER (Matching Screenshot 4 Bottom)
+            MEMBER REWARDS BANNER
             ========================================================================== */}
         <div className="rewards-promo-card">
           <div className="rewards-image-pane">
@@ -613,7 +433,7 @@ export default function Home() {
       </div>
 
       {/* ==========================================================================
-          PARTNER BRANDS & TESTIMONIAL (Matching Screenshot 5)
+          PARTNER BRANDS & TESTIMONIAL
           ========================================================================== */}
       <section className="partner-section-wrapper">
         <div className="container">

@@ -91,8 +91,7 @@ export default function Footer() {
         </div>
 
         <div className="footer-bottom-row">
-          <span>© {new Date().getFullYear()} GlobeGo Group, Inc., an Expedia-style AI travel platform. All rights reserved.</span>
-          <span>Security &amp; SSL Encrypted · Member Rewards Program</span>
+          <span>© {new Date().getFullYear()} GlobeGo Group</span>
         </div>
       </div>
     </footer>

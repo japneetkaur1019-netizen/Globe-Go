@@ -1,0 +1,579 @@
+{
+  "searchTabs": [
+    {
+      "id": "hotels",
+      "icon": "Building2",
+      "label": "Hotels"
+    },
+    {
+      "id": "homes",
+      "icon": "HomeIcon",
+      "label": "Homes"
+    },
+    {
+      "id": "flights",
+      "icon": "Plane",
+      "label": "Flights"
+    },
+    {
+      "id": "cars",
+      "icon": "Car",
+      "label": "Cars"
+    },
+    {
+      "id": "packages",
+      "icon": "Package",
+      "label": "Packages"
+    },
+    {
+      "id": "activities",
+      "icon": "Ticket",
+      "label": "Things to do"
+    },
+    {
+      "id": "cruises",
+      "icon": "Ship",
+      "label": "Cruises"
+    }
+  ],
+  "weekendDeals": [
+    {
+      "id": "hotel-1",
+      "name": "The Imperial New Delhi",
+      "city": "New Delhi, India",
+      "rating": 9.6,
+      "ratingLabel": "Exceptional",
+      "reviews": 860,
+      "nightlyRate": 18500,
+      "totalRate": 44000,
+      "originalTotal": 58000,
+      "vipAccess": true,
+      "memberPrice": true,
+      "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "hotel-2",
+      "name": "Orchid Hotel & Spa Chandigarh",
+      "city": "Zirakpur, India",
+      "rating": 9.4,
+      "ratingLabel": "Exceptional",
+      "reviews": 450,
+      "nightlyRate": 4600,
+      "totalRate": 9800,
+      "originalTotal": 13200,
+      "vipAccess": false,
+      "memberPrice": true,
+      "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "hotel-3",
+      "name": "WelcomHeritage Santa Roza Kasauli",
+      "city": "Kasauli Hills, India",
+      "rating": 9.4,
+      "ratingLabel": "Exceptional",
+      "reviews": 670,
+      "nightlyRate": 10600,
+      "totalRate": 25200,
+      "originalTotal": 32500,
+      "vipAccess": true,
+      "memberPrice": true,
+      "image": "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "id": "hotel-4",
+      "name": "WelcomHeritage Elysium Resort & Spa",
+      "city": "Shimla, India",
+      "rating": 9.2,
+      "ratingLabel": "Wonderful",
+      "reviews": 520,
+      "nightlyRate": 8300,
+      "totalRate": 19600,
+      "originalTotal": 28600,
+      "vipAccess": false,
+      "memberPrice": true,
+      "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80"
+    }
+  ],
+  "vacationRentals": [
+    {
+      "title": "Private vacation homes",
+      "image": "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "title": "Apartments & Condos",
+      "image": "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "title": "Cabins",
+      "image": "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "title": "Cottages",
+      "image": "https://images.unsplash.com/photo-1510798831971-661eb04b3739?auto=format&fit=crop&w=800&q=80"
+    },
+    {
+      "title": "Villas",
+      "image": "https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=800&q=80"
+    }
+  ],
+  "packageCities": [
+    "Bangkok",
+    "Goa",
+    "Maldives",
+    "Paris",
+    "Tokyo",
+    "Dubai"
+  ],
+  "packageDeals": {
+    "Bangkok": [
+      {
+        "name": "Divalux Resort & Spa Bangkok",
+        "detail": "Suvarnabhumi Airport + Flight Included",
+        "price": 34500,
+        "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Shanghai Mansion Bangkok",
+        "detail": "Historic Chinatown + Flight Included",
+        "price": 29800,
+        "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "The Quarter Saladaeng by UHG",
+        "detail": "Silom Business Hub + Flight Included",
+        "price": 32000,
+        "image": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Night Hotel Bangkok Sukhumvit 15",
+        "detail": "Sukhumvit City Center + Flight Included",
+        "price": 38200,
+        "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "Goa": [
+      {
+        "name": "Taj Exotica Resort & Spa",
+        "detail": "Benaulim Beach + Flight Included",
+        "price": 42000,
+        "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "W Goa Beachfront Retreat",
+        "detail": "Vagator Bay + Flight Included",
+        "price": 49000,
+        "image": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Alila Diwa South Goa",
+        "detail": "Majorda Paddy Vistas + Flight Included",
+        "price": 38000,
+        "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Grand Hyatt Goa Waterfront",
+        "detail": "Bambolim Bay + Flight Included",
+        "price": 45000,
+        "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "Maldives": [
+      {
+        "name": "Centara Grand Island Resort",
+        "detail": "South Ari Atoll + Seaplane + Flight",
+        "price": 115000,
+        "image": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Sun Siyam Olhuveli Maldives",
+        "detail": "Overwater Lagoon Suite + Flight Included",
+        "price": 98000,
+        "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Kurumba Maldives Heritage",
+        "detail": "North Malé Atoll Speedboat + Flight",
+        "price": 82000,
+        "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Hard Rock Hotel Maldives",
+        "detail": "Emboodhoo Lagoon + Flight Included",
+        "price": 108000,
+        "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "Paris": [
+      {
+        "name": "Pullman Paris Tour Eiffel",
+        "detail": "Champ de Mars + Flight Included",
+        "price": 135000,
+        "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "CitizenM Paris Gare de Lyon",
+        "detail": "Boutique Design + Flight Included",
+        "price": 89000,
+        "image": "https://images.unsplash.com/photo-1551882547-ff40c63fe5fa?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Novotel Paris Centre Tour Eiffel",
+        "detail": "Seine Riverfront + Flight Included",
+        "price": 110000,
+        "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Hôtel Regina Louvre",
+        "detail": "Palais Royal + Flight Included",
+        "price": 165000,
+        "image": "https://images.unsplash.com/photo-1549144511-f099e773c147?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "Tokyo": [
+      {
+        "name": "Keio Plaza Hotel Tokyo",
+        "detail": "Shinjuku Skyscraper + Flight Included",
+        "price": 95000,
+        "image": "https://images.unsplash.com/photo-1503899036084-c55cdd92da26?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Hotel Gracery Shinjuku",
+        "detail": "Kabukicho Sights + Flight Included",
+        "price": 86000,
+        "image": "https://images.unsplash.com/photo-1542051841857-5f90071e7989?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Grand Nikko Tokyo Daiba",
+        "detail": "Tokyo Bay Waterfront + Flight Included",
+        "price": 104000,
+        "image": "https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "The Prince Park Tower Tokyo",
+        "detail": "Tokyo Tower Views + Flight Included",
+        "price": 122000,
+        "image": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "Dubai": [
+      {
+        "name": "JW Marriott Marquis Dubai",
+        "detail": "Business Bay Towers + Flight Included",
+        "price": 72000,
+        "image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Atlantis The Palm Dubai",
+        "detail": "Aquaventure Pass + Flight Included",
+        "price": 145000,
+        "image": "https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Rove Downtown Dubai",
+        "detail": "Burj Khalifa Walking + Flight Included",
+        "price": 58000,
+        "image": "https://images.unsplash.com/photo-1518684079-3c830dcef090?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "name": "Sofitel Dubai The Palm Resort",
+        "detail": "Private Beach Cabana + Flight Included",
+        "price": 92000,
+        "image": "https://images.unsplash.com/photo-1571896349842-33c89424de2d?auto=format&fit=crop&w=800&q=80"
+      }
+    ]
+  },
+  "travelStyles": [
+    {
+      "id": "beach",
+      "label": "Beach"
+    },
+    {
+      "id": "culture",
+      "label": "Culture"
+    },
+    {
+      "id": "ski",
+      "label": "Ski"
+    },
+    {
+      "id": "family",
+      "label": "Family"
+    },
+    {
+      "id": "wellness",
+      "label": "Wellness and Relaxation"
+    },
+    {
+      "id": "adventure",
+      "label": "Adventure"
+    }
+  ],
+  "styleCards": {
+    "beach": [
+      {
+        "title": "Pattaya",
+        "region": "Chonburi Province, Thailand",
+        "tag": "Lively beaches",
+        "price": 3400,
+        "image": "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Sydney",
+        "region": "New South Wales, Australia",
+        "tag": "Modern and vibrant",
+        "price": 14500,
+        "image": "https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Da Nang",
+        "region": "Da Nang Municipality, Vietnam",
+        "tag": "Coastal destination",
+        "price": 4400,
+        "image": "https://images.unsplash.com/photo-1528127269322-539801943592?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Miami Beach",
+        "region": "Florida, United States",
+        "tag": "Relaxing beaches",
+        "price": 17800,
+        "image": "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "culture": [
+      {
+        "title": "Kyoto",
+        "region": "Kansai, Japan",
+        "tag": "Historic temples",
+        "price": 10500,
+        "image": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Paris",
+        "region": "Île-de-France, France",
+        "tag": "Iconic museums",
+        "price": 18000,
+        "image": "https://images.unsplash.com/photo-1502602898657-3e91760cbb34?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Rome",
+        "region": "Lazio, Italy",
+        "tag": "Ancient heritage",
+        "price": 13200,
+        "image": "https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "London",
+        "region": "Greater London, UK",
+        "tag": "Royal landmarks",
+        "price": 17500,
+        "image": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "ski": [
+      {
+        "title": "Zermatt",
+        "region": "Valais, Switzerland",
+        "tag": "Matterhorn slopes",
+        "price": 26000,
+        "image": "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Chamonix",
+        "region": "Mont-Blanc, France",
+        "tag": "Glacier skiing",
+        "price": 22000,
+        "image": "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Niseko",
+        "region": "Hokkaido, Japan",
+        "tag": "Powder snow",
+        "price": 19500,
+        "image": "https://images.unsplash.com/photo-1546548970-71785318a17b?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Aspen",
+        "region": "Colorado, USA",
+        "tag": "Luxury chalets",
+        "price": 34000,
+        "image": "https://images.unsplash.com/photo-1486870591958-9b9d0d1dda99?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "family": [
+      {
+        "title": "Singapore",
+        "region": "Marina Bay, Singapore",
+        "tag": "Gardens & Zoos",
+        "price": 13000,
+        "image": "https://images.unsplash.com/photo-1525625293386-3f8f99389edd?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Orlando",
+        "region": "Florida, USA",
+        "tag": "Theme park capital",
+        "price": 15500,
+        "image": "https://images.unsplash.com/photo-1575089776834-8be34696ffb9?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "London",
+        "region": "England, UK",
+        "tag": "Museums & Shows",
+        "price": 17500,
+        "image": "https://images.unsplash.com/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Dubai",
+        "region": "Dubai, UAE",
+        "tag": "Waterparks & Malls",
+        "price": 15000,
+        "image": "https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "wellness": [
+      {
+        "title": "Ubud",
+        "region": "Bali, Indonesia",
+        "tag": "Yoga & holistic spas",
+        "price": 6500,
+        "image": "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Maldives",
+        "region": "South Ari Atoll",
+        "tag": "Overwater serenity",
+        "price": 25000,
+        "image": "https://images.unsplash.com/photo-1514282401047-d79a71a590e8?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Interlaken",
+        "region": "Bernese Oberland, Switzerland",
+        "tag": "Alpine wellness",
+        "price": 22000,
+        "image": "https://images.unsplash.com/photo-1527668752968-14dc70a27c95?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Santorini",
+        "region": "Cyclades, Greece",
+        "tag": "Sunset caldera",
+        "price": 19000,
+        "image": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=800&q=80"
+      }
+    ],
+    "adventure": [
+      {
+        "title": "Queenstown",
+        "region": "Otago, New Zealand",
+        "tag": "Thrill capital",
+        "price": 16000,
+        "image": "https://images.unsplash.com/photo-1507699622108-4be3abd695ad?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Banff",
+        "region": "Alberta, Canada",
+        "tag": "Wilderness & peaks",
+        "price": 18500,
+        "image": "https://images.unsplash.com/photo-1503614472-8c93d56e92ce?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Dubai Desert",
+        "region": "Dubai, UAE",
+        "tag": "Dune safari",
+        "price": 15000,
+        "image": "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80"
+      },
+      {
+        "title": "Phuket",
+        "region": "Andaman Sea, Thailand",
+        "tag": "Island diving",
+        "price": 6000,
+        "image": "https://images.unsplash.com/photo-1589394815804-964ed0be2eb5?auto=format&fit=crop&w=800&q=80"
+      }
+    ]
+  },
+  "partnerBrands": [
+    "FeWo-direkt",
+    "bookabach",
+    "Abritel",
+    "wotif",
+    "Expedia Cruises",
+    "ebookers",
+    "CheapTickets",
+    "travelocity",
+    "ORBITZ",
+    "hotwire"
+  ],
+  "reelDestinations": [
+    {
+      "id": "santorini",
+      "latitude": 36.3932,
+      "longitude": 25.4615,
+      "title": "Santorini, Greece",
+      "subtitle": "Aegean Sea Cliffside Villas & Windmills at Dusk",
+      "tag": "Mediterranean Sunset",
+      "image": "https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff?auto=format&fit=crop&w=2200&q=85"
+    },
+    {
+      "id": "istanbul",
+      "latitude": 41.0082,
+      "longitude": 28.9784,
+      "title": "Istanbul, Turkey",
+      "subtitle": "Bosphorus Bridge & City Lights over the Strait",
+      "tag": "Historic Skyline",
+      "image": "https://images.unsplash.com/photo-1527838832700-5059252407fa?auto=format&fit=crop&w=2200&q=85"
+    },
+    {
+      "id": "chiangmai",
+      "latitude": 18.7883,
+      "longitude": 98.9853,
+      "title": "Chiang Mai, Thailand",
+      "subtitle": "Yi Peng Lantern Festival Floating into Night Skies",
+      "tag": "Golden Lanterns",
+      "image": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=2200&q=85"
+    },
+    {
+      "id": "norway",
+      "latitude": 68.209,
+      "longitude": 13.61,
+      "title": "Lofoten Islands, Norway",
+      "subtitle": "Emerald Aurora Borealis dancing over Snowy Fjords",
+      "tag": "Northern Lights",
+      "image": "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?auto=format&fit=crop&w=2200&q=85"
+    },
+    {
+      "id": "newyork",
+      "latitude": 40.7128,
+      "longitude": -74.006,
+      "title": "New York City, USA",
+      "subtitle": "Golden Hour Sunset over Manhattan & Harbor",
+      "tag": "Iconic Metropolis",
+      "image": "https://images.unsplash.com/photo-1506146332389-18140dc7b2fb?auto=format&fit=crop&w=2200&q=85"
+    },
+    {
+      "id": "kyoto",
+      "latitude": 35.0116,
+      "longitude": 135.7681,
+      "title": "Kyoto, Japan",
+      "subtitle": "Ancient Pagodas & Lantern-lit Temples at Twilight",
+      "tag": "Cultural Heritage",
+      "image": "https://images.unsplash.com/photo-1493976040374-85c8e12f0c0e?auto=format&fit=crop&w=2200&q=85"
+    },
+    {
+      "id": "swissalps",
+      "latitude": 46.0207,
+      "longitude": 7.7491,
+      "title": "Zermatt, Switzerland",
+      "subtitle": "Sunset Alpine Glow on Snow-Capped Matterhorn",
+      "tag": "Alpine Wonder",
+      "image": "https://images.unsplash.com/photo-1530122037265-a5f1f91d3b99?auto=format&fit=crop&w=2200&q=85"
+    },
+    {
+      "id": "bali",
+      "latitude": -8.8291,
+      "longitude": 115.0849,
+      "title": "Uluwatu, Bali",
+      "subtitle": "Cliffside Ocean Temple & Golden Coral Sunsets",
+      "tag": "Tropical Paradise",
+      "image": "https://images.unsplash.com/photo-1537996194471-e657df975ab4?auto=format&fit=crop&w=2200&q=85"
+    }
+  ]
+}

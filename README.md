@@ -1,166 +1,75 @@
-# 🌍 GlobeGo — Next-Gen AI Travel Planning Platform
+# GlobeGo — React Travel Frontend
 
-[![React](https://img.shields.io/badge/React-19.2-61DAFB?logo=react&logoColor=black)](https://react.dev/)
-[![Vite](https://img.shields.io/badge/Vite-8.2-646CFF?logo=vite&logoColor=white)](https://vitejs.dev/)
-[![Lucide](https://img.shields.io/badge/Lucide-Icons-F05032?logo=lucide&logoColor=white)](https://lucide.dev/)
-[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+A group React frontend project with a multi-service home page, destination discovery, wishlist, flight-booking demonstration, profile, group planner, dashboard and preferences. The existing visual design is retained.
 
-> **GlobeGo** is an intelligent, Expedia-grade AI travel planning platform designed to craft personalized, end-to-end travel itineraries with dynamic budget optimization, real-time currency conversion, personalized destination matching, and comprehensive travel management dashboards.
+## Run the project
 
----
-
-## ✨ Key Features
-
-### 🧠 Intelligent AI Trip Planner
-- **Multi-Mode AI Experience**:
-  - **Quick Wizard**: Step-by-step interactive planner with duration, budget, style, and travel party preferences.
-  - **Natural Language Chat**: Natural language trip prompt parser (e.g., *"Plan a 5-day adventure in Tokyo under $2,500 for 2 adults"*).
-  - **Budget Optimizer**: Automatic expense categorization, overspend warnings, and budget-saving recommendations.
-  - **Destination Matcher**: Suggests trending and curated destinations matching climate, vibe, and activities.
-  - **Interactive Travel Q&A**: Real-time travel guidance, visa information, packing checklists, and local etiquette.
-
-### 📅 Complete Day-by-Day Itineraries
-- Detailed morning, afternoon, and evening schedules with realistic activity durations and local tips.
-- Curated recommendations for top-rated hotels, must-try local delicacies, and immersive experiences.
-- One-click trip modification, regeneration, export, and bookmarking.
-
-### 💱 Real-Time Multi-Currency Support
-- Switch between **INR (₹)**, **USD ($)**, and **EUR (€)** dynamically across the entire application with synchronized exchange rate conversions.
-
-### 📊 Personalized Dashboard & Rewards
-- **Saved Trips Management**: View, revisit, modify, and manage past and upcoming itineraries.
-- **Travel Stats & Badges**: Gamified achievements (e.g., *Globe Trotter*, *Budget Master*, *Culture Seeker*), mileage tracker, and travel personality analytics.
-- **Preference Engine**: Save preferred travel styles (Luxury, Solo, Family, Adventure), climates, and pace.
-
-### 🎨 Expedia-Grade Design System
-- **Pure CSS Tokens**: Zero bulky UI library overhead; built with clean custom CSS properties (`var(--...)`).
-- **Seamless Light & Dark Mode**: Persistent theme toggle with high-contrast WCAG AA accessibility.
-- **Rich Micro-Interactions**: Glassmorphism cards, glowing gradients, interactive hero reels, and animated SVG globes.
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-- Node.js (v18.0.0 or higher recommended)
-- npm (v9.0.0 or higher)
-
-### Installation
+Use Node.js 22.12+ (Node.js 24 is used for verification).
 
 ```bash
-# Clone repository
-git clone https://github.com/japneetkaur1019-netizen/Globe-Go.git
-
-# Navigate to project directory
-cd Globe-Go
-
-# Install dependencies
 npm install
-
-# Start development server
 npm run dev
 ```
 
-The application will be running at `http://localhost:5173`.
-
-### Production Build
+Vite prints the local URL, normally http://localhost:5173.
 
 ```bash
+npm test
+npm run lint
 npm run build
 npm run preview
 ```
 
----
+## Syllabus implementation
 
-## 🗺️ Application Routes
+| Topic | Implementation |
+| --- | --- |
+| Navigation layout/page structure | React Router, nested AppLayout with Outlet, existing page routes and 404 page |
+| Context API/state architecture | Existing App/Auth/Wishlist/FlightBooking contexts; Home consumes shared wishlist and toast services |
+| Redux Toolkit | configureStore, searchSlice, weatherSlice, generated actions, useSelector/useDispatch and createAsyncThunk |
+| Form handling | Controlled Home search, reusable SearchField/useForm, field validation and accessible errors |
+| REST API/async state | fetch to Open-Meteo, async/await, HTTP/response validation, 10-second timeout, loading/error/success state, Retry button and 10-minute in-memory cache |
 
-| Route | Page | Description |
-| :--- | :--- | :--- |
-| `/` | **Home** | Hero search, trending destinations, curated deals, and quick AI preference setup |
-| `/ai-planner` | **AI Travel Planner** | Complete AI itinerary builder with multi-mode input, budget math, and recommendations |
-| `/dashboard` | **Dashboard** | Saved trips, travel stats, upcoming itineraries, and notifications |
-| `/preferences` | **Preferences** | Custom travel persona configuration (style, climate, pace, budget tier) |
-| `/stats` | **Stats & Rewards** | Travel achievements, badges, carbon offset tracker, and exploration metrics |
+## Live API feature
 
----
+The existing home hero reel's destination badge displays current temperature for its displayed destination. It requests:
 
-## 🧩 Project Structure
+https://api.open-meteo.com/v1/forecast
 
-```
-globe-go/
-├── docs/
-│   ├── CSS_DESIGN_SYSTEM_REFERENCE.md   # Master CSS design system specifications
-│   └── CSS_DESIGN_SYSTEM_REFERENCE.html # Interactive HTML reference guide
-├── public/                              # Static public assets
-├── src/
-│   ├── assets/                          # App logos & icons
-│   ├── components/                      # Reusable modular UI components
-│   │   ├── AIConversation.jsx           # Natural language conversational AI interface
-│   │   ├── AIModeSelector.jsx           # Mode switcher (Quick, Chat, Budget, etc.)
-│   │   ├── AIPlannerInput.jsx           # Structured trip input controls
-│   │   ├── ActivityRecommendations.jsx  # Activity list cards
-│   │   ├── BudgetAdvicePanel.jsx        # Smart budget tips and reallocation
-│   │   ├── BudgetBreakdown.jsx          # Cost distribution chart & breakdown
-│   │   ├── DynamicHeroReel.jsx          # Hero carousel & trending banners
-│   │   ├── FoodRecommendations.jsx      # Culinary and dining recommendations
-│   │   ├── Footer.jsx                   # Global footer with quick links & badges
-│   │   ├── HotelRecommendations.jsx     # Accommodations cards & ratings
-│   │   ├── Itinerary.jsx / Day.jsx      # Day-by-day interactive itinerary
-│   │   ├── ModifyTripModal.jsx          # Trip customization modal
-│   │   ├── Navbar.jsx                   # Sticky global navigation & currency switcher
-│   │   ├── NotificationCenter.jsx       # Real-time toast notifications & alerts
-│   │   ├── WorldGlobeBackground.jsx     # Interactive animated SVG globe
-│   │   └── ...
-│   ├── context/
-│   │   └── AppContext.jsx               # Global state with localStorage synchronization
-│   ├── data/
-│   │   ├── activities.js                # Curated experiences database
-│   │   ├── destinations.js              # Destination catalog & metadata
-│   │   ├── food.js                      # Local food & restaurant catalog
-│   │   ├── hotels.js                    # Hotel listings & amenities catalog
-│   │   └── mockAI.js                    # Core AI engine adapter (pluggable with LLMs)
-│   ├── pages/
-│   │   ├── AITravelPlanner.jsx          # Main AI planning suite
-│   │   ├── Dashboard.jsx                # User dashboard & saved trips
-│   │   ├── Home.jsx                     # Landing page & exploration hub
-│   │   ├── TravelPreferences.jsx        # Travel style & preference manager
-│   │   └── TravelStatsAchievements.jsx  # Gamification & rewards page
-│   ├── styles/
-│   │   └── design-system.css            # Complete design tokens, components & themes
-│   ├── utils/
-│   │   ├── budgetCalculator.js          # Category cost calculations & conversions
-│   │   ├── preferenceEngine.js          # Destination scoring & recommendation logic
-│   │   └── tripParser.js                # Natural language prompt parsing engine
-│   ├── App.jsx                          # Main routing & layout wrapper
-│   ├── index.css                        # Reset, font imports & accessibility utilities
-│   └── main.jsx                         # React 19 application entry point
-├── package.json
-└── vite.config.js
-```
+Parameters: latitude, longitude, current=temperature_2m, temperature_unit=celsius, timezone=auto.
 
----
+- No API key is needed for this educational, non-commercial demo.
+- Only predefined destination coordinates are sent; user geolocation is never requested.
+- Loading shows “Loading weather…”. A failure shows “Weather unavailable · Retry”; the carousel and rest of the app remain usable.
+- Responses are cached per destination for 10 minutes. Concurrent duplicate requests are skipped.
+- Weather attribution links to Open-Meteo in the badge.
+- API docs: https://open-meteo.com/en/docs
+- Weather is current model data, not a forecast for the dates entered in the search form.
 
-## 🤖 AI Engine Architecture & Extensibility
+## Main files
 
-GlobeGo is engineered with a **clean adapter pattern**. The AI logic is encapsulated in `src/data/mockAI.js` and utility parsers:
+- src/App.jsx and src/layouts/AppLayout.jsx: page routing and shared layout.
+- src/pages/Home.jsx: Member 1 home search, deals and shared wishlist integration.
+- src/components/DynamicHeroReel.jsx and DestinationWeather.jsx: carousel and live destination weather.
+- src/services/weatherApi.js: HTTP request, timeout and response validation.
+- src/store/: Redux search and asynchronous weather state.
+- src/context/: existing shared app/user/wishlist/booking state.
+- src/hooks/useForm.js and src/components/SearchField.jsx: reusable form logic and fields.
+- src/pages/Explore/: URL-backed destination filtering.
+- src/pages/flights/: existing multi-step booking demonstration.
+- tests/: search validation, Redux state and API success/failure/retry tests.
 
-- **`src/utils/tripParser.js`**: Parses free-text prompts for destination, duration, budget limits, currency, and group size.
-- **`src/utils/budgetCalculator.js`**: Calculates category budgets (Hotels, Flights, Activities, Food, Misc) and benchmarks against user limits.
-- **`src/utils/preferenceEngine.js`**: Scores destinations using weighted preference vectors.
-- **`src/data/mockAI.js`**: Generates full structured trip models (`generateTrip()`).
+## Demo
 
-> 💡 **Plugging in Real AI**: To connect OpenAI, Google Gemini, or Anthropic Claude, simply replace the `generateTrip()` implementation in `src/data/mockAI.js` with your API caller. The UI components will seamlessly consume the returned JSON structure without any modifications!
+1. Open Home and pause the reel to inspect the destination's current temperature.
+2. In browser developer tools, switch the network offline, select an uncached destination and use Retry after restoring the network.
+3. Submit an empty destination to demonstrate form validation. Dates use YYYY-MM-DD to YYYY-MM-DD; travelers use e.g. 2 travelers, 1 room.
+4. Search Tokyo under Hotels to see Explore filtered to Tokyo. Under Flights, destination/dates/travelers populate the flight search.
+5. Save a Home hotel, open Wishlist and refresh to demonstrate Context and persistence.
+6. Visit an unknown URL to show the 404 page within the shared layout.
 
----
+## Scope
 
-## 🎨 Design System & Accessibility
+Booking, hotel prices and payment flows are frontend demonstrations using existing project data; no real booking/payment service or AI backend is added. Non-flight service tabs lead to the existing destination catalogue. Redux search/weather state is in memory; wishlist/preferences retain existing browser-storage behavior.
 
-For full details on the color palette, typography hierarchy, button variants, card elevations, and responsive breakpoints, check out:
-- 📖 [CSS Design System Reference Markdown](./docs/CSS_DESIGN_SYSTEM_REFERENCE.md)
-- 🌐 [Interactive HTML Preview](./docs/CSS_DESIGN_SYSTEM_REFERENCE.html)
-
----
-
-## 📄 License
-
-This project is open-source and available under the [MIT License](LICENSE).
+Unused application files were removed only after checking the entry-point import graph and text/asset references. Developer documentation, tests, build configuration, required data, dependencies and active styles remain. See docs/React-Evaluation-Guide.md for additional evaluation notes.

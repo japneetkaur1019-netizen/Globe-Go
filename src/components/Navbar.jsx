@@ -26,7 +26,7 @@ import { useAuth } from '../context/AuthContext.jsx';
 const NAV_ITEMS = [
   { to: '/', label: 'Home', end: true },
   { to: '/flights', label: 'Flights' },
-  { to: '/explore', label: 'Explore' },
+  { to: '/destinations', label: 'Destinations' },
   { to: '/wishlist', label: 'Wishlist', showWishlistBadge: true },
   { to: '/group', label: 'Group Trip' },
   { to: '/dashboard', label: 'Dashboard' },
@@ -106,8 +106,8 @@ export default function Navbar() {
                 <Link to="/flights" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
                   <Plane size={15} /> Flight Search &amp; Seat Selection
                 </Link>
-                <Link to="/explore" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
-                  <MapPin size={15} /> Explore Global Destinations
+                <Link to="/destinations" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
+                  <MapPin size={15} /> Explore Destinations (20+ World Cities)
                 </Link>
                 <Link to="/group" className="shop-dropdown-item" onClick={() => setShopDropdown(false)}>
                   <Users size={15} /> Group Trip &amp; Splitter

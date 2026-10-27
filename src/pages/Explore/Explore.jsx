@@ -147,13 +147,13 @@ export default function Explore() {
           </div>
 
           <h1>
-            Where will you go next?
+            Explore Global Destinations
           </h1>
 
           <p>
-            Discover breathtaking global destinations,
-            verified traveler ratings, and seamlessly
-            generate custom AI itineraries.
+            Discover 20+ breathtaking global destinations,
+            verified traveler ratings, estimated budgets, and
+            seamless flight booking.
           </p>
 
         </div>

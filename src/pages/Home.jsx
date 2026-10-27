@@ -26,6 +26,7 @@ import { formatINR } from '../utils/budgetCalculator.js';
 import DynamicHeroReel from '../components/DynamicHeroReel.jsx';
 import SearchTabIcon from '../components/SearchTabIcon.jsx';
 import homeData from '../data/db.json';
+import destinations from '../data/destination.js';
 
 // Static home-page content comes from a single JSON data file.
 const {
@@ -38,6 +39,8 @@ const {
   styleCards: STYLE_CARDS,
   partnerBrands: PARTNER_BRANDS,
 } = homeData;
+
+const FEATURED_DESTINATIONS = (Array.isArray(destinations) ? destinations : []).slice(0, 8);
 
 export default function Home() {
   const navigate = useNavigate();
@@ -66,8 +69,15 @@ export default function Home() {
       removeFromWishlist(deal.id);
       showToast('Removed from wishlist', deal.name, 'Heart');
     } else {
-      addToWishlist({ id: deal.id, name: deal.name, country: deal.city, category: 'Luxury',
-        price: deal.nightlyRate, rating: deal.rating, image: deal.image.split('?')[0] });
+      addToWishlist({
+        id: deal.id,
+        name: deal.name,
+        country: deal.country || deal.city || '',
+        category: deal.category || 'Luxury',
+        price: deal.price || deal.nightlyRate || 0,
+        rating: deal.rating || 4.5,
+        image: (deal.image || '').split('?')[0],
+      });
       showToast('Saved to wishlist', deal.name, 'Heart');
     }
   };
@@ -174,11 +184,93 @@ export default function Home() {
           <button
             type="button"
             className="discount-promo-btn"
-            onClick={() => navigate('/flights')}
+            onClick={() => navigate('/destinations')}
           >
-            Book now
+            Explore Destinations
           </button>
         </div>
+
+        {/* ==========================================================================
+            POPULAR WORLD DESTINATIONS (FEATURED GLOBAL DESTINATIONS)
+            ========================================================================== */}
+        <section style={{ marginBottom: 56 }}>
+          <div className="section-header-row">
+            <div>
+              <h2 className="section-main-title">Popular World Destinations</h2>
+              <p className="section-main-sub">Explore curated destinations across 20+ global cities with real-time flight search &amp; itineraries.</p>
+            </div>
+            <button
+              type="button"
+              className="section-action-btn"
+              onClick={() => navigate('/destinations')}
+            >
+              <span>Explore all 20+ destinations</span>
+              <ChevronRight size={16} />
+            </button>
+          </div>
+
+          <div className="hotel-deals-grid">
+            {FEATURED_DESTINATIONS.map((dest) => (
+              <div className="hotel-deal-card" key={dest.id}>
+                <div
+                  className="hotel-card-image-wrap"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => navigate('/flights', { state: { prefillDestination: dest.name } })}
+                >
+                  <img
+                    src={`${dest.image}?auto=format&fit=crop&w=600&q=75`}
+                    alt={dest.name}
+                    className="hotel-card-img"
+                  />
+                  <div className="hotel-vip-badge" style={{ background: 'var(--primary, #1a73e8)' }}>
+                    {dest.category}
+                  </div>
+                  <button
+                    type="button"
+                    className={`hotel-wishlist-btn${isInWishlist(dest.id) ? ' active' : ''}`}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleWishlist(dest);
+                    }}
+                    aria-pressed={isInWishlist(dest.id)}
+                    aria-label={isInWishlist(dest.id) ? `Remove ${dest.name} from wishlist` : `Save ${dest.name} to wishlist`}
+                  >
+                    <Heart size={16} fill={isInWishlist(dest.id) ? '#e11d48' : 'none'} />
+                  </button>
+                </div>
+
+                <div className="hotel-card-body">
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 4 }}>
+                    <h3 className="hotel-card-title" style={{ margin: 0 }}>{dest.name}</h3>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 4, color: '#f59e0b', fontSize: '0.85rem', fontWeight: 700 }}>
+                      <Star size={13} fill="#f59e0b" />
+                      <span>{dest.rating}</span>
+                    </div>
+                  </div>
+
+                  <div className="hotel-card-location" style={{ display: 'flex', alignItems: 'center', gap: 4, marginBottom: 12 }}>
+                    <MapPin size={13} color="var(--ink-500)" />
+                    <span>{dest.country}</span>
+                  </div>
+
+                  <div className="hotel-price-box" style={{ marginTop: 'auto' }}>
+                    <div className="nightly-rate">
+                      {formatINR(dest.price)} <span style={{ fontSize: '0.8rem', fontWeight: 500, color: 'var(--ink-500)' }}>est. trip</span>
+                    </div>
+                    <button
+                      type="button"
+                      className="btn btn-secondary"
+                      style={{ width: '100%', marginTop: 10, fontSize: '0.85rem', padding: '8px 12px', justifyContent: 'center' }}
+                      onClick={() => navigate('/flights', { state: { prefillDestination: dest.name } })}
+                    >
+                      <Plane size={14} style={{ marginRight: 6 }} /> Find Flights
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
 
         {/* ==========================================================================
             LAST-MINUTE WEEKEND DEALS

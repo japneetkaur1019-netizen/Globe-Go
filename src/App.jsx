@@ -44,6 +44,7 @@ export default function App() {
 
           {/* Discovery & Wishlist */}
           <Route path="/explore" element={<Explore />} />
+          <Route path="/destinations" element={<Explore />} />
           <Route path="/wishlist" element={<Wishlist />} />
 
           {/* Group Travel & Budget Tracking (Nested Routes) */}

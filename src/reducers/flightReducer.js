@@ -1,39 +1,37 @@
-const initialState = {
+// Flight reducer for managing flight search and selection state
+// Exported constants are used by FlightBookingContext
+
+export const initialState = {
+  // List of flights returned from the API or generated dynamically
+  flights: [],
+  // Currently selected flight object
+  selectedFlight: null,
+  // Loading flag while fetching flights
+  isLoading: false,
+  // Error message if the fetch fails
+  error: null,
+  // Search parameters used by the UI
   search: {
-    tripType: "round-trip",
     origin: null,
     destination: null,
-    departDate: "",
-    returnDate: "",
-    adults: 1,
-    children: 0,
-    infants: 0,
-    cabin: "Economy"
+    cabin: 'Economy',
+    tripType: 'one-way',
   },
-
-  selectedFlight: null,
-
+  // Passengers collected on the Passenger Details step
   passengers: [],
-
+  // Contact info (email, phone) collected on the Passenger Details step
+  contact: {},
+  // Seat assignments (passengerId => seatId) collected on the Seat Selection step
   seats: {},
-
-  payment: {
-    cardName: "",
-    cardNumber: "",
-    expiry: "",
-    cvv: ""
-  },
-
-  contact: {
-    email: "",
-    phone: ""
-  },
-
-  booking: null
 };
 
-function flightReducer(state, action) {
+/**
+ * flightReducer Ã¢â‚¬â€œ handles actions related to flight data.
+ * Only the actions required by the current codebase are implemented.
+ */
+export function flightReducer(state = initialState, action) {
   switch (action.type) {
+
 
     case "SET_SEARCH":
       return {
@@ -98,12 +96,13 @@ function flightReducer(state, action) {
     case "RESET_BOOKING":
       return initialState;
 
+    case 'SET_FLIGHTS':
+      return { ...state, flights: action.payload, isLoading: false, error: null };
+    case 'SET_LOADING':
+      return { ...state, isLoading: true };
+    case 'SET_ERROR':
+      return { ...state, error: action.payload, isLoading: false };
     default:
       return state;
   }
 }
-
-export {
-  initialState,
-  flightReducer
-};

@@ -164,3 +164,10 @@ For full details on the color palette, typography hierarchy, button variants, ca
 ## 📄 License
 
 This project is open-source and available under the [MIT License](LICENSE).
+# Live flight search setup
+
+Flight search can use Duffel's Flight Offers API. Create a Duffel account and a test-mode access token, copy `.env.example` to `.env`, and set `DUFFEL_ACCESS_TOKEN` to that token. Keep `.env` private; it is excluded from Git.
+
+Start the API server with `npm run server` and the web app in a second terminal with `npm run dev`. Search results come from Duffel when the token is configured. Without a token or if the API cannot be reached, the page identifies its results as demo estimates.
+
+Use Duffel test tokens for development. Live inventory and ticketing require a live Duffel account and follow Duffel's account, airline, and billing requirements. The current passenger, seat, and payment pages are still a demo flow; this integration searches offers and does not create or pay for a flight order.

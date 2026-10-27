@@ -1,5 +1,5 @@
-/* =========================================================
-   GLOBEGO — PASSENGER DETAILS PAGE
+﻿/* =========================================================
+   GLOBEGO â€” PASSENGER DETAILS PAGE
    ========================================================= */
 
 :root {
@@ -802,7 +802,7 @@
 
 
 /* =========================================================
-   RESPONSIVE — TABLET
+   RESPONSIVE â€” TABLET
    ========================================================= */
 
 @media (max-width: 850px) {
@@ -828,7 +828,7 @@
 
 
 /* =========================================================
-   RESPONSIVE — MOBILE
+   RESPONSIVE â€” MOBILE
    ========================================================= */
 
 @media (max-width: 700px) {
@@ -1061,43 +1061,17 @@
     display: none;
   }
 }
+.flight-layout-stepper { max-width: 1200px; margin: 0 auto; padding: 16px 16px 0; }
 
-/* =========================================================
-   FORM VALIDATION UI
-   ========================================================= */
-
-/* Required star */
-.req-star {
-  color: var(--danger);
-  margin-left: 2px;
-  font-weight: 700;
+.field-error {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--danger, #d13b3b);
 }
-
-/* Inline error message beneath field */
-.field-error-msg {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  margin-top: 5px;
-  font-size: 0.72rem;
-  font-weight: 500;
-  color: var(--danger);
-  animation: slideInError 0.18s ease;
-}
-
-@keyframes slideInError {
-  from { opacity: 0; transform: translateY(-4px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-/* Error state on the form-group wrapper */
-.form-group.has-error input,
-.form-group.has-error select {
-  border-color: var(--danger) !important;
-  background: var(--danger-light) !important;
-  box-shadow: 0 0 0 3px rgba(209, 59, 59, 0.12) !important;
-}
-
-.form-group.has-error label {
-  color: var(--danger);
+input.input-error,
+select.input-error {
+  border-color: var(--danger, #d13b3b) !important;
+  background: #fff6f6;
 }

@@ -1,0 +1,69 @@
+/* Shared dark-mode corrections for flight-specific surfaces and controls. */
+[data-theme="dark"] .flight-search-page :is(
+  .trip-tab-btn:not(.active),
+  .cabin-select,
+  .airport-input-box input,
+  .form-input-field input,
+  .passenger-summary-btn,
+  .airports-dropdown,
+  .passengers-popover,
+  .popular-route-card,
+  .counter-controls button
+),
+[data-theme="dark"] .passenger-page :is(
+  .step-num:not(.active):not(.completed),
+  .form-group input,
+  .form-group select,
+  .passenger-form-card,
+  .passenger-actions .btn-secondary
+),
+[data-theme="dark"] .seat-page :is(
+  .passenger-seat-tab:not(.active),
+  .seat-action-buttons .btn-outline
+),
+[data-theme="dark"] .payment-page :is(
+  .method-tab-btn:not(.active),
+  .bank-pill-btn,
+  .form-group input:not(.input-error),
+  .form-group select:not(.input-error),
+  .payment-empty
+),
+[data-theme="dark"] .confirmation-page :is(
+  .boarding-pass-card,
+  .boarding-pass-header,
+  .duration-pill,
+  .meta-box,
+  .passenger-ticket-row,
+  .boarding-stub-footer,
+  .confirmation-actions .btn-outline,
+  .confirmation-actions .btn-secondary-save,
+  .confirmation-empty
+) {
+  background-color: var(--card-bg, var(--surface, #101e33));
+  color: var(--text-dark, var(--text, #f8fafc));
+  border-color: var(--border-color, var(--border, #1e3352));
+}
+
+[data-theme="dark"] .flight-search-page :is(input, select)::placeholder,
+[data-theme="dark"] .passenger-page :is(input, select)::placeholder,
+[data-theme="dark"] .payment-page :is(input, select, textarea)::placeholder {
+  color: var(--text-muted, #94a3b8);
+}
+
+[data-theme="dark"] .flight-search-page input:focus,
+[data-theme="dark"] .passenger-page :is(input, select):focus,
+[data-theme="dark"] .payment-page :is(input, select, textarea):focus {
+  background-color: var(--card-bg, var(--surface, #101e33));
+  color: var(--text-dark, var(--text, #f8fafc));
+}
+
+[data-theme="dark"] .confirmation-page .boarding-pass-card {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .confirmation-page .passenger-ticket-row,
+[data-theme="dark"] .confirmation-page .boarding-stub-footer,
+[data-theme="dark"] .confirmation-page .duration-pill,
+[data-theme="dark"] .confirmation-page .meta-box {
+  border-color: var(--border-color, #1e3352);
+}

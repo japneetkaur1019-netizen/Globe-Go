@@ -73,9 +73,12 @@ export default function BookingConfirmation() {
   const passengerCount = passengerList.length;
 
   const seatCount = seats ? Object.keys(seats).length : 0;
-  const baseFare = selectedFlight.price * passengerCount;
-  const seatFee = seatCount * 250;
-  const taxes = Math.round(baseFare * 0.12);
+  const isLiveOffer = Boolean(selectedFlight.isLiveOffer);
+  const currency = selectedFlight.currency || "INR";
+  const formatPrice = (amount) => new Intl.NumberFormat(undefined, { style: "currency", currency, maximumFractionDigits: 2 }).format(amount);
+  const baseFare = isLiveOffer ? selectedFlight.totalPrice : selectedFlight.price * passengerCount;
+  const seatFee = !isLiveOffer && currency === "INR" ? seatCount * 250 : 0;
+  const taxes = isLiveOffer ? 0 : Math.round(baseFare * 0.12);
   const total = baseFare + seatFee + taxes;
 
   const handleSaveToDashboard = () => {
@@ -104,23 +107,23 @@ export default function BookingConfirmation() {
             <CheckCircle size={42} strokeWidth={2.2} />
           </div>
           <p className="flight-badge-label">
-            BOOKING CONFIRMED &amp; ISSUED
+            DEMO BOOKING SUMMARY
           </p>
-          <h1>Your flight is confirmed!</h1>
+          <h1>Your flight selection is ready</h1>
           <p className="success-subtext">
-            We've sent your e-ticket receipt and confirmation to your registered email.
+            This is a preview only. No flight has been booked, no ticket has been issued, and no payment was processed.
           </p>
         </div>
 
         {/* Quick Booking Ref Banner */}
         <div className="booking-reference-card">
           <div className="ref-left">
-            <span className="ref-label">Booking Reference (PNR)</span>
+            <span className="ref-label">Demo reference (not an airline PNR)</span>
             <strong className="ref-code">{bookingReference}</strong>
           </div>
           <div className="ref-right">
             <span className="ref-status">
-              <ShieldCheck size={16} /> Verified &amp; Confirmed
+              <ShieldCheck size={16} /> Not booked
             </span>
           </div>
         </div>
@@ -136,7 +139,7 @@ export default function BookingConfirmation() {
               </div>
             </div>
             <div className="ticket-class-badge">
-              <span>BOARDING PASS</span>
+              <span>ITINERARY PREVIEW</span>
             </div>
           </div>
 
@@ -212,7 +215,7 @@ export default function BookingConfirmation() {
           <div className="boarding-stub-footer">
             <div className="stub-info">
               <span>Electronic Ticket Passenger Coupon</span>
-              <code>{bookingReference}-ETKT-2026-GG</code>
+              <code>Preview only — no e-ticket issued</code>
             </div>
             <div className="barcode-mock">
               <div className="barcode-lines"></div>
@@ -225,23 +228,23 @@ export default function BookingConfirmation() {
           <h3><CreditCard size={18} /> Payment Receipt</h3>
           <div className="receipt-items">
             <div className="receipt-row">
-              <span>Base Fare ({passengerCount} × ₹{selectedFlight.price.toLocaleString("en-IN")})</span>
-              <strong>₹{baseFare.toLocaleString("en-IN")}</strong>
+              <span>{isLiveOffer ? "Duffel offer total (includes taxes)" : `Base Fare (${passengerCount} travelers)`}</span>
+              <strong>{formatPrice(baseFare)}</strong>
             </div>
             {seatFee > 0 && (
               <div className="receipt-row">
                 <span>Seat Selection ({seatCount} seats)</span>
-                <strong>₹{seatFee.toLocaleString("en-IN")}</strong>
+                <strong>{formatPrice(seatFee)}</strong>
               </div>
             )}
-            <div className="receipt-row">
+            {!isLiveOffer && <div className="receipt-row">
               <span>Taxes, GST &amp; Airport Security Fees</span>
-              <strong>₹{taxes.toLocaleString("en-IN")}</strong>
-            </div>
+              <strong>{formatPrice(taxes)}</strong>
+            </div>}
             <div className="receipt-divider"></div>
             <div className="receipt-row total-row">
-              <span>Total Paid</span>
-              <strong className="total-amount">₹{total.toLocaleString("en-IN")}</strong>
+              <span>Estimated total (not charged)</span>
+              <strong className="total-amount">{formatPrice(total)}</strong>
             </div>
           </div>
         </div>

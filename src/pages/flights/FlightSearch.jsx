@@ -182,33 +182,6 @@ export default function FlightSearch() {
           </div>
         </section>
 
-        {/* Flight Booking Progress Bar */}
-        <div className="flight-stepper-bar">
-          <div className="step-node active">
-            <span className="step-num">1</span>
-            <span className="step-label">Flight Search</span>
-          </div>
-          <div className="step-line"></div>
-          <div className="step-node">
-            <span className="step-num">2</span>
-            <span className="step-label">Select Flight</span>
-          </div>
-          <div className="step-line"></div>
-          <div className="step-node">
-            <span className="step-num">3</span>
-            <span className="step-label">Passengers</span>
-          </div>
-          <div className="step-line"></div>
-          <div className="step-node">
-            <span className="step-num">4</span>
-            <span className="step-label">Seats</span>
-          </div>
-          <div className="step-line"></div>
-          <div className="step-node">
-            <span className="step-num">5</span>
-            <span className="step-label">Payment</span>
-          </div>
-        </div>
 
         {/* Main Search Widget Card */}
         <div className="flight-widget-card card">

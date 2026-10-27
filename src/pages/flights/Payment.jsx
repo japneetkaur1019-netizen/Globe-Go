@@ -7,18 +7,18 @@ import {
   ShieldCheck,
   Lock,
   ArrowLeft,
-  Check,
   Sparkles,
   Plane,
-  AlertCircle,
+  Check,
 } from "lucide-react";
 import { useFlightBooking } from "../../context/FlightBookingContext";
 import { useFormValidation } from "../../hooks/useFormValidation";
+import FieldError from "../../components/FieldError.jsx";
 import "./Payment.css";
 
-/* ─────────────────────────────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    VALIDATION RULE SETS
-───────────────────────────────────────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const CARD_RULES = {
   cardName: (v) => {
     if (!v.trim()) return "Cardholder name is required.";
@@ -35,7 +35,7 @@ const CARD_RULES = {
     if (!v) return "Expiry date is required.";
     if (!v.includes("/") || v.length < 5) return "Enter expiry as MM/YY.";
     const [mm, yy] = v.split("/").map(Number);
-    if (mm < 1 || mm > 12) return "Invalid month (01–12).";
+    if (mm < 1 || mm > 12) return "Invalid month (01â€“12).";
     const now = new Date();
     const exp = new Date(2000 + yy, mm - 1);
     if (exp <= now) return "Card has expired.";
@@ -56,26 +56,17 @@ const UPI_RULES = {
   },
 };
 
-/* ─────────────────────────────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    HELPERS
-───────────────────────────────────────────────────────────────────────── */
-function FieldError({ message }) {
-  if (!message) return null;
-  return (
-    <span className="field-error-msg" role="alert">
-      <AlertCircle size={12} /> {message}
-    </span>
-  );
-}
-
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const formatCardNum = (raw) =>
   raw.replace(/\D/g, "").slice(0, 16).replace(/(.{4})/g, "$1 ").trim();
 
 const BANKS = ["HDFC Bank", "State Bank of India", "ICICI Bank", "Axis Bank", "Kotak Mahindra", "Punjab National"];
 
-/* ─────────────────────────────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    COMPONENT
-───────────────────────────────────────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export default function Payment() {
   const navigate = useNavigate();
   const { state, dispatch } = useFlightBooking();
@@ -84,19 +75,19 @@ export default function Payment() {
   const [paymentMethod, setPaymentMethod] = useState("card");
   const [processing,    setProcessing]    = useState(false);
 
-  /* ── Card form ─────────────────────────────────────────── */
+  /* â”€â”€ Card form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   const card = useFormValidation(
     { cardName: "John Doe", cardNumber: "4532 8892 1045 7789", expiry: "12/28", cvv: "889" },
     CARD_RULES,
   );
 
-  /* ── UPI form ──────────────────────────────────────────── */
+  /* â”€â”€ UPI form â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   const upi = useFormValidation(
     { upiId: "traveler@okhdfcbank" },
     UPI_RULES,
   );
 
-  /* ── Guard ─────────────────────────────────────────────── */
+  /* â”€â”€ Guard â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   if (!selectedFlight || !search?.origin || !search?.destination) {
     return (
       <div className="payment-page">
@@ -112,15 +103,33 @@ export default function Payment() {
     );
   }
 
-  /* ── Fare calculation ──────────────────────────────────── */
+  /* â”€â”€ Fare calculation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+  if (selectedFlight.isLiveOffer) {
+    return (
+      <div className="payment-page">
+        <div className="payment-container">
+          <div className="payment-empty card">
+            <div className="empty-icon-wrap"><Plane size={44} /></div>
+            <h2>Live offer selected</h2>
+            <p>This app can search Duffel offers, but its booking and payment integration is not configured. Your offer has not been booked and you will not be charged.</p>
+            <button className="btn btn-primary" onClick={() => navigate("/flights/results")}>Back to flight results</button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   const passengerCount = passengers?.length || Math.max(1, search.adults + (search.children || 0));
-  const baseFare  = selectedFlight.price * passengerCount;
+  const isLiveOffer = Boolean(selectedFlight.isLiveOffer);
+  const currency = selectedFlight.currency || "INR";
+  const formatPrice = (amount) => new Intl.NumberFormat(undefined, { style: "currency", currency, maximumFractionDigits: 2 }).format(amount);
+  const baseFare  = isLiveOffer ? selectedFlight.totalPrice : selectedFlight.price * passengerCount;
   const seatCount = seats ? Object.keys(seats).length : 0;
-  const seatFee   = seatCount * 250;
-  const taxes     = Math.round(baseFare * 0.12);
+  const seatFee   = !isLiveOffer && currency === "INR" ? seatCount * 250 : 0;
+  const taxes     = isLiveOffer ? 0 : Math.round(baseFare * 0.12);
   const total     = baseFare + seatFee + taxes;
 
-  /* ── Expiry mask ───────────────────────────────────────── */
+  /* â”€â”€ Expiry mask â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   const handleExpiryInput = (e) => {
     let val = e.target.value.replace(/\D/g, "").slice(0, 4);
     if (val.length >= 3) val = `${val.slice(0, 2)}/${val.slice(2)}`;
@@ -128,7 +137,7 @@ export default function Payment() {
     card.setFieldValue("expiry", val);
   };
 
-  /* ── Demo autofill ─────────────────────────────────────── */
+  /* â”€â”€ Demo autofill â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   const autofillDemoPayment = () => {
     card.setFieldValue("cardName",   "Alex Henderson");
     card.setFieldValue("cardNumber", "4242 4242 4242 4242");
@@ -136,7 +145,7 @@ export default function Payment() {
     card.setFieldValue("cvv",        "314");
   };
 
-  /* ── Submit ────────────────────────────────────────────── */
+  /* â”€â”€ Submit â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   const handlePaymentSubmit = (e) => {
     if (e) e.preventDefault();
 
@@ -159,12 +168,13 @@ export default function Payment() {
     }, 1200);
   };
 
-  /* ─────────────────────────────────────────────────────────
+  /* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
      RENDER
-  ───────────────────────────────────────────────────────── */
+  â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   return (
     <div className="payment-page">
       <div className="payment-container">
+
 
         {/* Stepper */}
         <div className="flight-stepper-bar">
@@ -177,9 +187,9 @@ export default function Payment() {
         {/* Header */}
         <div className="payment-header-row">
           <div>
-            <span className="flight-badge-label">FINAL CHECKOUT</span>
-            <h1>Review &amp; Complete Payment</h1>
-            <p className="payment-subtext">Secure 256-bit SSL encrypted transaction with instant e-ticket issuance.</p>
+            <span className="flight-badge-label">PAYMENT PREVIEW</span>
+            <h1>Demo checkout</h1>
+            <p className="payment-subtext">Demo only — no payment is processed and no ticket is issued.</p>
           </div>
           <button type="button" className="btn btn-outline demo-fill-btn" onClick={autofillDemoPayment}>
             <Sparkles size={14} /> Fill Demo Test Card
@@ -188,7 +198,7 @@ export default function Payment() {
 
         <div className="payment-main-grid">
 
-          {/* ── LEFT: Payment Method Forms ─────────────────── */}
+          {/* â”€â”€ LEFT: Payment Method Forms â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <div className="payment-forms-pane">
 
             {/* Method Tabs */}
@@ -211,7 +221,7 @@ export default function Payment() {
               </div>
             </div>
 
-            {/* ── CARD FORM ─────────────────────────────────── */}
+            {/* â”€â”€ CARD FORM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             {paymentMethod === "card" && (
               <form onSubmit={handlePaymentSubmit} className="payment-card-form card" noValidate>
 
@@ -221,7 +231,7 @@ export default function Payment() {
                     <span className="card-brand">GlobeGo Member Pay</span>
                     <div className="card-chip-box" />
                   </div>
-                  <div className="card-number-display">{card.values.cardNumber || "•••• •••• •••• ••••"}</div>
+                  <div className="card-number-display">{card.values.cardNumber || "â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢ â€¢â€¢â€¢â€¢"}</div>
                   <div className="card-bottom-row">
                     <div>
                       <span className="card-label">CARDHOLDER</span>
@@ -292,7 +302,7 @@ export default function Payment() {
                       id="cvv"
                       name="cvv"
                       type="password"
-                      placeholder="•••"
+                      placeholder="â€¢â€¢â€¢"
                       value={card.values.cvv}
                       onChange={(e) => card.setFieldValue("cvv", e.target.value.replace(/\D/g, "").slice(0, 4))}
                       onBlur={card.handleBlur}
@@ -309,15 +319,15 @@ export default function Payment() {
                   </button>
                   <button type="submit" className="btn btn-primary pay-now-btn" disabled={processing}>
                     {processing
-                      ? <span className="processing-spinner"><span className="spinner" /> Processing ₹{total.toLocaleString("en-IN")}...</span>
-                      : <><Lock size={16} /> Pay ₹{total.toLocaleString("en-IN")}</>
+                      ? <span className="processing-spinner"><span className="spinner" /> Processing {formatPrice(total)}...</span>
+                      : <><Lock size={16} /> Pay {formatPrice(total)}</>
                     }
                   </button>
                 </div>
               </form>
             )}
 
-            {/* ── UPI FORM ─────────────────────────────────── */}
+            {/* â”€â”€ UPI FORM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             {paymentMethod === "upi" && (
               <form onSubmit={handlePaymentSubmit} className="payment-card-form card" noValidate>
                 <div className="upi-notice-box">
@@ -348,13 +358,13 @@ export default function Payment() {
                     <ArrowLeft size={16} /> Back
                   </button>
                   <button type="submit" className="btn btn-primary pay-now-btn" disabled={processing}>
-                    {processing ? "Confirming UPI Request..." : `Verify & Pay ₹${total.toLocaleString("en-IN")}`}
+                    {processing ? "Confirming UPI Request..." : `Verify & Pay ${formatPrice(total)}`}
                   </button>
                 </div>
               </form>
             )}
 
-            {/* ── NET BANKING ──────────────────────────────── */}
+            {/* â”€â”€ NET BANKING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             {paymentMethod === "netbanking" && (
               <form onSubmit={handlePaymentSubmit} className="payment-card-form card" noValidate>
                 <div className="netbanking-grid">
@@ -369,7 +379,7 @@ export default function Payment() {
                     <ArrowLeft size={16} /> Back
                   </button>
                   <button type="submit" className="btn btn-primary pay-now-btn" disabled={processing}>
-                    {processing ? "Connecting Bank Gateway..." : `Proceed to Pay ₹${total.toLocaleString("en-IN")}`}
+                    {processing ? "Connecting Bank Gateway..." : `Proceed to Pay ${formatPrice(total)}`}
                   </button>
                 </div>
               </form>
@@ -377,12 +387,12 @@ export default function Payment() {
 
           </div>
 
-          {/* ── RIGHT: Fare Summary ─────────────────────────── */}
+          {/* â”€â”€ RIGHT: Fare Summary â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
           <aside className="payment-summary-col">
             <div className="fare-breakdown-card card">
               <div className="fare-header">
                 <h3>Order Summary</h3>
-                <span className="airline-tag">{selectedFlight.airline} · {selectedFlight.flightNumber}</span>
+                <span className="airline-tag">{selectedFlight.airline} Â· {selectedFlight.flightNumber}</span>
               </div>
 
               <div className="fare-flight-route">
@@ -401,23 +411,23 @@ export default function Payment() {
 
               <div className="fare-rows-list">
                 <div className="fare-row">
-                  <span>Base Fare ({passengerCount} × ₹{selectedFlight.price.toLocaleString("en-IN")})</span>
-                  <strong>₹{baseFare.toLocaleString("en-IN")}</strong>
+                  <span>{isLiveOffer ? "Duffel offer total (includes taxes)" : `Base Fare (${passengerCount} travelers)`}</span>
+                  <strong>{formatPrice(baseFare)}</strong>
                 </div>
                 {seatFee > 0 && (
                   <div className="fare-row">
                     <span>Assigned Seats ({seatCount} seats)</span>
-                    <strong>₹{seatFee.toLocaleString("en-IN")}</strong>
+                    <strong>{formatPrice(seatFee)}</strong>
                   </div>
                 )}
-                <div className="fare-row">
+                {!isLiveOffer && <div className="fare-row">
                   <span>Airport Taxes &amp; GST</span>
-                  <strong>₹{taxes.toLocaleString("en-IN")}</strong>
-                </div>
+                  <strong>{formatPrice(taxes)}</strong>
+                </div>}
                 <div className="fare-divider" />
                 <div className="fare-row total-fare-row">
                   <span>Total Amount Payable</span>
-                  <strong className="total-val">₹{total.toLocaleString("en-IN")}</strong>
+                  <strong className="total-val">{formatPrice(total)}</strong>
                 </div>
               </div>
 

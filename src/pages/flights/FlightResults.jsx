@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Plane,
@@ -10,11 +10,10 @@ import {
   Coffee,
   ShieldCheck,
   Star,
-  Check,
   Calendar,
   Users
 } from "lucide-react";
-import flightsData from "../../data/flights";
+import { getFlights } from "../../services/api";
 import { useFlightBooking } from "../../context/FlightBookingContext";
 import "./FlightResults.css";
 
@@ -78,16 +77,36 @@ export default function FlightResults() {
 
   const hasSearch = Boolean(search?.origin && search?.destination);
 
+  // Flights come from the REST API (null = still loading)
+  const [apiFlights, setApiFlights] = useState(null);
+  const [dataSource, setDataSource] = useState("demo");
+  const [sourceMessage, setSourceMessage] = useState("");
+
+  useEffect(() => {
+    if (!hasSearch) return undefined;
+    let cancelled = false; // ignore a late response if the user leaves / searches again
+    setApiFlights(null);
+
+    getFlights(search).then(({ data, source, message }) => {
+      if (!cancelled) {
+        setApiFlights(data);
+        setDataSource(source);
+        setSourceMessage(message);
+      }
+    });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [hasSearch, search?.origin?.code, search?.destination?.code, search?.departDate, search?.returnDate, search?.tripType, search?.adults, search?.children, search?.cabin]);
+
   // Find exact flights from dataset or synthesize
   const availableFlights = useMemo(() => {
-    if (!hasSearch) return [];
-    const rawFlightMatches = flightsData.filter(
-      (f) => f.from === search.origin.code && f.to === search.destination.code
-    );
-    return rawFlightMatches.length > 0
-      ? rawFlightMatches
-      : generateDynamicFlights(search.origin.code, search.destination.code, search.cabin);
-  }, [hasSearch, search?.origin?.code, search?.destination?.code, search?.cabin]);
+    if (!hasSearch || apiFlights === null) return [];
+    if (apiFlights.length > 0) return apiFlights;
+    if (dataSource === "duffel") return [];
+    return generateDynamicFlights(search.origin.code, search.destination.code, search.cabin);
+  }, [hasSearch, apiFlights, dataSource, search?.origin?.code, search?.destination?.code, search?.cabin]);
 
   // All distinct airlines on this route
   const allAirlines = useMemo(() => {
@@ -124,6 +143,19 @@ export default function FlightResults() {
     }
   };
 
+  // Loading state while the REST request is running
+  if (hasSearch && apiFlights === null) {
+    return (
+      <div className="results-page">
+        <div className="results-container">
+          <p style={{ textAlign: "center", padding: "60px 0" }}>
+            Searching flights {search.origin.code} → {search.destination.code}...
+          </p>
+        </div>
+      </div>
+    );
+  }
+
   // Safety fallback if accessed without search
   if (!hasSearch) {
     return (
@@ -156,32 +188,10 @@ export default function FlightResults() {
     <div className="results-page">
       <div className="results-container">
 
-        {/* Flight Booking Progress Bar */}
-        <div className="flight-stepper-bar">
-          <div className="step-node completed">
-            <span className="step-num"><Check size={14} /></span>
-            <span className="step-label">Search</span>
-          </div>
-          <div className="step-line active"></div>
-          <div className="step-node active">
-            <span className="step-num">2</span>
-            <span className="step-label">Select Flight</span>
-          </div>
-          <div className="step-line"></div>
-          <div className="step-node">
-            <span className="step-num">3</span>
-            <span className="step-label">Passengers</span>
-          </div>
-          <div className="step-line"></div>
-          <div className="step-node">
-            <span className="step-num">4</span>
-            <span className="step-label">Seats</span>
-          </div>
-          <div className="step-line"></div>
-          <div className="step-node">
-            <span className="step-num">5</span>
-            <span className="step-label">Payment</span>
-          </div>
+        <div role="status" className="card" style={{ padding: "12px 16px", marginBottom: 16 }}>
+          {dataSource === "duffel"
+            ? "Live flight offers from Duffel. Airline prices and availability can change."
+            : `Demo flight estimates${sourceMessage ? `: ${sourceMessage}` : ". Connect a Duffel test token in .env for live offers."}`}
         </div>
 
         {/* Search Route Summary Header */}
@@ -287,7 +297,7 @@ export default function FlightResults() {
             {/* Trust badge info */}
             <div className="filter-trust-badge">
               <ShieldCheck size={16} color="#107c41" />
-              <span>Prices include all taxes, surcharges &amp; baggage.</span>
+              <span>{dataSource === "duffel" ? "Live offer totals include taxes; baggage depends on the fare." : "Demo estimates only; baggage and fees may vary."}</span>
             </div>
           </aside>
 
@@ -319,8 +329,8 @@ export default function FlightResults() {
             {filteredFlights.length === 0 ? (
               <div className="no-flights-found card">
                 <Plane size={36} className="text-muted" />
-                <h3>No flights match the current filters</h3>
-                <p>Try resetting the stops or airline filters on the left.</p>
+                <h3>{dataSource === "duffel" ? "No live offers found" : "No flights match the current filters"}</h3>
+                <p>{dataSource === "duffel" ? (sourceMessage || "Try different dates or airports.") : "Try resetting the stops or airline filters on the left."}</p>
                 <button
                   type="button"
                   className="btn btn-outline"
@@ -344,10 +354,10 @@ export default function FlightResults() {
                       <div>
                         <strong className="airline-title">{flight.airline}</strong>
                         <span className="flight-number-sub">{flight.flightNumber}</span>
-                        <div className="airline-rating-tag">
+                        {flight.rating && <div className="airline-rating-tag">
                           <Star size={11} fill="#ffc72c" color="#ffc72c" />
                           <span>{flight.rating}</span>
-                        </div>
+                        </div>}
                       </div>
                     </div>
 
@@ -377,19 +387,29 @@ export default function FlightResults() {
                         <span className="sched-code">{flight.to}</span>
                       </div>
                     </div>
+                    {flight.returnFlight && (
+                      <div className="flight-card-schedule" style={{ gridColumn: "1 / -1", paddingTop: 8, borderTop: "1px solid var(--border-color, #e5e7eb)" }}>
+                        <div className="sched-node">
+                          <span className="sched-time">{flight.returnFlight.departure}</span>
+                          <span className="sched-code">{flight.returnFlight.from}</span>
+                        </div>
+                        <div className="sched-mid"><span className="sched-duration">Return · {flight.returnFlight.date}</span><div className="flight-track-line"><span className="track-dot" /><div className="track-bar" /><Plane size={15} className="plane-mini-icon" /><div className="track-bar" /><span className="track-dot" /></div><span className="stops-sub-label">{flight.returnFlight.flightNumber}</span></div>
+                        <div className="sched-node text-right"><span className="sched-time">{flight.returnFlight.arrival}</span><span className="sched-code">{flight.returnFlight.to}</span></div>
+                      </div>
+                    )}
 
                     {/* Inclusions & Amenities */}
-                    <div className="flight-amenities-col">
+                    {!flight.isLiveOffer && <div className="flight-amenities-col">
                       <span className="amenity-item"><Luggage size={13} /> 15 kg check-in</span>
                       <span className="amenity-item"><Coffee size={13} /> Complimentary meal</span>
                       <span className="refundable-tag">Free Cancellation available</span>
-                    </div>
+                    </div>}
 
                     {/* Price & Action Right */}
                     <div className="flight-card-action">
                       <div className="price-stack">
                         <span className="price-small-label">Per Traveler</span>
-                        <strong className="price-large">₹{flight.price.toLocaleString("en-IN")}</strong>
+                        <strong className="price-large">{new Intl.NumberFormat(undefined, { style: "currency", currency: flight.currency || "INR", maximumFractionDigits: 0 }).format(flight.price)}</strong>
                       </div>
 
                       <button

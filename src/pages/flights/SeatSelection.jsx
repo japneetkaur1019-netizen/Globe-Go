@@ -1,11 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   Plane,
   User,
-  Check,
   Sparkles,
-  ArrowRight
+  ArrowRight,
 } from "lucide-react";
 import { useFlightBooking } from "../../context/FlightBookingContext";
 import "./SeatSelection.css";
@@ -15,87 +14,189 @@ export default function SeatSelection() {
   const { state, dispatch } = useFlightBooking();
   const { selectedFlight } = state;
 
-  const passengers = state.passengers && state.passengers.length > 0
-    ? state.passengers
-    : [{ id: "adult-1", type: "Adult", firstName: "Primary", lastName: "Traveler" }];
+  // Get passengers from the booking context.
+  const passengers =
+    state.passengers && state.passengers.length > 0
+      ? state.passengers
+      : [
+          {
+            id: "adult-1",
+            type: "Adult",
+            firstName: "Primary",
+            lastName: "Traveler",
+          },
+        ];
 
-  const [selectedSeats, setSelectedSeats] = useState(state.seats || {});
+  // Ensure every passenger has a unique ID.
+  const passengerList = passengers.map((passenger, index) => ({
+    ...passenger,
+    id: passenger.id || `passenger-${index + 1}`,
+  }));
+
+  // Seat assignments are stored using passenger IDs.
+  const [selectedSeats, setSelectedSeats] = useState(() => {
+    const savedSeats = state.seats || {};
+
+    // Retain existing assignments only for current passengers.
+    const validSeats = {};
+
+    passengerList.forEach((passenger) => {
+      if (savedSeats[passenger.id]) {
+        validSeats[passenger.id] = savedSeats[passenger.id];
+      }
+    });
+
+    return validSeats;
+  });
+
   const [activePassenger, setActivePassenger] = useState(0);
   const [skipped, setSkipped] = useState(false);
 
-  // Some seats are occupied by default for realism
-  const occupiedSeats = ["1A", "1B", "3C", "4D", "6A", "7F", "9B", "11E"];
+  // Some seats are occupied by default.
+  const occupiedSeats = [
+    "1A",
+    "1B",
+    "3C",
+    "4D",
+    "6A",
+    "7F",
+    "9B",
+    "11E",
+  ];
+
   const extraLegroomRows = [1, 6];
 
   const rows = Array.from({ length: 12 }, (_, index) => index + 1);
   const leftSeats = ["A", "B", "C"];
   const rightSeats = ["D", "E", "F"];
 
+  // Keep the active passenger index valid if passenger count changes.
+  useEffect(() => {
+    if (activePassenger >= passengerList.length) {
+      setActivePassenger(Math.max(0, passengerList.length - 1));
+    }
+  }, [activePassenger, passengerList.length]);
+
+  // Find the passenger currently selecting a seat.
+  const currentPassenger = passengerList[activePassenger];
+
+  // Select a seat for the active passenger.
   const selectSeat = (seatId) => {
-    if (occupiedSeats.includes(seatId)) return;
-
-    // Check if another passenger already has this seat
-    const alreadySelectedBy = Object.keys(selectedSeats).find(
-      (passengerId) => selectedSeats[passengerId] === seatId
-    );
-
-    if (alreadySelectedBy && alreadySelectedBy !== passengers[activePassenger]?.id) {
+    if (occupiedSeats.includes(seatId)) {
       return;
     }
 
-    const currentPId = passengers[activePassenger]?.id;
-    setSelectedSeats((current) => ({
-      ...current,
-      [currentPId]: seatId
+    if (!currentPassenger) {
+      return;
+    }
+
+    const currentPassengerId = currentPassenger.id;
+
+    // Check whether another passenger already has this seat.
+    const alreadySelectedBy = Object.keys(selectedSeats).find(
+      (passengerId) =>
+        selectedSeats[passengerId] === seatId &&
+        passengerId !== currentPassengerId
+    );
+
+    if (alreadySelectedBy) {
+      alert("This seat is already assigned to another passenger.");
+      return;
+    }
+
+    // Assign the seat to the current passenger.
+    setSelectedSeats((previousSeats) => ({
+      ...previousSeats,
+      [currentPassengerId]: seatId,
     }));
+
     setSkipped(false);
 
-    // Auto advance to next passenger
-    if (activePassenger < passengers.length - 1) {
-      setActivePassenger(activePassenger + 1);
+    // Automatically move to the next passenger.
+    if (activePassenger < passengerList.length - 1) {
+      setActivePassenger((previousIndex) => previousIndex + 1);
     }
   };
 
+  // Assign a different available seat to every passenger.
   const autoAssign = () => {
     const availableSeats = [];
+
     rows.forEach((row) => {
       [...leftSeats, ...rightSeats].forEach((letter) => {
-        const seat = `${row}${letter}`;
-        if (!occupiedSeats.includes(seat)) {
-          availableSeats.push(seat);
+        const seatId = `${row}${letter}`;
+
+        if (!occupiedSeats.includes(seatId)) {
+          availableSeats.push(seatId);
         }
       });
     });
 
+    if (availableSeats.length < passengerList.length) {
+      alert("There are not enough available seats for all passengers.");
+      return;
+    }
+
     const assignments = {};
-    passengers.forEach((passenger, index) => {
-      assignments[passenger.id] = availableSeats[index] || "5C";
+
+    passengerList.forEach((passenger, index) => {
+      assignments[passenger.id] = availableSeats[index];
     });
 
     setSelectedSeats(assignments);
     setSkipped(false);
   };
 
+  // Count passengers who have an assigned seat.
+  const assignedCount = passengerList.filter(
+    (passenger) => selectedSeats[passenger.id]
+  ).length;
+
+  // Continue to payment.
   const handleContinue = () => {
+    if (!skipped && assignedCount < passengerList.length) {
+      alert(
+        `Please assign seats for all ${passengerList.length} passengers or choose to skip.`
+      );
+      return;
+    }
+
     dispatch({
       type: "SET_SEATS",
-      payload: skipped ? {} : selectedSeats
+      payload: skipped ? {} : selectedSeats,
     });
+
     navigate("/flights/payment");
   };
 
+  // Determine how each seat should appear.
   const getSeatStatus = (seatId) => {
-    if (occupiedSeats.includes(seatId)) return "occupied";
+    if (occupiedSeats.includes(seatId)) {
+      return "occupied";
+    }
+
     const selectedBy = Object.keys(selectedSeats).find(
       (passengerId) => selectedSeats[passengerId] === seatId
     );
+
     if (selectedBy) {
-      const isCurrent = selectedBy === passengers[activePassenger]?.id;
-      return isCurrent ? "selected-current" : "selected-other";
+      if (selectedBy === currentPassenger?.id) {
+        return "selected-current";
+      }
+
+      return "selected-other";
     }
+
     return "available";
   };
 
+  // Clear all seat assignments.
+  const handleSkip = () => {
+    setSkipped(true);
+    setSelectedSeats({});
+  };
+
+  // Handle the case where no flight has been selected.
   if (!selectedFlight) {
     return (
       <div className="seat-page">
@@ -104,9 +205,18 @@ export default function SeatSelection() {
             <div className="empty-icon-wrap">
               <Plane size={44} />
             </div>
+
             <h2>No flight selected</h2>
-            <p>Please select a flight before choosing your cabin seats.</p>
-            <button className="btn btn-primary" onClick={() => navigate("/flights")}>
+
+            <p>
+              Please select a flight before choosing your cabin seats.
+            </p>
+
+            <button
+              type="button"
+              className="btn btn-primary"
+              onClick={() => navigate("/flights")}
+            >
               Search Flights
             </button>
           </div>
@@ -115,47 +225,21 @@ export default function SeatSelection() {
     );
   }
 
-  const assignedCount = Object.keys(selectedSeats).length;
-
   return (
     <div className="seat-page">
       <div className="seat-container">
-
-        {/* Stepper Bar */}
-        <div className="flight-stepper-bar">
-          <div className="step-node completed">
-            <span className="step-num"><Check size={14} /></span>
-            <span className="step-label">Search</span>
-          </div>
-          <div className="step-line completed"></div>
-          <div className="step-node completed">
-            <span className="step-num"><Check size={14} /></span>
-            <span className="step-label">Select Flight</span>
-          </div>
-          <div className="step-line completed"></div>
-          <div className="step-node completed">
-            <span className="step-num"><Check size={14} /></span>
-            <span className="step-label">Passengers</span>
-          </div>
-          <div className="step-line active"></div>
-          <div className="step-node active">
-            <span className="step-num">4</span>
-            <span className="step-label">Seats</span>
-          </div>
-          <div className="step-line"></div>
-          <div className="step-node">
-            <span className="step-num">5</span>
-            <span className="step-label">Payment</span>
-          </div>
-        </div>
-
         {/* Header */}
         <div className="seat-header-row">
           <div>
-            <span className="flight-badge-label">AIRCRAFT CABIN SEAT MAP</span>
+            <span className="flight-badge-label">
+              AIRCRAFT CABIN SEAT MAP
+            </span>
+
             <h1>Select Your Preferred Seats</h1>
+
             <p className="seat-subtext">
-              Choose your window, aisle, or extra-legroom seats on the {selectedFlight.airline} Boeing 787.
+              Choose your window, aisle, or extra-legroom seats on the{" "}
+              {selectedFlight.airline} Boeing 787.
             </p>
           </div>
 
@@ -164,27 +248,41 @@ export default function SeatSelection() {
             className="btn btn-outline auto-assign-btn"
             onClick={autoAssign}
           >
-            <Sparkles size={14} /> Auto-Assign All Seats
+            <Sparkles size={14} />
+            Auto-Assign All Seats
           </button>
         </div>
 
-        {/* Passenger Switcher Tabs */}
+        {/* Passenger Tabs */}
         <div className="passenger-seat-tabs-bar">
-          {passengers.map((p, idx) => {
-            const seat = selectedSeats[p.id];
-            const isCurrent = activePassenger === idx;
+          {passengerList.map((passenger, index) => {
+            const seat = selectedSeats[passenger.id];
+            const isCurrent = activePassenger === index;
+
             return (
               <button
                 type="button"
-                key={p.id || idx}
-                className={`passenger-seat-tab${isCurrent ? " active" : ""}`}
-                onClick={() => setActivePassenger(idx)}
+                key={passenger.id}
+                className={`passenger-seat-tab${
+                  isCurrent ? " active" : ""
+                }`}
+                onClick={() => {
+                  setActivePassenger(index);
+                  setSkipped(false);
+                }}
               >
                 <div className="tab-user-info">
                   <User size={15} />
-                  <span>{p.firstName || `Passenger ${idx + 1}`} {p.lastName || ""}</span>
+
+                  <span>
+                    {passenger.firstName || `Passenger ${index + 1}`}{" "}
+                    {passenger.lastName || ""}
+                  </span>
                 </div>
-                <span className={`tab-seat-code${seat ? " assigned" : ""}`}>
+
+                <span
+                  className={`tab-seat-code${seat ? " assigned" : ""}`}
+                >
                   {seat ? `Seat ${seat}` : "Pick Seat"}
                 </span>
               </button>
@@ -193,21 +291,24 @@ export default function SeatSelection() {
         </div>
 
         <div className="seat-main-grid">
-
-          {/* Left: Aircraft Cabin Diagram */}
+          {/* Aircraft Cabin */}
           <div className="aircraft-cabin-pane card">
             <div className="aircraft-nose">
               <span className="nose-label">FRONT · COCKPIT</span>
             </div>
 
-            {/* Wing / Exit Row Markers */}
             <div className="cabin-seating-grid">
               {rows.map((row) => {
                 const isExtraLegroom = extraLegroomRows.includes(row);
 
                 return (
-                  <div className={`cabin-row${isExtraLegroom ? " extra-legroom" : ""}`} key={row}>
-                    {/* Left 3 seats (A, B, C) */}
+                  <div
+                    className={`cabin-row${
+                      isExtraLegroom ? " extra-legroom" : ""
+                    }`}
+                    key={row}
+                  >
+                    {/* Left Seats: A, B, C */}
                     <div className="seat-triplet">
                       {leftSeats.map((letter) => {
                         const seatId = `${row}${letter}`;
@@ -221,19 +322,22 @@ export default function SeatSelection() {
                             disabled={status === "occupied"}
                             onClick={() => selectSeat(seatId)}
                             title={`Seat ${seatId} (${status})`}
+                            aria-label={`Seat ${seatId}, ${status}`}
                           >
-                            <span className="seat-letter">{letter}</span>
+                            <span className="seat-letter">
+                              {letter}
+                            </span>
                           </button>
                         );
                       })}
                     </div>
 
-                    {/* Center Aisle with Row Number */}
+                    {/* Center Aisle */}
                     <div className="cabin-aisle">
                       <span className="row-num">{row}</span>
                     </div>
 
-                    {/* Right 3 seats (D, E, F) */}
+                    {/* Right Seats: D, E, F */}
                     <div className="seat-triplet">
                       {rightSeats.map((letter) => {
                         const seatId = `${row}${letter}`;
@@ -247,8 +351,11 @@ export default function SeatSelection() {
                             disabled={status === "occupied"}
                             onClick={() => selectSeat(seatId)}
                             title={`Seat ${seatId} (${status})`}
+                            aria-label={`Seat ${seatId}, ${status}`}
                           >
-                            <span className="seat-letter">{letter}</span>
+                            <span className="seat-letter">
+                              {letter}
+                            </span>
                           </button>
                         );
                       })}
@@ -263,23 +370,28 @@ export default function SeatSelection() {
             </div>
           </div>
 
-          {/* Right: Legend & Summary Details */}
+          {/* Sidebar */}
           <aside className="seat-sidebar-pane">
+            {/* Seat Legend */}
             <div className="seat-legend-card card">
               <h3>Seat Legend</h3>
+
               <div className="legend-items-list">
                 <div className="legend-row">
                   <div className="legend-box available-box"></div>
                   <span>Available (₹250)</span>
                 </div>
+
                 <div className="legend-row">
                   <div className="legend-box selected-current-box"></div>
                   <span>Selected (Current Passenger)</span>
                 </div>
+
                 <div className="legend-row">
                   <div className="legend-box selected-other-box"></div>
                   <span>Selected (Other Passenger)</span>
                 </div>
+
                 <div className="legend-row">
                   <div className="legend-box occupied-box"></div>
                   <span>Occupied / Reserved</span>
@@ -287,14 +399,25 @@ export default function SeatSelection() {
               </div>
             </div>
 
+            {/* Assigned Seats Summary */}
             <div className="selected-seats-summary-card card">
               <h3>Assigned Seats</h3>
+
               <div className="assigned-passengers-list">
-                {passengers.map((p, idx) => {
-                  const seat = selectedSeats[p.id];
+                {passengerList.map((passenger, index) => {
+                  const seat = selectedSeats[passenger.id];
+
                   return (
-                    <div className="assigned-p-row" key={p.id || idx}>
-                      <span>{p.firstName || `Passenger ${idx + 1}`} {p.lastName || ""}</span>
+                    <div
+                      className="assigned-p-row"
+                      key={passenger.id}
+                    >
+                      <span>
+                        {passenger.firstName ||
+                          `Passenger ${index + 1}`}{" "}
+                        {passenger.lastName || ""}
+                      </span>
+
                       <strong className="seat-tag-assigned">
                         {seat || "Not assigned"}
                       </strong>
@@ -303,21 +426,23 @@ export default function SeatSelection() {
                 })}
               </div>
 
+              {/* Seat Price */}
               <div className="seat-pricing-total">
                 <div className="pricing-line">
                   <span>Seat Fee (₹250 × {assignedCount})</span>
-                  <strong>₹{(assignedCount * 250).toLocaleString("en-IN")}</strong>
+
+                  <strong>
+                    ₹{(assignedCount * 250).toLocaleString("en-IN")}
+                  </strong>
                 </div>
               </div>
 
+              {/* Actions */}
               <div className="seat-action-buttons">
                 <button
                   type="button"
                   className="btn btn-outline btn-block"
-                  onClick={() => {
-                    setSkipped(true);
-                    setSelectedSeats({});
-                  }}
+                  onClick={handleSkip}
                 >
                   {skipped ? "Seats Cleared" : "Skip Seat Selection"}
                 </button>
@@ -333,9 +458,7 @@ export default function SeatSelection() {
               </div>
             </div>
           </aside>
-
         </div>
-
       </div>
     </div>
   );

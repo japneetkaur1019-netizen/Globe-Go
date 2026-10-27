@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+
 import {
   Users, Plus, Trash2, DollarSign, Wallet, ArrowRight,
   CheckCircle, Sparkles, MapPin, Tag, Plane, BarChart3,
@@ -16,12 +17,12 @@ const EXPENSE_CATEGORIES = [
 ];
 
 const CAT_COLORS = {
-  "General":            "#6366f1",
-  "Hotels & Stays":     "#0ea5e9",
-  "Flights & Travel":   "#8b5cf6",
-  "Food & Dining":      "#f97316",
+  "General": "#6366f1",
+  "Hotels & Stays": "#0ea5e9",
+  "Flights & Travel": "#8b5cf6",
+  "Food & Dining": "#f97316",
   "Activities & Tours": "#10b981",
-  "Local Transport":    "#f59e0b",
+  "Local Transport": "#f59e0b",
 };
 
 const ACTIVITY_TYPES = [
@@ -30,10 +31,10 @@ const ACTIVITY_TYPES = [
 ];
 
 const TABS = [
-  { key: "overview",   label: "Overview",   icon: BarChart3 },
-  { key: "expenses",   label: "Expenses",   icon: Receipt },
-  { key: "itinerary",  label: "Itinerary",  icon: CalendarDays },
-  { key: "polls",      label: "Polls",      icon: Vote },
+  { key: "overview", label: "Overview", icon: BarChart3 },
+  { key: "expenses", label: "Expenses", icon: Receipt },
+  { key: "itinerary", label: "Itinerary", icon: CalendarDays },
+  { key: "polls", label: "Polls", icon: Vote },
 ];
 
 /* ─── Helpers ───────────────────────────────────────────── */
@@ -64,26 +65,26 @@ export default function GroupPlanner() {
   const [activeTab, setActiveTab] = useState("overview");
 
   /* ── Trip Details ────────────────────────────────────── */
-  const [groupName,   setGroupName]   = useState("Goa Annual Getaway");
+  const [groupName, setGroupName] = useState("Goa Annual Getaway");
   const [destination, setDestination] = useState("Goa, India");
-  const [budget,      setBudget]      = useState("45000");
-  const [startDate,   setStartDate]   = useState("2025-12-20");
-  const [endDate,     setEndDate]     = useState("2025-12-27");
+  const [budget, setBudget] = useState("45000");
+  const [startDate, setStartDate] = useState("2025-12-20");
+  const [endDate, setEndDate] = useState("2025-12-27");
 
   /* ── Members ─────────────────────────────────────────── */
   const [memberName, setMemberName] = useState("");
-  const [members,    setMembers]    = useState(["Alex", "Priya", "Rahul"]);
+  const [members, setMembers] = useState(["Alex", "Priya", "Rahul"]);
 
   /* ── Expenses ────────────────────────────────────────── */
   const [expenses, setExpenses] = useState([
-    { id: 1, person: "Alex",  title: "Resort Stay",      category: "Hotels & Stays",     amount: 18000, settled: false },
-    { id: 2, person: "Priya", title: "Flight Tickets",   category: "Flights & Travel",   amount: 14500, settled: false },
-    { id: 3, person: "Rahul", title: "Beachside Dinner", category: "Food & Dining",       amount: 4800,  settled: false },
+    { id: 1, person: "Alex", title: "Resort Stay", category: "Hotels & Stays", amount: 18000, settled: false },
+    { id: 2, person: "Priya", title: "Flight Tickets", category: "Flights & Travel", amount: 14500, settled: false },
+    { id: 3, person: "Rahul", title: "Beachside Dinner", category: "Food & Dining", amount: 4800, settled: false },
   ]);
-  const [expensePerson,   setExpensePerson]   = useState("");
-  const [expenseTitle,    setExpenseTitle]    = useState("");
+  const [expensePerson, setExpensePerson] = useState("");
+  const [expenseTitle, setExpenseTitle] = useState("");
   const [expenseCategory, setExpenseCategory] = useState("General");
-  const [expenseAmount,   setExpenseAmount]   = useState("");
+  const [expenseAmount, setExpenseAmount] = useState("");
 
   /* ── Itinerary ───────────────────────────────────────── */
   const [itinerary, setItinerary] = useState([
@@ -93,9 +94,9 @@ export default function GroupPlanner() {
       label: "Day 1 — Arrival",
       expanded: true,
       activities: [
-        { id: 11, time: "14:00", type: "✈️ Travel",      title: "Fly to Goa", notes: "Flight GoI-301" },
+        { id: 11, time: "14:00", type: "✈️ Travel", title: "Fly to Goa", notes: "Flight GoI-301" },
         { id: 12, time: "18:00", type: "🏨 Accommodation", title: "Check-in Resort", notes: "Taj Resort" },
-        { id: 13, time: "20:00", type: "🍽️ Dining",       title: "Welcome Dinner", notes: "Beach shack" },
+        { id: 13, time: "20:00", type: "🍽️ Dining", title: "Welcome Dinner", notes: "Beach shack" },
       ],
     },
     {
@@ -105,15 +106,15 @@ export default function GroupPlanner() {
       expanded: false,
       activities: [
         { id: 21, time: "10:00", type: "📸 Sightseeing", title: "Calangute Beach", notes: "" },
-        { id: 22, time: "14:00", type: "🛍️ Shopping",    title: "Anjuna Flea Market", notes: "" },
+        { id: 22, time: "14:00", type: "🛍️ Shopping", title: "Anjuna Flea Market", notes: "" },
       ],
     },
   ]);
 
   const [newActivity, setNewActivity] = useState({ time: "", type: ACTIVITY_TYPES[0], title: "", notes: "" });
   const [addingActDay, setAddingActDay] = useState(null);
-  const [newDayDate,   setNewDayDate]   = useState("");
-  const [newDayLabel,  setNewDayLabel]  = useState("");
+  const [newDayDate, setNewDayDate] = useState("");
+  const [newDayLabel, setNewDayLabel] = useState("");
 
   /* ── Polls ───────────────────────────────────────────── */
   const [polls, setPolls] = useState([
@@ -130,9 +131,9 @@ export default function GroupPlanner() {
     },
   ]);
   const [pollQuestion, setPollQuestion] = useState("");
-  const [pollOptions, setPollOptions]   = useState(["", ""]);
-  const [votedPoll,   setVotedPoll]     = useState({}); // { [pollId]: member }
-  const [votingAs,    setVotingAs]      = useState(members[0] || "");
+  const [pollOptions, setPollOptions] = useState(["", ""]);
+  const [votedPoll, setVotedPoll] = useState({}); // { [pollId]: member }
+  const [votingAs, setVotingAs] = useState(members[0] || "");
 
   /* ──────────────────────────────────────────────────────
      DERIVED: EXPENSE CALCULATIONS
@@ -142,8 +143,8 @@ export default function GroupPlanner() {
     [expenses]
   );
   const avgExpense = members.length > 0 ? totalExpenses / members.length : 0;
-  const budgetNum  = Number(budget) || 0;
-  const budgetPct  = budgetNum > 0 ? Math.min((totalExpenses / budgetNum) * 100, 100) : 0;
+  const budgetNum = Number(budget) || 0;
+  const budgetPct = budgetNum > 0 ? Math.min((totalExpenses / budgetNum) * 100, 100) : 0;
 
   const balances = useMemo(
     () =>
@@ -156,8 +157,8 @@ export default function GroupPlanner() {
 
   /* Smart settlement algorithm */
   const settlements = useMemo(() => {
-    const result  = [];
-    const debtors  = balances.filter((p) => p.balance < -1).map((p) => ({ ...p, owe: Math.abs(p.balance) }));
+    const result = [];
+    const debtors = balances.filter((p) => p.balance < -1).map((p) => ({ ...p, owe: Math.abs(p.balance) }));
     const creditors = balances.filter((p) => p.balance > 1).map((p) => ({ ...p, get: p.balance }));
     debtors.forEach((d) => {
       creditors.forEach((c) => {
@@ -221,12 +222,12 @@ export default function GroupPlanner() {
     setExpenses([
       ...expenses,
       {
-        id:       Date.now(),
-        person:   expensePerson,
-        title:    expenseTitle.trim() || `${expenseCategory} Expense`,
+        id: Date.now(),
+        person: expensePerson,
+        title: expenseTitle.trim() || `${expenseCategory} Expense`,
         category: expenseCategory,
-        amount:   Number(expenseAmount),
-        settled:  false,
+        amount: Number(expenseAmount),
+        settled: false,
       },
     ]);
     setExpensePerson(""); setExpenseTitle(""); setExpenseAmount("");
@@ -249,7 +250,7 @@ export default function GroupPlanner() {
     setNewDayDate(""); setNewDayLabel("");
   }
   function removeDay(id) { setItinerary((it) => it.filter((d) => d.id !== id)); }
-  function toggleDay(id)  {
+  function toggleDay(id) {
     setItinerary((it) => it.map((d) => d.id === id ? { ...d, expanded: !d.expanded } : d));
   }
   function addActivity(dayId) {
@@ -281,13 +282,13 @@ export default function GroupPlanner() {
     setPolls([
       ...polls,
       {
-        id:       Date.now(),
+        id: Date.now(),
         question: pollQuestion.trim(),
-        options:  pollOptions
+        options: pollOptions
           .filter((o) => o.trim())
           .map((o, i) => ({ id: String(i), label: o.trim(), votes: [] })),
         createdBy: members[0] || "You",
-        closed:    false,
+        closed: false,
       },
     ]);
     setPollQuestion(""); setPollOptions(["", ""]);
@@ -336,11 +337,11 @@ export default function GroupPlanner() {
           {/* Trip quick info */}
           {groupName && (
             <div className="gp-hero-badges">
-              <span className="gp-hero-badge"><MapPin size={13}/> {groupName}</span>
-              {tripDays > 0 && <span className="gp-hero-badge"><CalendarDays size={13}/> {tripDays} nights</span>}
+              <span className="gp-hero-badge"><MapPin size={13} /> {groupName}</span>
+              {tripDays > 0 && <span className="gp-hero-badge"><CalendarDays size={13} /> {tripDays} nights</span>}
               {daysUntil !== null && daysUntil >= 0 && (
                 <span className="gp-hero-badge gp-badge-amber">
-                  <Clock size={13}/> {daysUntil === 0 ? "Today!" : `In ${daysUntil} days`}
+                  <Clock size={13} /> {daysUntil === 0 ? "Today!" : `In ${daysUntil} days`}
                 </span>
               )}
             </div>
@@ -356,28 +357,28 @@ export default function GroupPlanner() {
       {/* ── STATS ROW ─────────────────────────────────────── */}
       <div className="gp-stats-row">
         <div className="gp-stat-card">
-          <div className="gp-stat-icon gp-icon-blue"><Wallet size={20}/></div>
+          <div className="gp-stat-icon gp-icon-blue"><Wallet size={20} /></div>
           <div className="gp-stat-text">
             <span>Total Spent</span>
             <strong>₹{totalExpenses.toLocaleString("en-IN")}</strong>
           </div>
         </div>
         <div className="gp-stat-card">
-          <div className="gp-stat-icon gp-icon-amber"><DollarSign size={20}/></div>
+          <div className="gp-stat-icon gp-icon-amber"><DollarSign size={20} /></div>
           <div className="gp-stat-text">
             <span>Per Person</span>
             <strong>₹{Math.round(avgExpense).toLocaleString("en-IN")}</strong>
           </div>
         </div>
         <div className="gp-stat-card">
-          <div className="gp-stat-icon gp-icon-green"><Users size={20}/></div>
+          <div className="gp-stat-icon gp-icon-green"><Users size={20} /></div>
           <div className="gp-stat-text">
             <span>Crew Size</span>
             <strong>{members.length} Members</strong>
           </div>
         </div>
         <div className="gp-stat-card">
-          <div className="gp-stat-icon gp-icon-purple"><Target size={20}/></div>
+          <div className="gp-stat-icon gp-icon-purple"><Target size={20} /></div>
           <div className="gp-stat-text">
             <span>Budget Left</span>
             <strong className={totalExpenses > budgetNum && budgetNum > 0 ? "gp-over-budget" : ""}>
@@ -402,7 +403,7 @@ export default function GroupPlanner() {
                 className={`gp-tab ${activeTab === tab.key ? "active" : ""}`}
                 onClick={() => setActiveTab(tab.key)}
               >
-                <Icon size={16}/> {tab.label}
+                <Icon size={16} /> {tab.label}
               </button>
             );
           })}
@@ -419,14 +420,14 @@ export default function GroupPlanner() {
             <div className="gp-card">
               <div className="gp-card-header">
                 <div>
-                  <h2><MapPin size={18}/> Trip Details</h2>
+                  <h2><MapPin size={18} /> Trip Details</h2>
                   <p>Set up the basics for your group expedition.</p>
                 </div>
                 <button
                   className="gp-btn gp-btn-amber"
                   onClick={() => navigate("/flights", { state: { prefillDestination: destination } })}
                 >
-                  <Plane size={15}/> Find Group Flights
+                  <Plane size={15} /> Find Group Flights
                 </button>
               </div>
 
@@ -474,7 +475,7 @@ export default function GroupPlanner() {
               <div className="gp-card gp-budget-card">
                 <div className="gp-card-header">
                   <div>
-                    <h2><Zap size={18}/> Budget Tracker</h2>
+                    <h2><Zap size={18} /> Budget Tracker</h2>
                     <p>Real-time spend vs. budget allocation.</p>
                   </div>
                 </div>
@@ -482,7 +483,7 @@ export default function GroupPlanner() {
                   {/* Ring gauge */}
                   <div className="gp-ring-wrap">
                     <svg viewBox="0 0 120 120" className="gp-ring-svg">
-                      <circle cx="60" cy="60" r="50" className="gp-ring-track"/>
+                      <circle cx="60" cy="60" r="50" className="gp-ring-track" />
                       <circle
                         cx="60" cy="60" r="50"
                         className={`gp-ring-fill ${budgetPct >= 100 ? "gp-ring-danger" : budgetPct >= 75 ? "gp-ring-warn" : ""}`}
@@ -529,7 +530,7 @@ export default function GroupPlanner() {
                 {/* Category breakdown */}
                 {catBreakdown.length > 0 && (
                   <div className="gp-cat-breakdown">
-                    <h3><PieChart size={15}/> Spend by Category</h3>
+                    <h3><PieChart size={15} /> Spend by Category</h3>
                     <div className="gp-cat-rows">
                       {catBreakdown.map(([cat, amt]) => {
                         const pct = totalExpenses > 0 ? (amt / totalExpenses) * 100 : 0;
@@ -564,7 +565,7 @@ export default function GroupPlanner() {
             <div className="gp-card">
               <div className="gp-card-header">
                 <div>
-                  <h2><Users size={18}/> Group Members</h2>
+                  <h2><Users size={18} /> Group Members</h2>
                   <p>Add friends joining the trip.</p>
                 </div>
                 <span className="gp-badge-count">{members.length} members</span>
@@ -576,10 +577,10 @@ export default function GroupPlanner() {
                   placeholder="Friend's name (Maya, Sam, Rohan…)"
                   value={memberName}
                   onChange={(e) => setMemberName(e.target.value)}
-                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addMember(); }}}
+                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addMember(); } }}
                 />
                 <button className="gp-btn gp-btn-primary" onClick={addMember}>
-                  <Plus size={16}/> Add
+                  <Plus size={16} /> Add
                 </button>
               </div>
 
@@ -601,7 +602,7 @@ export default function GroupPlanner() {
                           </span>
                         </div>
                         <button className="gp-remove-btn" onClick={() => removeMember(i)}>
-                          <Trash2 size={14}/>
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     );
@@ -622,7 +623,7 @@ export default function GroupPlanner() {
             <div className="gp-card">
               <div className="gp-card-header">
                 <div>
-                  <h2><DollarSign size={18}/> Add Expense</h2>
+                  <h2><DollarSign size={18} /> Add Expense</h2>
                   <p>Record who paid and what it was for.</p>
                 </div>
               </div>
@@ -663,7 +664,7 @@ export default function GroupPlanner() {
                   <div className="gp-form-field gp-add-btn-col">
                     <label>&nbsp;</label>
                     <button className="gp-btn gp-btn-primary gp-btn-block" onClick={addExpense}>
-                      <Plus size={15}/> Add Expense
+                      <Plus size={15} /> Add Expense
                     </button>
                   </div>
                 </div>
@@ -676,7 +677,7 @@ export default function GroupPlanner() {
             <div className="gp-card">
               <div className="gp-card-header">
                 <div>
-                  <h2><Receipt size={18}/> Expense Log ({expenses.length})</h2>
+                  <h2><Receipt size={18} /> Expense Log ({expenses.length})</h2>
                   <p>All recorded shared expenses.</p>
                 </div>
                 <div className="gp-expense-total-pill">
@@ -697,16 +698,16 @@ export default function GroupPlanner() {
                         className="gp-exp-cat-dot"
                         style={{ background: CAT_COLORS[exp.category] || "#6366f1" }}
                       />
-                      <Avatar name={exp.person} size={36}/>
+                      <Avatar name={exp.person} size={36} />
                       <div className="gp-exp-info">
                         <strong>{exp.title}</strong>
                         <span>
-                          <Tag size={11}/> {exp.category} · Paid by <em>{exp.person}</em>
+                          <Tag size={11} /> {exp.category} · Paid by <em>{exp.person}</em>
                         </span>
                       </div>
                       <strong className={`gp-exp-amount ${exp.settled ? "gp-settled-text" : ""}`}>
                         ₹{exp.amount.toLocaleString("en-IN")}
-                        {exp.settled && <span className="gp-settled-badge"><BadgeCheck size={13}/> Settled</span>}
+                        {exp.settled && <span className="gp-settled-badge"><BadgeCheck size={13} /> Settled</span>}
                       </strong>
                       <div className="gp-exp-actions">
                         <button
@@ -714,10 +715,10 @@ export default function GroupPlanner() {
                           onClick={() => toggleSettled(exp.id)}
                           title={exp.settled ? "Mark as unsettled" : "Mark as settled"}
                         >
-                          <Check size={14}/>
+                          <Check size={14} />
                         </button>
                         <button className="gp-icon-btn gp-icon-btn-danger" onClick={() => removeExpense(exp.id)}>
-                          <Trash2 size={14}/>
+                          <Trash2 size={14} />
                         </button>
                       </div>
                     </div>
@@ -730,14 +731,14 @@ export default function GroupPlanner() {
             <div className="gp-card">
               <div className="gp-card-header">
                 <div>
-                  <h2><CheckCircle size={18}/> Smart Settlement Plan</h2>
+                  <h2><CheckCircle size={18} /> Smart Settlement Plan</h2>
                   <p>Optimal minimum transactions to settle all debts.</p>
                 </div>
               </div>
 
               {settlements.length === 0 ? (
                 <div className="gp-settled-box">
-                  <CheckCircle size={24}/>
+                  <CheckCircle size={24} />
                   <span>All balances are settled! Nobody owes anything.</span>
                 </div>
               ) : (
@@ -745,18 +746,18 @@ export default function GroupPlanner() {
                   {settlements.map((s, i) => (
                     <div className="gp-settlement-card" key={i}>
                       <div className="gp-settle-from">
-                        <Avatar name={s.from} size={44}/>
+                        <Avatar name={s.from} size={44} />
                         <div>
                           <strong>{s.from}</strong>
                           <span>pays</span>
                         </div>
                       </div>
                       <div className="gp-settle-arrow">
-                        <ArrowRight size={20}/>
+                        <ArrowRight size={20} />
                         <span>₹{Math.round(s.amount).toLocaleString("en-IN")}</span>
                       </div>
                       <div className="gp-settle-to">
-                        <Avatar name={s.to} size={44}/>
+                        <Avatar name={s.to} size={44} />
                         <div>
                           <strong>{s.to}</strong>
                           <span>receives</span>
@@ -782,14 +783,14 @@ export default function GroupPlanner() {
             <div className="gp-card">
               <div className="gp-card-header">
                 <div>
-                  <h2><CalendarDays size={18}/> Trip Itinerary</h2>
+                  <h2><CalendarDays size={18} /> Trip Itinerary</h2>
                   <p>Plan day-by-day activities for your crew.</p>
                 </div>
               </div>
               <div className="gp-day-add-row">
                 <div className="gp-form-field">
                   <label>Date</label>
-                  <input type="date" value={newDayDate} onChange={(e) => setNewDayDate(e.target.value)}/>
+                  <input type="date" value={newDayDate} onChange={(e) => setNewDayDate(e.target.value)} />
                 </div>
                 <div className="gp-form-field gp-field-grow">
                   <label>Label (optional)</label>
@@ -803,7 +804,7 @@ export default function GroupPlanner() {
                 <div className="gp-form-field">
                   <label>&nbsp;</label>
                   <button className="gp-btn gp-btn-primary" onClick={addDay}>
-                    <Plus size={15}/> Add Day
+                    <Plus size={15} /> Add Day
                   </button>
                 </div>
               </div>
@@ -826,7 +827,7 @@ export default function GroupPlanner() {
                   >
                     <div className="gp-day-header-left">
                       <div className="gp-day-date-badge">
-                        <CalendarDays size={14}/>
+                        <CalendarDays size={14} />
                         {new Date(day.date).toLocaleDateString("en-IN", {
                           day: "numeric", month: "short", year: "numeric"
                         })}
@@ -839,9 +840,9 @@ export default function GroupPlanner() {
                         className="gp-icon-btn gp-icon-btn-danger"
                         onClick={(e) => { e.stopPropagation(); removeDay(day.id); }}
                       >
-                        <Trash2 size={14}/>
+                        <Trash2 size={14} />
                       </button>
-                      {day.expanded ? <ChevronUp size={18}/> : <ChevronDown size={18}/>}
+                      {day.expanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
                     </div>
                   </div>
 
@@ -856,7 +857,7 @@ export default function GroupPlanner() {
                           {day.activities.map((act) => (
                             <div className="gp-activity-row" key={act.id}>
                               <div className="gp-act-time">
-                                <Clock size={12}/> {act.time || "--:--"}
+                                <Clock size={12} /> {act.time || "--:--"}
                               </div>
                               <div className="gp-act-type-badge">{act.type}</div>
                               <div className="gp-act-info">
@@ -867,7 +868,7 @@ export default function GroupPlanner() {
                                 className="gp-icon-btn gp-icon-btn-danger"
                                 onClick={() => removeActivity(day.id, act.id)}
                               >
-                                <Trash2 size={13}/>
+                                <Trash2 size={13} />
                               </button>
                             </div>
                           ))}
@@ -916,7 +917,7 @@ export default function GroupPlanner() {
                           </div>
                           <div className="gp-act-btn-row">
                             <button className="gp-btn gp-btn-primary" onClick={() => addActivity(day.id)}>
-                              <Check size={14}/> Save Activity
+                              <Check size={14} /> Save Activity
                             </button>
                             <button className="gp-btn gp-btn-ghost" onClick={() => setAddingActDay(null)}>
                               Cancel
@@ -928,7 +929,7 @@ export default function GroupPlanner() {
                           className="gp-add-act-btn"
                           onClick={() => { setAddingActDay(day.id); setNewActivity({ time: "", type: ACTIVITY_TYPES[0], title: "", notes: "" }); }}
                         >
-                          <Plus size={14}/> Add Activity
+                          <Plus size={14} /> Add Activity
                         </button>
                       )}
                     </div>
@@ -951,7 +952,7 @@ export default function GroupPlanner() {
             <div className="gp-card">
               <div className="gp-card-header">
                 <div>
-                  <h2><Vote size={18}/> Create a Poll</h2>
+                  <h2><Vote size={18} /> Create a Poll</h2>
                   <p>Let the group vote on destinations, activities, or anything else.</p>
                 </div>
               </div>
@@ -986,7 +987,7 @@ export default function GroupPlanner() {
                           className="gp-icon-btn gp-icon-btn-danger"
                           onClick={() => setPollOptions(pollOptions.filter((_, j) => j !== i))}
                         >
-                          <Trash2 size={13}/>
+                          <Trash2 size={13} />
                         </button>
                       )}
                     </div>
@@ -995,12 +996,12 @@ export default function GroupPlanner() {
                     className="gp-add-opt-btn"
                     onClick={() => setPollOptions([...pollOptions, ""])}
                   >
-                    <Plus size={13}/> Add Option
+                    <Plus size={13} /> Add Option
                   </button>
                 </div>
 
                 <button className="gp-btn gp-btn-primary" onClick={createPoll}>
-                  <Sparkles size={15}/> Create Poll
+                  <Sparkles size={15} /> Create Poll
                 </button>
               </div>
             </div>
@@ -1015,7 +1016,7 @@ export default function GroupPlanner() {
                     className={`gp-voting-chip ${votingAs === m ? "active" : ""}`}
                     onClick={() => setVotingAs(m)}
                   >
-                    <Avatar name={m} size={24}/>
+                    <Avatar name={m} size={24} />
                     {m}
                   </button>
                 ))}
@@ -1032,7 +1033,7 @@ export default function GroupPlanner() {
             ) : (
               polls.map((poll) => {
                 const totalVotes = poll.options.reduce((s, o) => s + o.votes.length, 0);
-                const winner    = [...poll.options].sort((a,b) => b.votes.length - a.votes.length)[0];
+                const winner = [...poll.options].sort((a, b) => b.votes.length - a.votes.length)[0];
                 return (
                   <div className={`gp-card gp-poll-card ${poll.closed ? "gp-poll-closed" : ""}`} key={poll.id}>
                     <div className="gp-poll-header">
@@ -1053,15 +1054,15 @@ export default function GroupPlanner() {
                           className="gp-icon-btn gp-icon-btn-danger"
                           onClick={() => deletePoll(poll.id)}
                         >
-                          <Trash2 size={13}/>
+                          <Trash2 size={13} />
                         </button>
                       </div>
                     </div>
 
                     <div className="gp-poll-options">
                       {poll.options.map((opt) => {
-                        const pct       = totalVotes > 0 ? (opt.votes.length / totalVotes) * 100 : 0;
-                        const isWinner  = poll.closed && opt.id === winner.id && opt.votes.length > 0;
+                        const pct = totalVotes > 0 ? (opt.votes.length / totalVotes) * 100 : 0;
+                        const isWinner = poll.closed && opt.id === winner.id && opt.votes.length > 0;
                         const userVoted = poll.options.find((o) => o.votes.includes(votingAs))?.id === opt.id;
 
                         return (
@@ -1072,9 +1073,9 @@ export default function GroupPlanner() {
                           >
                             <div className="gp-poll-option-top">
                               <div className="gp-poll-option-label">
-                                {isWinner && <Star size={13} fill="#ffc72c" color="#ffc72c"/>}
+                                {isWinner && <Star size={13} fill="#ffc72c" color="#ffc72c" />}
                                 <span>{opt.label}</span>
-                                {userVoted && <ThumbsUp size={12} className="gp-your-vote"/>}
+                                {userVoted && <ThumbsUp size={12} className="gp-your-vote" />}
                               </div>
                               <span className="gp-poll-count">
                                 {opt.votes.length} vote{opt.votes.length !== 1 ? "s" : ""}
@@ -1089,7 +1090,7 @@ export default function GroupPlanner() {
                             {opt.votes.length > 0 && (
                               <div className="gp-poll-voters">
                                 {opt.votes.map((v) => (
-                                  <Avatar key={v} name={v} size={22} style={{ flexShrink: 0 }}/>
+                                  <Avatar key={v} name={v} size={22} style={{ flexShrink: 0 }} />
                                 ))}
                                 <span>{opt.votes.join(", ")}</span>
                               </div>

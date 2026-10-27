@@ -60,14 +60,20 @@ export default function FlightSearch() {
   // Handle prefill from location.state if navigated from other pages
   useEffect(() => {
     if (location.state?.prefillDestination) {
-      const match = airports.find(
-        (a) =>
-          a.city.toLowerCase().includes(location.state.prefillDestination.toLowerCase()) ||
-          a.country.toLowerCase().includes(location.state.prefillDestination.toLowerCase())
+      const query = location.state.prefillDestination.trim().toLowerCase();
+      const match = query && airports.find(
+        (a) => a.code.toLowerCase() === query ||
+          a.city.toLowerCase().includes(query) ||
+          query.includes(a.city.toLowerCase()) ||
+          a.country.toLowerCase().includes(query)
       );
       if (match) {
         setDestination(match);
         setDestinationQuery(`${match.city} (${match.code})`);
+      } else {
+        setDestination(null);
+        setDestinationQuery(location.state.prefillDestination);
+        setError("Please select a destination airport from the suggestions.");
       }
     }
     const search = location.state?.travelSearch;
@@ -190,33 +196,6 @@ export default function FlightSearch() {
           </div>
         </section>
 
-        {/* Flight Booking Progress Bar */}
-        <div className="flight-stepper-bar">
-          <div className="step-node active">
-            <span className="step-num">1</span>
-            <span className="step-label">Flight Search</span>
-          </div>
-          <div className="step-line"></div>
-          <div className="step-node">
-            <span className="step-num">2</span>
-            <span className="step-label">Select Flight</span>
-          </div>
-          <div className="step-line"></div>
-          <div className="step-node">
-            <span className="step-num">3</span>
-            <span className="step-label">Passengers</span>
-          </div>
-          <div className="step-line"></div>
-          <div className="step-node">
-            <span className="step-num">4</span>
-            <span className="step-label">Seats</span>
-          </div>
-          <div className="step-line"></div>
-          <div className="step-node">
-            <span className="step-num">5</span>
-            <span className="step-label">Payment</span>
-          </div>
-        </div>
 
         {/* Main Search Widget Card */}
         <div className="flight-widget-card card">

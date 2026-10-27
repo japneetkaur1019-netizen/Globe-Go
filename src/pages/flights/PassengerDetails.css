@@ -1,5 +1,5 @@
-/* =========================================================
-   GLOBEGO — PASSENGER DETAILS PAGE
+﻿/* =========================================================
+   GLOBEGO â€” PASSENGER DETAILS PAGE
    ========================================================= */
 
 :root {
@@ -802,7 +802,7 @@
 
 
 /* =========================================================
-   RESPONSIVE — TABLET
+   RESPONSIVE â€” TABLET
    ========================================================= */
 
 @media (max-width: 850px) {
@@ -828,7 +828,7 @@
 
 
 /* =========================================================
-   RESPONSIVE — MOBILE
+   RESPONSIVE â€” MOBILE
    ========================================================= */
 
 @media (max-width: 700px) {
@@ -1060,4 +1060,18 @@
   .passenger-actions {
     display: none;
   }
+}
+.flight-layout-stepper { max-width: 1200px; margin: 0 auto; padding: 16px 16px 0; }
+
+.field-error {
+  display: block;
+  margin-top: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--danger, #d13b3b);
+}
+input.input-error,
+select.input-error {
+  border-color: var(--danger, #d13b3b) !important;
+  background: #fff6f6;
 }

@@ -21,6 +21,7 @@ import {
 import { useApp } from '../context/AppContext.jsx';
 import { useWishlist } from '../context/WishlistContext.jsx';
 import { formatINR } from '../utils/budgetCalculator.js';
+import './Dashboard.css';
 
 const DEFAULT_BUCKET_LIST = [
   { id: 1, text: 'See the Northern Lights in Iceland', done: false, icon: '❄️' },
@@ -46,6 +47,7 @@ export default function Dashboard() {
     }
   });
   const [newGoalInput, setNewGoalInput] = useState('');
+  const [goalError, setGoalError] = useState('');
 
   useEffect(() => {
     try {
@@ -68,15 +70,20 @@ export default function Dashboard() {
 
   const addGoal = (e) => {
     e.preventDefault();
-    if (!newGoalInput.trim()) return;
+    const text = newGoalInput.trim();
+    if (!text) {
+      setGoalError('Please enter a travel goal.');
+      return;
+    }
     const item = {
       id: Date.now(),
-      text: newGoalInput.trim(),
+      text,
       done: false,
       icon: '✈️',
     };
     setBucketList((prev) => [...prev, item]);
     setNewGoalInput('');
+    setGoalError('');
   };
 
   const upcomingTrips = savedTrips.filter((t) => t.status === 'upcoming');
@@ -480,12 +487,16 @@ export default function Dashboard() {
               ))}
             </div>
 
-            <form onSubmit={addGoal} style={{ display: 'flex', gap: 8, marginTop: 'auto' }}>
+            <form onSubmit={addGoal} style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginTop: 'auto' }}>
               <input
                 type="text"
                 placeholder="Add new dream destination or adventure..."
                 value={newGoalInput}
-                onChange={(e) => setNewGoalInput(e.target.value)}
+                onChange={(e) => {
+                  setNewGoalInput(e.target.value);
+                  setGoalError('');
+                }}
+                maxLength={80}
                 style={{
                   flex: 1,
                   padding: '9px 14px',
@@ -505,6 +516,7 @@ export default function Dashboard() {
                 <Plus size={16} />
                 <span>Add</span>
               </button>
+              {goalError && <p className="bucket-goal-error" role="alert">{goalError}</p>}
             </form>
           </div>
         </div>

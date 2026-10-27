@@ -73,3 +73,15 @@ Parameters: latitude, longitude, current=temperature_2m, temperature_unit=celsiu
 Booking, hotel prices and payment flows are frontend demonstrations using existing project data; no real booking/payment service or AI backend is added. Non-flight service tabs lead to the existing destination catalogue. Redux search/weather state is in memory; wishlist/preferences retain existing browser-storage behavior.
 
 Unused application files were removed only after checking the entry-point import graph and text/asset references. Developer documentation, tests, build configuration, required data, dependencies and active styles remain. See docs/React-Evaluation-Guide.md for additional evaluation notes.
+
+## Run the combined team project
+
+Run npm install once, then npm start to launch both Vite and the flight API server. The terminal prints the frontend URL; the API uses port 4000 by default. Ctrl+C stops both processes.
+
+You can also run npm run dev and npm run server in separate terminals.
+
+The team merge retains nested group pages, profile Travel Vault, updated wishlist, flight form validation, booking route guards and flight dark-mode styles. Search, weather and profile share one Redux store.
+
+For live flight offers, create a local .env using .env.example and set your own DUFFEL_ACCESS_TOKEN. The real .env is ignored by Git. Without a token, flight search shows clearly marked demonstration results so the frontend booking walkthrough remains available. No real payment or flight order is submitted by this demo.
+
+The dashboard stylesheet is now required by the incoming Dashboard page, so it is retained despite the earlier cleanup.

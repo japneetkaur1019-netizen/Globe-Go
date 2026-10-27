@@ -310,7 +310,7 @@ export default function Home() {
               <div
                 className="package-deal-card"
                 key={pkg.name}
-                onClick={() => navigate('/flights', { state: { prefillDestination: pkg.name } })}
+                onClick={() => navigate('/flights', { state: { prefillDestination: selectedPackageCity } })}
                 style={{ cursor: 'pointer' }}
               >
                 <div className="package-img-wrap">
